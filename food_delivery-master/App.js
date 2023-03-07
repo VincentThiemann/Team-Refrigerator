@@ -3,10 +3,11 @@ import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 
 
-import { Restaurant, OrderDelivery } from './screens'
+import { GettingStarted, Restaurant, OrderDelivery } from './screens'
 import Tabs from './navigation/tabs'
 
 const Stack = createStackNavigator();
@@ -33,6 +34,7 @@ const App = () => {
                   }}
                   initialRouteName={'Home'}
               >
+                  <Stack.Screen name ="GettingStarted" component= {GettingStarted}/>
                   <Stack.Screen name="Home" component={Tabs} />
                   <Stack.Screen name="Restaurant" component={Restaurant} />
                   <Stack.Screen name="OrderDelivery" component={OrderDelivery} />
