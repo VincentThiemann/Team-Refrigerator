@@ -28,6 +28,9 @@ const sarawak_laksa = require("../assets/images/sarawak-laksa.jpg");
 const sushi = require("../assets/images/sushi.jpg");
 const teh_c_peng = require("../assets/images/teh-c-peng.jpg");
 const tomato_pasta = require("../assets/images/tomato-pasta.jpg");
+const getting_started_1 = require("../assets/images/gettingStarted.png");
+const getting_started_2 = require("../assets/images/image2.png");
+const getting_started_3 = require("../assets/images/image3.png");
 
 export default {
     avatar_1,
@@ -60,4 +63,7 @@ export default {
     sushi,
     teh_c_peng,
     tomato_pasta,
+    getting_started_1,
+    getting_started_2,
+    getting_started_3,
 }
