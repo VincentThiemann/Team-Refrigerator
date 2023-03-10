@@ -380,4 +380,4 @@ const OrderDelivery = ({ route, navigation }) => {
     )
 }
 
-export default OrderDelivery;
+export default OrderDelivery

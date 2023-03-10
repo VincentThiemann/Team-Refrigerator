@@ -33,7 +33,7 @@ const slide  = [
     },
 ];
 
-const GettingStartedScreen = ({navigation}) => {
+const GettingStarted = ({navigation}) => {
     renderHeader();
     renderFooter();
 }
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
     },
   });
   
-export default GettingStarted;
+export default GettingStarted

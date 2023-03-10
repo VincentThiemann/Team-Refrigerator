@@ -3,7 +3,6 @@ import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 
 
@@ -32,7 +31,7 @@ const App = () => {
                   screenOptions={{
                       headerShown: false
                   }}
-                  initialRouteName={'Home'}
+                  initialRouteName={'GettingStarted'}
               >
                   <Stack.Screen name ="GettingStarted" component= {GettingStarted}/>
                   <Stack.Screen name="Home" component={Tabs} />
