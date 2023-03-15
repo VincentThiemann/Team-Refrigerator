@@ -16,3 +16,4 @@ web-build/
 *.json
 food_delivery-master/package.json
 food_delivery-master/package.json
+*.json
