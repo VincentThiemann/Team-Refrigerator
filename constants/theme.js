@@ -39,7 +39,7 @@ export const SIZES = {
     padding: 24,
 
     // font sizes
-    largeTitle: 40,
+    largeTitle: 60,
     h1: 30,
     h2: 22,
     h3: 16,
@@ -69,6 +69,14 @@ export const FONTS = {
     body5: { fontFamily: "Poppins-Regular", fontSize: SIZES.body5, lineHeight: 22 },
 };
 
-const appTheme = { COLORS, SIZES, FONTS };
+export const MARGIN = {
+    d1: '10%',
+    d2: '20%',
+    d3: '30%',
+    d4: '40%',
+    d5: '50%'
+}
+
+const appTheme = { COLORS, SIZES, FONTS, MARGIN };
 
 export default appTheme;
