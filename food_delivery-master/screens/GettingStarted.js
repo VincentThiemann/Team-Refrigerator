@@ -13,27 +13,28 @@ import {
 
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
-const {width, height} = Dimension.get('window');
+const {width, height} = Dimensions.get('window');
 
-const slide  = [
+const slides  = [
     {
         id: '1',
         title: 'Getting started no 1',
-        image: require(images.getting_started_1),
+        image: images.getting_started_1,
     },
     {
         id: '2',
         title: 'Getting started no 2',
-        image: require(images.getting_started_2),
+        image: images.getting_started_2,
     },
     {
         id: '3',
         title: 'Getting started no 3',
-        image: require(images.getting_started_3)
+        image: images.getting_started_3,
     },
 ];
 
 const GettingStarted = ({navigation}) => {
+    
     renderHeader();
     renderFooter();
 }
@@ -50,6 +51,7 @@ const Slide = () => {
 };
 
 function renderFooter() {
+    const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
     return(
         <View style = {{height: height*0.25, 
                         justifyContent: 'space-between',
@@ -84,7 +86,7 @@ function renderHeader() {
         <StatusBar>
 
         </StatusBar>
-        <FlatList data = {slide} 
+        <FlatList data = {slides} 
                   contentContainerStyle={{height: height*0.7}} 
                   showsHorizontalScrollIndicator = {false}
                   horizontal
