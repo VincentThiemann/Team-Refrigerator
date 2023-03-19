@@ -1,30 +1,38 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
-import { COLORS, SIZES, FONTS, MARGIN} from '../../constants';
+import { StyleSheet, Text, View, SafeAreaView, ImageBackground, StatusBar } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { COLORS, SIZES, FONTS, MARGIN } from '../../constants';
 
-export default splash_screen = () => (
-    <View style = {styles.container}>
-        <Welcome_text name = "Food App" subtitle = "Welcome to the food delivery app created uniquely for CWRU students"/>
+export default SplashScreen = () => (
+    <View style={styles.container}>
+        <StatusBar barStyle = 'dark-content' />
+        <WelcomeText name = "Food App" subtitle = "Welcome to the food delivery app created uniquely for CWRU students" />
     </View>
 )
 
-export const Welcome_text = (props) => (
-    <SafeAreaView style = {styles.container}>
-        <Image style = {styles.image} source = {require('../../assets/images/screen_splash.jpg')} />
-        <Text style = {{fontSize: SIZES.largeTitle, marginBottom: MARGIN.d1}}>
-            {props.name}
-        </Text>
-        <Text style = {{fontSize: SIZES.h2, textAlign: 'center', marginBottom: MARGIN.d3, marginHorizontal: MARGIN.d1}}>
-            {props.subtitle}
-        </Text>
-    </SafeAreaView>
+const WelcomeText = (props) => (
+    <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
+        <View style={{ position: 'absolute', justifyContent: 'center', alignItems: 'center', top: 0, left: 0, right: 0, bottom: -590, marginLeft: 20, marginRight: 20 }}>
+            <Text style={{ color: COLORS.green, fontSize: SIZES.largeTitle, fontFamily: 'Arial'}}>
+                {props.name}
+            </Text>
+            <View style = {{ marginTop: 25}}/>
+            <Text style={{ textAlign: 'center',  color: COLORS.black, fontSize: SIZES.h2 ,fontFamily: 'Arial' }}>
+                {props.subtitle}
+            </Text>
+        </View>
+    </ImageBackground>
 )
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
     },
-});
+    image: {
+        width: '100%',
+        height: '100%'
+    }
+})
