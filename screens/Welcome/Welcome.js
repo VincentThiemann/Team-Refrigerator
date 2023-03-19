@@ -6,7 +6,7 @@ import { COLORS, SIZES, FONTS, MARGIN } from '../../constants';
 export default SplashScreen = () => (
     <View style={styles.container}>
         <StatusBar barStyle = 'dark-content' />
-        <WelcomeText name = "Food App" subtitle = "Welcome to the food delivery app created uniquely for CWRU students" />
+        <WelcomeText name = "Food DELIVERY" subtitle = "Welcome to the food delivery app created uniquely for CWRU students" />
     </View>
 )
 
