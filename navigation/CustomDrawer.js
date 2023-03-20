@@ -77,7 +77,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     }}
                     onPress={() => console.log('Profile')}
                 >
-                    <Image source={dummyData.myProfile?.profile_image}
+                    <Image source={dummyData.myProfile?.profile_images}
                         style={{
                             width: 50,
                             height: 50,
