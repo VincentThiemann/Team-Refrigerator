@@ -4,7 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import CustomDrawer from './navigation/CustomDrawer';
 import SplashScreen from './screens/Welcome/Welcome.js';
-import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
+// import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
+import Onboarding from './screens/Onboarding/Onboarding.js';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -20,17 +21,14 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Onboarding1"
+          initialRouteName="Onboarding"
           screenOptions={{
             headerShown: false,
           }}
         >
           <Stack.Screen name="Home" component={CustomDrawer} />
           <Stack.Screen name="Splash" component={SplashScreen} />
-          <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
-          <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
-          <Stack.Screen name="Onboarding3" component={OnboardingScreen3} />
-
+          <Stack.Screen name="Onboarding" component={Onboarding} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
