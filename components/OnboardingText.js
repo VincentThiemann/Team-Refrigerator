@@ -8,7 +8,7 @@ export default OnboardingText = (props) => (
             {props.name}
         </Text>
         <View style={{ marginTop: 25 }} />
-        <Text style={{ textAlign: 'center', color: COLORS.black, fontSize: SIZES.h2, fontFamily: 'Arial' }}>
+        <Text style={{ textAlign: 'center', color: COLORS.white, fontSize: SIZES.h2, fontFamily: 'Arial' }}>
             {props.subtitle}
         </Text>
     </View>

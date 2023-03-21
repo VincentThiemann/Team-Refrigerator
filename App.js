@@ -27,7 +27,6 @@ const App = () => {
         >
           <Stack.Screen name="Home" component={CustomDrawer} />
           <Stack.Screen name="Splash" component={SplashScreen} />
-
           <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
           <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
           <Stack.Screen name="Onboarding3" component={OnboardingScreen3} />

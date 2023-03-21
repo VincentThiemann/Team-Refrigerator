@@ -6,7 +6,6 @@ import OnboardingText from '../../components/OnboardingText.js';
 export const OnboardingScreen1 = ({ navigation }) => (
     <View style={styles.container}>
         <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
-            <StatusBar barStyle='dark-content' />
             <OnboardingText name="ONBOARDING SCREEN 1" subtitle="Welcome to first onboarding screen" />
         </ImageBackground>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Onboarding2")}>
@@ -18,7 +17,6 @@ export const OnboardingScreen1 = ({ navigation }) => (
 export const OnboardingScreen2 = ({ navigation }) => (
     <View style={styles.container}>
         <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
-            <StatusBar barStyle='dark-content' />
             <OnboardingText name="ONBOARDING SCREEN 2" subtitle="Welcome to second onboarding screen" />
         </ImageBackground>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Onboarding3")}>
@@ -30,7 +28,6 @@ export const OnboardingScreen2 = ({ navigation }) => (
 export const OnboardingScreen3 = ({ navigation }) => (
     <View style={styles.container}>
         <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
-            <StatusBar barStyle='dark-content' />
             <OnboardingText name="ONBOARDING SCREEN 3" subtitle="Welcome to final onboarding screen" />
         </ImageBackground>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Onboarding1")}>
@@ -49,7 +46,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF'
     },
     text: {
-        fontSize: SIZES.h2
+        fontSize: SIZES.h2,
+        color: COLORS.white
     },
     button: {
         borderRadius: 12,
