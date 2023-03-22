@@ -5,11 +5,11 @@ export const COLORS = {
     primary: "#FF6C44", //orange
     transparentPrimray: 'rgba(227, 120, 75, 0.4)',
     orange: "#FFA133",
-    lightGreen: "#90EE90",
     lightOrange: "#FFA133",
     lightOrange2: "#FDDED4",
     lightOrange3: '#FFD9AD',
-    green: "#27AE60",
+    green: '#33cccc',
+    lightGreen: "#E8F7ED",
     red: "#FF1717",
     blue: '#0064C0',
     darkBlue: "#111A2C",
@@ -18,11 +18,13 @@ export const COLORS = {
     gray: "#898B9A",
     gray2: "#BBBDC1",
     gray3: '#CFD0D7',
+    gray4: '#616161',
     lightGray1: "#DDDDDD",
     lightGray2: "#F5F5F8",
     white2: "#FBFBFB",
     white: '#FFFFFF',
     black: "#000000",
+    navy: "#1F222A",
 
     transparent: 'transparent',
     transparentBlack1: "rgba(0, 0, 0, 0.1)",
@@ -37,9 +39,10 @@ export const SIZES = {
     padding: 24,
 
     // font sizes
-    largeTitle: 40,
+    largeTitle: 72,
+    smallTitle: 45,
     h1: 30,
-    h2: 22,
+    h2: 21,
     h3: 16,
     h4: 14,
     h5: 12,
@@ -67,6 +70,14 @@ export const FONTS = {
     body5: { fontFamily: "Poppins-Regular", fontSize: SIZES.body5, lineHeight: 22 },
 };
 
-const appTheme = { COLORS, SIZES, FONTS };
+export const MARGIN = {
+    d1: '10%',
+    d2: '20%',
+    d3: '30%',
+    d4: '40%',
+    d5: '50%'
+}
+
+const appTheme = { COLORS, SIZES, FONTS, MARGIN };
 
 export default appTheme;
