@@ -1,12 +1,12 @@
-export const SET_SELECTED_TAB = 'SET_SELECTED_TAB';
+export const SET_SELECTED_TAB = 'SET_SELECTED_TAB'
 
 export const setSelectedTabSuccess = (selectedTab) => ({
-    type: 'SET_SELECTED_TAB',
+    type: SET_SELECTED_TAB,
     payload: {selectedTab},
 })
 
 export function setSelectedTab(selectedTab) {
-    return (dispatch) => {
+    return dispatch => {
         dispatch(setSelectedTabSuccess(selectedTab))
     }
 }

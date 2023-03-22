@@ -1,11 +1,18 @@
 import React from 'react';
 import {
-    View,
+    View, Text
 } from 'react-native';
 
 const Favourite = () => {
     return (
-        <View>
+        <View
+            style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}
+        >
+            <Text>Favourite</Text>
         </View>
     )
 }

@@ -37,7 +37,6 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-App.js
 
 # BUCK
 buck-out/
@@ -59,10 +58,10 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
-*.json
 yarn.lock
+*.json
 
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
-yarn.lock
+
