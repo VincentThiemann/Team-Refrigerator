@@ -11,7 +11,7 @@ import rootReducer from './stores/rootReducer';
 
 const Stack = createStackNavigator();
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 const App = () => {
     return (
