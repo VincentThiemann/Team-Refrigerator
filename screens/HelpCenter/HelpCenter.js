@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../../components/Header.js';
 import { SIZES, COLORS, icons } from '../../constants';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import {
     View,
@@ -15,6 +16,7 @@ import {
 } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
 
 const HelpCenter = () => (
     <SafeAreaView style={{ flex: 1 }} >
@@ -43,7 +45,11 @@ export const HelpCenterHeader = () => {
 function FAQ() {
     return (
         <View style={styles.container}>
-            <Text>FAQ</Text>
+            <Stack.Navigator>
+                <Stack.Screen name="1st question" component={FAQScreen} />
+                <Stack.Screen name="2nd question" component={FAQScreen} />
+                <Stack.Screen name="3rd question" component={FAQScreen} />
+            </Stack.Navigator>
         </View>
     )
 }
