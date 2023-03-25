@@ -1,3 +1,4 @@
+const arrow_back = require("../assets/icons/arrow_back.png")
 const coupon = require("../assets/icons/coupon.png")
 const cross = require("../assets/icons/cross.png")
 const cart = require("../assets/icons/cart.png")
@@ -22,6 +23,7 @@ const wallet = require("../assets/icons/wallet.png")
 const help = require("../assets/icons/help.png")
 
 export default {
+    arrow_back,
     coupon,
     cross,
     cart,

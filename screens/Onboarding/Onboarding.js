@@ -29,14 +29,11 @@ export const Onboarding = ({ navigation }) => {
 
     function moveToNextSlide() {
         if (i < 2) {
-            const nextSlide = slides[i+1];
-            setI(i+1);
+            const nextSlide = slides[i + 1];
+            setI(i + 1);
             setImage(nextSlide.image);
             setName(nextSlide.name);
             setSubtitle(nextSlide.subtitle);
-        }
-        else {
-            navigation.navigate("Onboarding");
         }
     }
 
@@ -44,11 +41,17 @@ export const Onboarding = ({ navigation }) => {
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
             <ImageBackground style={styles.image} source={image}>
-                <OnboardingText name = {name} subtitle={subtitle} />
+
+                <OnboardingText name={name} subtitle={subtitle} />
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { moveToNextSlide() }}>
+                        <Text style={styles.text}>Continue</Text>
+                    </TouchableOpacity>
+                </View>
             </ImageBackground>
-            <TouchableOpacity style={styles.button} onPress = {() => {moveToNextSlide()}}>
-                <Text style={styles.text}>Continue</Text>
-            </TouchableOpacity>
+
+
+
         </View>
     )
 }
@@ -93,21 +96,28 @@ export default Onboarding;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
     },
     text: {
-        fontSize: SIZES.h2,
-        color: COLORS.white
+        textAlign: 'center',
+        fontSize: SIZES.h1,
+        color: COLORS.black,
+        
     },
     button: {
-        borderRadius: 12,
-        backgroundColor: COLORS.green,
-        margin: 10,
+        height: '40%',
+        width: '80%',
+        paddingLeft: SIZES.radius,
+        borderRadius: 50,
+        backgroundColor: 'cyan',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+        //margin: 10,
         padding: 15,
-        position: 'absolute',
-        bottom: 90
+        //position: 'absolute',
+        //bottom: 90
     },
     image: {
         width: '100%',
