@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../../components/Header.js';
 import { SIZES, COLORS, icons } from '../../constants';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import {
     View,
@@ -16,7 +15,6 @@ import {
 } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
-const Stack = createStackNavigator();
 
 const HelpCenter = () => (
     <SafeAreaView style={{ flex: 1 }} >
@@ -42,14 +40,41 @@ export const HelpCenterHeader = () => {
     )
 }
 
+const FAQData = [
+    {
+        id: 1,
+        question: "Question 1 ?",
+        answer: "Answer 1",
+    },
+    {
+        id: 2,
+        question: "Question 2?",
+        answer: "Answer 2",
+    },
+    {
+        id: 3,
+        question: "Question 3?",
+        answer: "Answer 3",
+    }
+]
+
+const FAQItem = ({ item }) => {
+    return (
+        <View>
+            <Text>{item.question}</Text>
+            <Text>{item.answer}</Text>
+        </View>
+    )
+}
+
 function FAQ() {
     return (
         <View style={styles.container}>
-            <Stack.Navigator>
-                <Stack.Screen name="1st question" component={FAQScreen} />
-                <Stack.Screen name="2nd question" component={FAQScreen} />
-                <Stack.Screen name="3rd question" component={FAQScreen} />
-            </Stack.Navigator>
+                <FlatList
+                data={FAQData}
+                renderItem={({ item }) => <FAQItem question={item.question} answer={item.answer} />}
+                keyExtractor={item => item.id}
+                />
         </View>
     )
 }
