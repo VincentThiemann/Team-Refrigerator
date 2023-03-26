@@ -12,13 +12,13 @@ import {
     FlatList,
     StyleSheet,
     SafeAreaView,
-    TouchableOpacity
+    Linking,
 } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
 const HelpCenter = () => (
-    <SafeAreaView style={{ flex: 1 }} >
+    <SafeAreaView style={{ flex: 1 }}>
         <HelpCenterHeader />
         <Tab.Navigator>
             <Tab.Screen name="FAQ" component={FAQ} />
@@ -62,61 +62,46 @@ const FAQData = [
 const ContactData = [
     {
         id: 1,
-        content: "Customer Service",
+        content: "Link to Facebook",
+        page: 'http://facebook.com'
     },
     {
         id: 2,
-        content: "Facebook",
-    },
-    {
-        id: 3,
-        content: "Instagram",
-    },
-    {
-        id: 4,
-        content: "WhatsApp",
+        content: "Link to Instagram",
+        page: 'http://instagram.com'
     }
 ]
 
 const FAQItem = ({ question, answer }) => {
     const [pressed, setPressed] = React.useState(false);
-    function press() {
+    const ButtonPress = () => {
         if (pressed) {
-            const currentState = !pressed;
-            <View>
-                <Text>{question}</Text>
-                <Text>{answer}</Text>
-            </View>
-            setPressed(true);
-        }
-        else {
-            const currentState = !pressed;
-            <View>
-                <Text>{question}</Text>
-            </View>
-            setPressed(false);
+            return <TouchableOpacity style={styles.largeItem} onPress={() => { setPressed(!pressed) }}>
+                <Text style={styles.text}>{question}</Text>
+                <Text style={styles.text}>{answer}</Text>
+            </TouchableOpacity>
+        } else {
+            return <TouchableOpacity style={styles.item} onPress={() => { setPressed(!pressed) }}>
+                <Text style={styles.text}>{question}</Text>
+            </TouchableOpacity>
         }
     }
     return (
-        <View>
-            <TouchableOpacity style={styles.faqItem} onPress={() => { press() }}>
-            </TouchableOpacity>
-        </View>
+        <ButtonPress />
     )
 }
 
-const ContactItem = ({ content }) => {
+const ContactItem = ({ content, page }) => {
     return (
-        <View>
-            <Text>{content}</Text>
-        </View>
+            <TouchableOpacity style={styles.largeItem} onPress={() => Linking.openURL(page)}>
+                <Text style={styles.text}>{content}</Text>
+            </TouchableOpacity>
     )
 }
 
 export const FAQ = () => {
     return (
         <View style={styles.container}>
-            <Text>Frequently Asked Questions</Text>
             <FlatList
                 data={FAQData}
                 keyExtractor={item => item.id}
@@ -129,11 +114,10 @@ export const FAQ = () => {
 export const ContactInfo = () => {
     return (
         <View style={styles.container}>
-            <Text>Contact Info</Text>
             <FlatList
                 data={ContactData}
                 keyExtractor={item => item.id}
-                renderItem={({ item }) => (<ContactItem content={item.content} />)}
+                renderItem={({ item }) => (<ContactItem content={item.content} page={item.page}/>)}
             />
         </View>
     )
@@ -145,6 +129,38 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    item: {
+        height: 60,
+        width: '100%',
+        paddingLeft: SIZES.radius,
+        borderRadius: 15,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 15,
+    },
+    largeItem: {
+        height: '100%',
+        width: '100%',
+        paddingLeft: SIZES.radius,
+        borderRadius: 15,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 15,
+    },
+    title:
+    {
+        textAlign: 'center',
+        fontSize: SIZES.h1,
+        color: COLORS.black,
+    },
+    text:
+    {
+        textAlign: 'center',
+        fontSize: SIZES.h3,
+        color: COLORS.black,
     }
 });
 
