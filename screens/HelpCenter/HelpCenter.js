@@ -12,6 +12,7 @@ import {
     FlatList,
     StyleSheet,
     SafeAreaView,
+    TouchableOpacity
 } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
@@ -33,7 +34,7 @@ export const HelpCenterHeader = () => {
             leftComponent={
                 <TouchableOpacity
                     onPress={() => { navigation.navigate("Splash") }}>
-                    <Image style = {{width: 30, height: 30}} source={icons.arrow_back} />
+                    <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
                 </TouchableOpacity>
             }
         />
@@ -58,31 +59,82 @@ const FAQData = [
     }
 ]
 
-const FAQItem = ({ item }) => {
+const ContactData = [
+    {
+        id: 1,
+        content: "Customer Service",
+    },
+    {
+        id: 2,
+        content: "Facebook",
+    },
+    {
+        id: 3,
+        content: "Instagram",
+    },
+    {
+        id: 4,
+        content: "WhatsApp",
+    }
+]
+
+const FAQItem = ({ question, answer }) => {
+    const [pressed, setPressed] = React.useState(false);
+    function press() {
+        if (pressed) {
+            const currentState = !pressed;
+            <View>
+                <Text>{question}</Text>
+                <Text>{answer}</Text>
+            </View>
+            setPressed(true);
+        }
+        else {
+            const currentState = !pressed;
+            <View>
+                <Text>{question}</Text>
+            </View>
+            setPressed(false);
+        }
+    }
     return (
         <View>
-            <Text>{item.question}</Text>
-            <Text>{item.answer}</Text>
+            <TouchableOpacity style={styles.faqItem} onPress={() => { press() }}>
+            </TouchableOpacity>
         </View>
     )
 }
 
-function FAQ() {
+const ContactItem = ({ content }) => {
+    return (
+        <View>
+            <Text>{content}</Text>
+        </View>
+    )
+}
+
+export const FAQ = () => {
     return (
         <View style={styles.container}>
-                <FlatList
+            <Text>Frequently Asked Questions</Text>
+            <FlatList
                 data={FAQData}
-                renderItem={({ item }) => <FAQItem question={item.question} answer={item.answer} />}
                 keyExtractor={item => item.id}
-                />
+                renderItem={({ item }) => (<FAQItem question={item.question} answer={item.answer} />)}
+            />
         </View>
     )
 }
 
-function ContactInfo() {
+export const ContactInfo = () => {
     return (
         <View style={styles.container}>
             <Text>Contact Info</Text>
+            <FlatList
+                data={ContactData}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (<ContactItem content={item.content} />)}
+            />
         </View>
     )
 }
