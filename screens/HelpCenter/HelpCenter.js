@@ -18,19 +18,19 @@ import {
 const Tab = createMaterialTopTabNavigator();
 
 const HelpCenter = () => (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: COLORS.green }}>
         <HelpCenterHeader />
         <Tab.Navigator>
             <Tab.Screen name="FAQ" component={FAQ} />
             <Tab.Screen name="CONTACT" component={ContactInfo} />
         </Tab.Navigator>
-    </SafeAreaView>
+    </View>
 )
 
 export const HelpCenterHeader = () => {
     const navigation = useNavigation();
     return (
-        <Header containerStyle={{ marginHorizontal: 20, marginBottom: 10 }} title={"HELP CENTER"}
+        <Header containerStyle={{ marginHorizontal: 20, marginTop: 40, marginBottom: 20 }} title={"HELP CENTER"}
             leftComponent={
                 <TouchableOpacity
                     onPress={() => { navigation.navigate("Splash") }}>
@@ -56,19 +56,34 @@ const FAQData = [
         id: 3,
         question: "Question 3?",
         answer: "Answer 3",
+    },
+    {
+        id: 4,
+        question: "Question 4?",
+        answer: "Answer 4",
+    },
+    {
+        id: 5,
+        question: "Question 5?",
+        answer: "Answer 5",
     }
 ]
 
 const ContactData = [
     {
         id: 1,
-        content: "Link to Facebook",
+        content: "Facebook",
         page: 'http://facebook.com'
     },
     {
         id: 2,
-        content: "Link to Instagram",
+        content: "Instagram",
         page: 'http://instagram.com'
+    },
+    {
+        id: 3,
+        content: "Twitter",
+        page: 'http://twitter.com'
     }
 ]
 
@@ -77,12 +92,12 @@ const FAQItem = ({ question, answer }) => {
     const ButtonPress = () => {
         if (pressed) {
             return <TouchableOpacity style={styles.largeItem} onPress={() => { setPressed(!pressed) }}>
-                <Text style={styles.text}>{question}</Text>
+                <Text style={styles.title}>{question}</Text>
                 <Text style={styles.text}>{answer}</Text>
             </TouchableOpacity>
         } else {
             return <TouchableOpacity style={styles.item} onPress={() => { setPressed(!pressed) }}>
-                <Text style={styles.text}>{question}</Text>
+                <Text style={styles.title}>{question}</Text>
             </TouchableOpacity>
         }
     }
@@ -93,8 +108,8 @@ const FAQItem = ({ question, answer }) => {
 
 const ContactItem = ({ content, page }) => {
     return (
-            <TouchableOpacity style={styles.largeItem} onPress={() => Linking.openURL(page)}>
-                <Text style={styles.text}>{content}</Text>
+            <TouchableOpacity style={styles.item} onPress={() => Linking.openURL(page)}>
+                <Text style={styles.title}>{content}</Text>
             </TouchableOpacity>
     )
 }
@@ -126,40 +141,40 @@ export const ContactInfo = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'green',
+        backgroundColor: COLORS.white,
         alignItems: 'center',
         justifyContent: 'center',
     },
     item: {
         height: 60,
-        width: '100%',
+        width: 350,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: 'white',
+        backgroundColor: COLORS.green,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         padding: 15,
+        marginTop: 20
     },
     largeItem: {
-        height: '100%',
-        width: '100%',
+        height: 200,
+        width: 350,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: COLORS.green,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         padding: 15,
+        marginTop: 20
     },
     title:
     {
-        textAlign: 'center',
-        fontSize: SIZES.h1,
+        fontSize: SIZES.h2,
         color: COLORS.black,
     },
     text:
     {
-        textAlign: 'center',
-        fontSize: SIZES.h3,
+        fontSize: SIZES.h2,
         color: COLORS.black,
     }
 });
