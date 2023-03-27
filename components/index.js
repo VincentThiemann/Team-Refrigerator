@@ -1,0 +1,1 @@
+export {default} from '/Users/mufu/Documents/GitHub/Team-Refrigerator/components/CustomInput.js';
