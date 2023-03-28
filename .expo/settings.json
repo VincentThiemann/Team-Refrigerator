@@ -1,3 +1,6 @@
 {
-  "urlRandomness": "Bza_OGo"
+  "urlRandomness": "Bza_OGo",
+  "dev": true,
+  "minify": false,
+  "https": false
 }

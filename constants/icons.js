@@ -21,8 +21,20 @@ const setting = require("../assets/icons/setting.png")
 const star = require("../assets/icons/star.png")
 const wallet = require("../assets/icons/wallet.png")
 const help = require("../assets/icons/help.png")
+const googleIcon = require ("../assets/icons/googleIcon.png")
+const appleIcon = require ("../assets/icons/appleIcon.png")
+const facebookIcon = require ("../assets/icons/facebookIcon.png")
+const checkMarkIcon = require ("../assets/icons/checkMarkIcon.png")
+const emailIcon = require ("../assets/icons/emailIcon.png")
+const phoneIcon = require ("../assets/icons/phoneIcon.png")
 
 export default {
+    emailIcon,
+    phoneIcon,
+    checkMarkIcon,
+    appleIcon,
+    facebookIcon,
+    googleIcon,
     arrow_back,
     coupon,
     cross,

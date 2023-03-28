@@ -15,11 +15,25 @@ import Favourite from "./Favourite/Favourite";
 // Notification
 import Notification from "./Notification/Notification"
 
+//Authentication
+import { Authentication } from "./Authentication/Authentication";
+
+//CreateNewAccount
+import { CreateNewAccount } from "./Authentication/CreateNewAccount";
+
+//LogInAccount
+import { LogInAccount } from "./Authentication/LogInAccount";
+
+//OTPCodeVerification
+import {OTPCodeVerification}  from "./Authentication/OTPCodeVerification";
 export {
     MainLayout,
+    OTPCodeVerification,
     Home,
     Search,
     CartTab,
     Favourite,
-    Notification
+    Notification,
+    Authentication,
+    LogInAccount
 }

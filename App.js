@@ -7,11 +7,15 @@ import SplashScreen from './screens/Welcome/Welcome.js';
 // import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
 import Onboarding from './screens/Onboarding/Onboarding.js';
 import HelpCenter from './screens/HelpCenter/HelpCenter.js';
+import { CreateNewAccount } from "./screens/Authentication/CreateNewAccount";
+import { LogInAccount } from "./screens";
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
+import { OTPCodeVerification } from "./screens";
 import Header from './components/Header';
+import { Authentication } from "./screens";
 
 const Stack = createStackNavigator();
 
@@ -22,13 +26,18 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="HelpCenter"
+          initialRouteName="Authentication"
           screenOptions={{ headerShown: false }}
         >
-         {/* <Stack.Screen name="Home" component={CustomDrawer} /> */}
-          <Stack.Screen name="Splash" component={SplashScreen} />
+          {/* <Stack.Screen name="Home" component={CustomDrawer} /> */}
           <Stack.Screen name="Onboarding" component={Onboarding} />
+          <Stack.Screen name="Authentication" component={Authentication} />
+          <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
+          <Stack.Screen name="LogInAccount" component={LogInAccount} />
+          <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
+          <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="HelpCenter" component={HelpCenter} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
