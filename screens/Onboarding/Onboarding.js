@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: SIZES.h1,
         color: COLORS.black,
-        
     },
     button: {
         height: '40%',
@@ -116,11 +115,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'cyan',
         justifyContent: 'center',
         alignItems: 'center',
-
-        //margin: 10,
         padding: 15,
-        //position: 'absolute',
-        //bottom: 90
     },
     image: {
         width: '100%',

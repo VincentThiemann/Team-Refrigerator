@@ -29,7 +29,7 @@ const App = () => {
           initialRouteName="Authentication"
           screenOptions={{ headerShown: false }}
         >
-          {/* <Stack.Screen name="Home" component={CustomDrawer} /> */}
+        
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="Authentication" component={Authentication} />
           <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
