@@ -12,7 +12,7 @@ import {
     FlatList,
     StyleSheet,
     ScrollView,
-    Linking,
+    Linking
 } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
@@ -30,7 +30,7 @@ const HelpCenter = () => (
 export const HelpCenterHeader = () => {
     const navigation = useNavigation();
     return (
-        <Header containerStyle={{ marginHorizontal: 20, marginTop: 45, marginBottom: 20 }} title={"HELP CENTER"}
+        <Header containerStyle={{ marginHorizontal: 20, marginTop: 50, marginBottom: 20 }} title={"HELP CENTER"}
             leftComponent={
                 <TouchableOpacity
                     onPress={() => { navigation.navigate("Home") }}>
@@ -122,6 +122,7 @@ const FAQItem = ({ question, answer }) => {
         if (pressed) {
             return <TouchableOpacity style={styles.largeItem} onPress={() => { setPressed(!pressed) }}>
                 <Text style={styles.title}>{question}</Text>
+                <Text />
                 <Text style={styles.text}>{answer}</Text>
             </TouchableOpacity>
         } else {
@@ -150,7 +151,7 @@ export const FAQ = () => {
             <View style={{ flexDirection: 'row' }}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(0) }}>
-                        <Text style={styles.title}>All topics</Text>
+                        <Text style={styles.title}>All Topics</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(1) }}>
                         <Text style={styles.title}>Topic 1</Text>
@@ -196,10 +197,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     category: {
-        height: 60,
+        height: 52,
         width: 110,
         paddingLeft: SIZES.radius,
-        borderRadius: 15,
+        borderRadius: 28,
         backgroundColor: "transparent",
         borderColor: COLORS.green,
         justifyContent: 'center',
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     {
         fontSize: SIZES.h3,
         color: COLORS.black,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     text:
     {
