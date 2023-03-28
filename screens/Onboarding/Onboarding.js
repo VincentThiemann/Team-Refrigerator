@@ -34,7 +34,10 @@ export const Onboarding = ({ navigation }) => {
             setImage(nextSlide.image);
             setName(nextSlide.name);
             setSubtitle(nextSlide.subtitle);
-        }
+        }else
+            navigation.navigate("Authentication") 
+        
+
     }
 
     return (

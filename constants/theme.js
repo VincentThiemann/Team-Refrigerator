@@ -8,7 +8,7 @@ export const COLORS = {
     lightOrange: "#FFA133",
     lightOrange2: "#FDDED4",
     lightOrange3: '#FFD9AD',
-    green: '#33cccc',
+    green: '#1BAC4B',
     lightGreen: "#E8F7ED",
     red: "#FF1717",
     blue: '#0064C0',
@@ -21,10 +21,13 @@ export const COLORS = {
     gray4: '#616161',
     lightGray1: "#DDDDDD",
     lightGray2: "#F5F5F8",
+    ligthGray3: "#FAFAFA",
     white2: "#FBFBFB",
     white: '#FFFFFF',
     black: "#000000",
     navy: "#1F222A",
+    lightGreen2: "#EEF9F1",
+
 
     transparent: 'transparent',
     transparentBlack1: "rgba(0, 0, 0, 0.1)",
