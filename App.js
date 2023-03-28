@@ -22,7 +22,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="HelpCenter"
+          initialRouteName="Home"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Home" component={CustomDrawer} />

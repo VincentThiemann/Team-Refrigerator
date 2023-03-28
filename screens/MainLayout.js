@@ -12,7 +12,7 @@ import {
 import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions';
 
