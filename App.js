@@ -25,7 +25,7 @@ const App = () => {
           initialRouteName="HelpCenter"
           screenOptions={{ headerShown: false }}
         >
-         {/* <Stack.Screen name="Home" component={CustomDrawer} /> */}
+          <Stack.Screen name="Home" component={CustomDrawer} />
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="HelpCenter" component={HelpCenter} />
