@@ -21,7 +21,7 @@ const Header = ({containerStyle, title, leftComponent, rightComponent}) => {
                     justifyContent: 'center' 
                     }}
             >
-                <Text style={{...FONTS.h3}}>{title}</Text>
+                <Text style={{...FONTS.h3, fontWeight: 'bold'}}>{title}</Text>
             </View>
 
             {/* Right */}

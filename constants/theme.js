@@ -8,7 +8,7 @@ export const COLORS = {
     lightOrange: "#FFA133",
     lightOrange2: "#FDDED4",
     lightOrange3: '#FFD9AD',
-    green: '#33cccc',
+    green: '#1BAC4B',
     lightGreen: "#E8F7ED",
     red: "#FF1717",
     blue: '#0064C0',

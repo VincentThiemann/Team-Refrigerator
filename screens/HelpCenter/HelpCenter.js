@@ -20,7 +20,7 @@ const Tab = createMaterialTopTabNavigator();
 const HelpCenter = () => (
     <View style={{ flex: 1, backgroundColor: COLORS.green }}>
         <HelpCenterHeader />
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ tabBarLabelStyle: {fontSize: 16}, tabBarIndicatorStyle: {backgroundColor: COLORS.green}, tabBarActiveTintColor: COLORS.green, tabBarInactiveTintColor: COLORS.black }}>
             <Tab.Screen name="FAQ" component={FAQ} />
             <Tab.Screen name="CONTACT" component={ContactInfo} />
         </Tab.Navigator>
@@ -146,9 +146,9 @@ const ContactItem = ({ content, page }) => {
 export const FAQ = () => {
     const [requiredTopic, setRequiredTopic] = React.useState(0);
     return (
-        <View style={styles.container}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ flexDirection: 'row' }}>
-                <ScrollView horizontal={true}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(0) }}>
                         <Text style={styles.title}>All topics</Text>
                     </TouchableOpacity>
@@ -192,13 +192,12 @@ export const ContactInfo = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.white,
         alignItems: 'center',
         justifyContent: 'center',
     },
     category: {
         height: 60,
-        width: 98,
+        width: 110,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
         backgroundColor: "transparent",
@@ -215,7 +214,7 @@ const styles = StyleSheet.create({
         width: 350,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: COLORS.green,
+        backgroundColor: COLORS.white,
         justifyContent: 'center',
         alignItems: 'flex-start',
         padding: 15,
@@ -226,7 +225,7 @@ const styles = StyleSheet.create({
         width: 350,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: COLORS.green,
+        backgroundColor: COLORS.white,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         padding: 15,
@@ -236,6 +235,7 @@ const styles = StyleSheet.create({
     {
         fontSize: SIZES.h3,
         color: COLORS.black,
+        fontWeight: 'bold'
     },
     text:
     {
