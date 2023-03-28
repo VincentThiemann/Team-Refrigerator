@@ -30,7 +30,7 @@ const HelpCenter = () => (
 export const HelpCenterHeader = () => {
     const navigation = useNavigation();
     return (
-        <Header containerStyle={{ marginHorizontal: 20, marginTop: 40, marginBottom: 20 }} title={"HELP CENTER"}
+        <Header containerStyle={{ marginHorizontal: 20, marginTop: 45, marginBottom: 20 }} title={"HELP CENTER"}
             leftComponent={
                 <TouchableOpacity
                     onPress={() => { navigation.navigate("Home") }}>
