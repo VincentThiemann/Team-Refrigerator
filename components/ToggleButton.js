@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, Animated, StyleSheet, Easing} from 'react-native';
-import {Colors} from '../contants';
+import {COLORS} from '../constants';
 
 const containerStyle = (size, isActive) => ({
-  backgroundColor: isActive ? Colors.DEFAULT_GREEN : Colors.DEFAULT_GREY,
+  backgroundColor: isActive ? COLORS.DEFAULT_GREEN : COLORS.DEFAULT_GREY,
   height: 32 * size,
   width: 64 * size,
   borderRadius: 32,
@@ -13,7 +13,7 @@ const containerStyle = (size, isActive) => ({
 const toggleStyle = (size, animatedValue) => ({
   height: 24 * size,
   width: 24 * size,
-  backgroundColor: Colors.DEFAULT_WHITE,
+  backgroundColor: COLORS.DEFAULT_WHITE,
   borderRadius: 32,
   transform: [
     {

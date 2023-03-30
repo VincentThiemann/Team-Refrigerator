@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Colors, Fonts} from '../contants';
+import {COLORS, FONTS} from '../constants';
 
 const CategoryListItem = ({name, isActive, selectCategory}) => {
   return (
@@ -18,7 +18,7 @@ const CategoryListItem = ({name, isActive, selectCategory}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.LIGHT_YELLOW,
+    backgroundColor: COLORS.LIGHT_YELLOW,
     paddingHorizontal: 15,
     height: 50,
     justifyContent: 'center',
@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
   activeCategoryText: {
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_BOLD,
-    color: Colors.DEFAULT_BLACK,
+    fontFamily: FONTS.POPPINS_BOLD,
+    color: COLORS.DEFAULT_BLACK,
   },
   inActiveCategoryText: {
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-    color: Colors.INACTIVE_GREY,
+    fontFamily: FONTS.POPPINS_SEMI_BOLD,
+    color: COLORS.INACTIVE_GREY,
   },
 });
 

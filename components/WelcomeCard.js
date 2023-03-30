@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {Display} from '../utils';
-import {Fonts, Colors, Images} from '../contants';
+import {FONTS, COLORS, images} from '../constants';
 
 const WelcomeCard = ({title, content, image}) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={Images[image]} resizeMode="contain" />
+      <Image style={styles.image} source={images[image]} resizeMode="contain" />
       <Text style={styles.titleText}>{title}</Text>
       <Text style={styles.contentText}>{content}</Text>
     </View>
@@ -26,11 +26,11 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 22,
-    fontFamily: Fonts.POPPINS_BOLD,
+    fontFamily: FONTS.POPPINS_BOLD,
   },
   contentText: {
     fontSize: 18,
-    fontFamily: Fonts.POPPINS_LIGHT,
+    fontFamily: FONTS.POPPINS_LIGHT,
     textAlign: 'center',
     marginHorizontal: 20,
   },
