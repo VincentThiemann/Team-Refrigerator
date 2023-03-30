@@ -18,7 +18,7 @@ import {
 const Tab = createMaterialTopTabNavigator();
 
 const HelpCenter = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.green }}>
+    <View style={{ flex: 1 }}>
         <HelpCenterHeader />
         <Tab.Navigator screenOptions={{ tabBarLabelStyle: {fontSize: 16}, tabBarIndicatorStyle: {backgroundColor: COLORS.green}, tabBarActiveTintColor: COLORS.green, tabBarInactiveTintColor: COLORS.black }}>
             <Tab.Screen name="FAQ" component={FAQ} />
@@ -33,7 +33,7 @@ export const HelpCenterHeader = () => {
         <Header containerStyle={{ marginHorizontal: 20, marginTop: 50, marginBottom: 20 }} title={"HELP CENTER"}
             leftComponent={
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate("Home") }}>
+                    onPress={() => { navigation.navigate("Splash") }}>
                     <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
                 </TouchableOpacity>
             }
