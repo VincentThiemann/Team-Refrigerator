@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {Colors, Fonts, Images} from '../contants';
+import {COLORS, FONTS, images} from '../constants';
 
 const CategoryMenuItem = ({name, logo, activeCategory, setActiveCategory}) => {
   return (
@@ -8,7 +8,7 @@ const CategoryMenuItem = ({name, logo, activeCategory, setActiveCategory}) => {
       onPress={() => setActiveCategory(name)}
       style={styles.category()}>
       <Image
-        source={Images[logo]}
+        source={images[logo]}
         style={styles.categoryIcon(activeCategory === name)}
       />
       <Text style={styles.categoryText(activeCategory === name)}>{name}</Text>
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
   categoryText: isActive => ({
     fontSize: 10,
     lineHeight: 10 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    color: Colors.DEFAULT_WHITE,
+    fontFamily: FONTS.POPPINS_MEDIUM,
+    color: COLORS.DEFAULT_WHITE,
     marginTop: 5,
     opacity: isActive ? 1 : 0.5,
   }),
