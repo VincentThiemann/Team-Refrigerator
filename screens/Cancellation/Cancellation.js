@@ -6,23 +6,25 @@ import { useNavigation } from '@react-navigation/native';
 import {
     View,
     Text,
+    TextInput,
     TouchableOpacity,
-    TouchableWithoutFeedback,
     Image,
     FlatList,
     StyleSheet,
-    ScrollView,
-    Linking
 } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import { Icon, CheckBox } from '@rneui/themed';
 
-export default cancellationScreen = (props) => {
+export default Cancellation = (props) => {
     return (
         <View style={styles.container}>
             <CancellationHeader />
+            <Text style={styles.text}>Reasons for cancellation</Text>
+            <View style={{marginTop: 10}} />
             <CancellationList />
-            <Text>Other reason</Text>
-            <TextInput />
+            <View style={{marginTop: 20}} />
+            <Text style={styles.text}>If you have another reason, please type in the box below:</Text>
+            <View style={{marginTop: 10}} />
+            <TextInput style={styles.input} placeholder = "Type another reason here" placeholderTextColor = {COLORS.gray} keyboardType = "default"/>
         </View>
     )
 }
@@ -41,10 +43,19 @@ export const CancellationHeader = () => {
     )
 }
 export const Reason = (props) => {
+    const [check, setCheck] = React.useState(false);
     return (
-        <CheckBox title={props.title} checked={this.state.checked} />
+        <CheckBox
+        title={props.title}
+        checked={check}
+        onPress = {() => setCheck(!check)}
+        iconType="material"
+        checkedIcon="clear"
+        uncheckedIcon="add"
+        />
     )
 }
+
 export const CancellationList = () => {
     return (
         <View>
@@ -59,7 +70,16 @@ export const CancellationList = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginHorizontal: 10,
+    },
+    input: {
+        height: 50,
+        borderWidth: 1,
+        borderRadius: 5,
+        fontSize: SIZES.h3,
+
+    },
+    text: {
+        fontSize: SIZES.h3
     }
 })
