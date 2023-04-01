@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native"
+import { ScrollView, View, Text, Image, TouchableOpacity} from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon } from '@rneui/themed';
 import { color } from "react-native-reanimated";
@@ -54,6 +54,7 @@ export const Authentication = ({ navigation }) => {
                     marginVertical: 20
                 }}>Let's get started!</Text>
                 <Button
+           
                     loading={pressed1 &&!pressed2 && !pressed3}
                     loadingProps={{
                         size: 'large',
@@ -104,6 +105,15 @@ export const Authentication = ({ navigation }) => {
 
                 <Button
                     loading={!pressed1 &&pressed2 && !pressed3}
+                    
+                    icon={                   
+                        { type: "font-awesome",
+                          name:"arrow-right",
+                          size: 15,
+                          color:"black"
+                        }             
+                      }
+
                     loadingProps={{
                         size: 'large',
                         color: COLORS.green,
@@ -207,7 +217,7 @@ export const Authentication = ({ navigation }) => {
                         justifyContent: "center",
                         alignItems: "center",
                         width: "100%",
-                        marginVertical: 30
+                        marginVertical: 20
                     }}
                 >
                     <View
@@ -257,15 +267,15 @@ export const Authentication = ({ navigation }) => {
                     }}
                 />
 
-                <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: COLORS.gray }}>Don't have account?</Text>
+                <View style={{ flexDirection: "row", marginTop: 20}}>
+                    <Text style={{ color: COLORS.gray, fontSize: 17}}>Don't have account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate("CreateNewAccount")
                             console.log("Sign Up")
                         }}
                     >
-                        <Text style={{ color: COLORS.green, fontWeight: "bold" }}>  Sign up</Text>
+                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17}}>  Sign up</Text>
                     </TouchableOpacity>
 
                 </View>
