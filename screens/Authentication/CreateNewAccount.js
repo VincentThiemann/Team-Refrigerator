@@ -126,6 +126,8 @@ export const CreateNewAccount = ({ navigation }) => {
                         inputMode="tel"
                         onTouchStart={() => {
                             setEditting1(true)
+                            setEditting2(false)
+                            setEditting3(false)
                         }}
 
                         onEndEditing={() => {
@@ -149,7 +151,9 @@ export const CreateNewAccount = ({ navigation }) => {
                     <TextInput
                         inputMode="email"
                         onTouchStart={() => {
+                            setEditting1(false)
                             setEditting2(true)
+                            setEditting3(false)
                         }}
 
                         onEndEditing={() => {
@@ -174,6 +178,8 @@ export const CreateNewAccount = ({ navigation }) => {
                     <TextInput
                         inputMode="text"
                         onTouchStart={() => {
+                            setEditting1(false)
+                            setEditting2(false)
                             setEditting3(true)
                         }}
 
@@ -392,14 +398,14 @@ export const CreateNewAccount = ({ navigation }) => {
                 </View>
 
                 <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: COLORS.gray }}>Already have an account?</Text>
+                    <Text style={{ color: COLORS.gray, fontSize: 17}}>Already have an account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate("LogInAccount")
                             console.log("Sign In")
                         }}
                     >
-                        <Text style={{ color: COLORS.green, fontWeight: "bold" }}>  Sign in</Text>
+                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17}}>  Sign in</Text>
                     </TouchableOpacity>
 
                 </View>
