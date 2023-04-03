@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions'
 
 const Drawer = createDrawerNavigator();
-
 const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
     return (
         <TouchableOpacity
@@ -202,8 +201,11 @@ const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
                         width: '65%',
                         paddingRight: 20,
                         backgroundColor: 'transparent',
+                        headerShown: false
+
                     },
                     overlayColor: 'transparent',
+
                 }}
 
                 initialRouteName="Tab"
@@ -221,7 +223,7 @@ const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
                     )
                 }}
             >
-                <Drawer.Screen name="MainLayout">
+                <Drawer.Screen options={{ headerShown: false }} name="MainLayout">
                     {props => <MainLayout {...props}
                         drawerAnimationStyle={animatedStyle}
                     />}

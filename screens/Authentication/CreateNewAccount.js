@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { color } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { AuthenticationService } from '../../services';
+import { auth } from '../../firebase';
 
 export const CreateNewAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);
@@ -15,61 +15,47 @@ export const CreateNewAccount = ({ navigation }) => {
     const [pressed2, setPressed2] = React.useState(false);
     const [pressed3, setPressed3] = React.useState(false);
 
-    const styles = StyleSheet.create({
-        input: {
-            position: "relative",
-            left: 0,
-            height: 60,
-            width: "100%",
-            borderRadius: 20,
-            marginVertical: 10,
-            borderWidth: 1,
-            backgroundColor: COLORS.lightGray2,
-            borderColor: COLORS.lightGray2,
-            padding: 10,
-            paddingLeft: 50
-        },
-        selectedInput: {
-            position: "relative",
-            left: 0,
-            height: 60,
-            width: "100%",
-            borderRadius: 20,
-            marginVertical: 10,
-            borderWidth: 1,
-            backgroundColor: COLORS.lightGreen2,
-            borderColor: COLORS.green,
-            padding: 10,
-            paddingLeft: 50
-        },
+    const [isPasswordShow, setIsPasswordShow] = useState(false);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
+    const [emailErrorMessage, setEmailErrorMessage] = useState('');
+    const [emailState, setEmailState] = useState('default');
+    const [usernameState, setUsernameState] = useState('default');
 
-        inputProfileIcon: {
-            position: "relative",
-            left: 40,
-            zIndex: 30,
-            height: 20,
-            width: 20,
-            tintColor: COLORS.black
-        },
+    useEffect(() => {
+        const subscribe = auth.onAuthStateChanged(user => {
+            if(user) {
+                navigation.replace("CustomDrawer")
+            }
+        })
+        return subscribe
+    },[])
 
-        inputProfileIconSelected: {
-            position: "relative",
-            left: 40,
-            zIndex: 30,
-            height: 20,
-            width: 20,
-            tintColor: COLORS.green
-        },
+    const handleSignUp = () => {
+        auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log(user.email);
+        })
+        .catch(error => alert(error.message))
+    }
 
-        inputVeiwStyle: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            flex: 1,
-        },
-    });
+    const handleLogin = () => {
+        auth.signInWithEmailAndPassword(email, password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log("Logged in as ", user.email);
+            //navigate to home menu
+            navigation.re
+        })
+        .catch(error => alert(error.message))
+    }
 
-
+    
     return (
         <KeyboardAwareScrollView
             showsHorizontalScrollIndicator={false}
@@ -129,7 +115,7 @@ export const CreateNewAccount = ({ navigation }) => {
                             setEditting2(false)
                             setEditting3(false)
                         }}
-
+                        onChangeText={text => setPassword(text)}
                         onEndEditing={() => {
                             setEditting1(false)
                         }}
@@ -155,7 +141,7 @@ export const CreateNewAccount = ({ navigation }) => {
                             setEditting2(true)
                             setEditting3(false)
                         }}
-
+                        onChangeText={text => setEmail(text)}
                         onEndEditing={() => {
                             setEditting2(false)
                         }}
@@ -182,7 +168,7 @@ export const CreateNewAccount = ({ navigation }) => {
                             setEditting2(false)
                             setEditting3(true)
                         }}
-
+                        onChangeText={text => setUsername(text)}
                         onEndEditing={() => {
                             setEditting3(false)
                         }}
@@ -209,7 +195,7 @@ export const CreateNewAccount = ({ navigation }) => {
                             borderWidth: 3,
                             borderRadius: 6,
                             marginRight: 15,
-                            backgroundColor: remember ? COLORS.green : 'transparent'
+                            backgroundColor: 'transparent'
 
                         }}
                     >
@@ -219,7 +205,7 @@ export const CreateNewAccount = ({ navigation }) => {
                             style={{
                                 width: "100%",
                                 height: "100%",
-                                tintColor: remember ? COLORS.white : 'transparent'
+                                tintColor: remember ? COLORS.green : 'transparent'
                             }}
                         />
 
@@ -229,9 +215,7 @@ export const CreateNewAccount = ({ navigation }) => {
 
 
                 <Button
-                    onPress={() => {
-                        console.log("Sign Up")
-                    }}
+                    onPress={handleLogin}
                     title="Sign up"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
@@ -334,7 +318,7 @@ export const CreateNewAccount = ({ navigation }) => {
                             size: 'large',
                             color: COLORS.green,
                         }}
-    
+
                         onPress={() => {
                             setPressed1(false)
                             setPressed2(true)
@@ -368,7 +352,7 @@ export const CreateNewAccount = ({ navigation }) => {
                             size: 'large',
                             color: COLORS.green,
                         }}
-    
+
                         onPress={() => {
                             setPressed1(false)
                             setPressed2(false)
@@ -414,3 +398,57 @@ export const CreateNewAccount = ({ navigation }) => {
     )
 }
 
+
+const styles = StyleSheet.create({
+    input: {
+        position: "relative",
+        left: 0,
+        height: 60,
+        width: "100%",
+        borderRadius: 20,
+        marginVertical: 10,
+        borderWidth: 1,
+        backgroundColor: COLORS.lightGray2,
+        borderColor: COLORS.lightGray2,
+        padding: 10,
+        paddingLeft: 50
+    },
+    selectedInput: {
+        position: "relative",
+        left: 0,
+        height: 60,
+        width: "100%",
+        borderRadius: 20,
+        marginVertical: 10,
+        borderWidth: 1,
+        backgroundColor: COLORS.lightGreen2,
+        borderColor: COLORS.green,
+        padding: 10,
+        paddingLeft: 50
+    },
+
+    inputProfileIcon: {
+        position: "relative",
+        left: 40,
+        zIndex: 30,
+        height: 20,
+        width: 20,
+        tintColor: COLORS.black
+    },
+
+    inputProfileIconSelected: {
+        position: "relative",
+        left: 40,
+        zIndex: 30,
+        height: 20,
+        width: 20,
+        tintColor: COLORS.green
+    },
+
+    inputVeiwStyle: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+    },
+});

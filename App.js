@@ -26,7 +26,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Authentication"
+          initialRouteName="Onboarding"
           screenOptions={{ headerShown: false }}
         >
         
@@ -37,6 +37,7 @@ const App = () => {
           <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="HelpCenter" component={HelpCenter} />
+          <Stack.Screen name="CustomDrawer" component={CustomDrawer}/>
 
         </Stack.Navigator>
       </NavigationContainer>

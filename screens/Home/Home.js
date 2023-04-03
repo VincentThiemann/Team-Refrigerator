@@ -53,6 +53,8 @@ const Home = () => {
         handleChangeCategory(selectedCategoryId, selectedMenuType)
     }, []);
 
+    
+
     function handleChangeCategory(categoryId, menuTypeId) {
         //retrieve discount data
         let selectedDiscount = dummyData.menu.find(a => a.name == "Discount")

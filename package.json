@@ -17,7 +17,9 @@
     "@react-navigation/stack": "^6.3.16",
     "@rneui/base": "^0.0.0-edge.2",
     "@rneui/themed": "^0.0.0-edge.2",
-    "expo": "^48.0.9",
+    "axios": "^1.3.4",
+    "expo": "48.0.9",
+    "firebase": "^9.19.1",
     "react": "18.2.0",
     "react-native": "0.71.4",
     "react-native-gesture-handler": "~2.9.0",
@@ -32,7 +34,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "expo-linear-gradient": "~12.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -46,5 +49,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "projectConfig": {
+    "backendApiBaseUrl": "http://192.168.1.10:3000"
   }
 }

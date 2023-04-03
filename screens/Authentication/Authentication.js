@@ -2,6 +2,9 @@ import React from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity} from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon } from '@rneui/themed';
+import { SocialIcon, SocialIconProps } from '@rneui/themed';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+
 import { color } from "react-native-reanimated";
 
 
@@ -54,7 +57,6 @@ export const Authentication = ({ navigation }) => {
                     marginVertical: 20
                 }}>Let's get started!</Text>
                 <Button
-           
                     loading={pressed1 &&!pressed2 && !pressed3}
                     loadingProps={{
                         size: 'large',
@@ -81,16 +83,14 @@ export const Authentication = ({ navigation }) => {
                         borderRadius: 15,
                         marginVertical: 10,
                     }}
+                    icon={{
+                        name: 'home',
+                        type: 'font-awesome',
+                        size: 15,
+                        color: 'black',
+                    }}
                 >
-                    <Image
-                        source={icons.facebookIcon}
-                        style={{
-                            width: 30,
-                            height: 30,
-                            marginRight: 10
-                        }}
-                    />
-
+                    
                     <Text
                         style={{
                             fontWeight: '700',
@@ -105,15 +105,6 @@ export const Authentication = ({ navigation }) => {
 
                 <Button
                     loading={!pressed1 &&pressed2 && !pressed3}
-                    
-                    icon={                   
-                        { type: "font-awesome",
-                          name:"arrow-right",
-                          size: 15,
-                          color:"black"
-                        }             
-                      }
-
                     loadingProps={{
                         size: 'large',
                         color: COLORS.green,
@@ -164,7 +155,7 @@ export const Authentication = ({ navigation }) => {
                 </Button>
 
                 <Button
-                    loading={!pressed1 &&!pressed2 && pressed3}
+                    loading={!pressed1 && !pressed2 && pressed3}
                     loadingProps={{
                         size: 'large',
                         color: COLORS.green,
