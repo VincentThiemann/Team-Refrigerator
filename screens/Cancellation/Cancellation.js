@@ -15,7 +15,7 @@ import {
     Keyboard,
     ScrollView
 } from 'react-native';
-import { Icon, CheckBox } from '@rneui/themed';
+import { CheckBox } from '@rneui/themed';
 
 export default Cancellation = () => {
     const navigation = useNavigation();
