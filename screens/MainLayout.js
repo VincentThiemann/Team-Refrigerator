@@ -6,8 +6,10 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Image,
-    FlatList
+    FlatList,
+    StatusBar
 } from 'react-native';
+import { EvilIcons } from '@expo/vector-icons';
 
 import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
@@ -22,6 +24,9 @@ import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants'
 
 import { Header } from '../components';
 
+import { auth } from "../firebase"
+import Display from '../utils/Display';
+
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
         <TouchableWithoutFeedback
@@ -31,8 +36,8 @@ const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, inner
                 style={[
                     outerContainerStyle,
                     {
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                     }
                 ]}
             >
@@ -40,12 +45,12 @@ const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, inner
                     style={[
                         innerContainerStyle,
                         {
-                        flexDirection: 'row',
-                        width: '80%',
-                        height: 50,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 25
+                            flexDirection: 'row',
+                            width: '80%',
+                            height: 50,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: 25
                         }
                     ]}
                 >
@@ -54,7 +59,7 @@ const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, inner
                         style={{
                             width: 20,
                             height: 20,
-                            tintColor: isFocused ? COLORS.green : COLORS.gray,
+                            tintColor: isFocused ? COLORS.black : COLORS.gray,
                         }}
                     />
 
@@ -69,7 +74,7 @@ const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, inner
                         >
                             {label}
                         </Text>
-                    } 
+                    }
                 </Animated.View>
             </Animated.View>
         </TouchableWithoutFeedback>
@@ -98,7 +103,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
         return {
             flex: homeTabFlex.value,
         }
-    }) 
+    })
 
     const homeColorStyle = useAnimatedStyle(() => {
         return {
@@ -110,7 +115,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
         return {
             flex: searchTabFlex.value,
         }
-    }) 
+    })
 
     const searchColorStyle = useAnimatedStyle(() => {
         return {
@@ -122,7 +127,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
         return {
             flex: cartTabFlex.value,
         }
-    }) 
+    })
 
     const cartColorStyle = useAnimatedStyle(() => {
         return {
@@ -134,7 +139,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
         return {
             flex: favTabFlex.value,
         }
-    }) 
+    })
 
     const favColorStyle = useAnimatedStyle(() => {
         return {
@@ -146,7 +151,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
         return {
             flex: notiTabFlex.value,
         }
-    }) 
+    })
 
     const notiColorStyle = useAnimatedStyle(() => {
         return {
@@ -160,83 +165,82 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
     }, [])
 
     React.useEffect(() => {
-        if (selectedTab == constants.screens.home)
-        {
+        if (selectedTab == constants.screens.home) {
             flatListRef?.current?.scrollToIndex({
                 index: 0,
                 animated: false
             })
-            homeTabFlex.value = withTiming(4, { duration: 500})
-            homeTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            homeTabFlex.value = withTiming(4, { duration: 500 })
+            homeTabColor.value = withTiming(COLORS.green, { duration: 500 })
         }
-        else 
-        {
-            homeTabFlex.value = withTiming(1, { duration: 500})
-            homeTabColor.value = withTiming(COLORS.white, { duration: 500})   
+        else {
+            homeTabFlex.value = withTiming(1, { duration: 500 })
+            homeTabColor.value = withTiming(COLORS.white, { duration: 500 })
         }
 
-        if (selectedTab == constants.screens.search)
-        {   
+        if (selectedTab == constants.screens.search) {
             flatListRef?.current?.scrollToIndex({
                 index: 1,
                 animated: false
             })
-            searchTabFlex.value = withTiming(4, { duration: 500})
-            searchTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            searchTabFlex.value = withTiming(4, { duration: 500 })
+            searchTabColor.value = withTiming(COLORS.green, { duration: 500 })
         }
-        else
-        {
-            searchTabFlex.value = withTiming(1, { duration: 500})
-            searchTabColor.value = withTiming(COLORS.white, { duration: 500})
+        else {
+            searchTabFlex.value = withTiming(1, { duration: 500 })
+            searchTabColor.value = withTiming(COLORS.white, { duration: 500 })
         }
 
-        if (selectedTab == constants.screens.cart)
-        {   
+        if (selectedTab == constants.screens.cart) {
             flatListRef?.current?.scrollToIndex({
                 index: 2,
                 animated: false
             })
-            cartTabFlex.value = withTiming(4, { duration: 500})
-            cartTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            cartTabFlex.value = withTiming(4, { duration: 500 })
+            cartTabColor.value = withTiming(COLORS.green, { duration: 500 })
         }
-        else
-        {
-            cartTabFlex.value = withTiming(1, { duration: 500})
-            cartTabColor.value = withTiming(COLORS.white, { duration: 500})
+        else {
+            cartTabFlex.value = withTiming(1, { duration: 500 })
+            cartTabColor.value = withTiming(COLORS.white, { duration: 500 })
         }
 
-        if (selectedTab == constants.screens.favourite)
-        {   
+        if (selectedTab == constants.screens.favourite) {
             flatListRef?.current?.scrollToIndex({
                 index: 3,
                 animated: false
             })
-            favTabFlex.value = withTiming(4, { duration: 500})
-            favTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            favTabFlex.value = withTiming(4, { duration: 500 })
+            favTabColor.value = withTiming(COLORS.green, { duration: 500 })
         }
-        else
-        {
-            favTabFlex.value = withTiming(1, { duration: 500})
-            favTabColor.value = withTiming(COLORS.white, { duration: 500})
+        else {
+            favTabFlex.value = withTiming(1, { duration: 500 })
+            favTabColor.value = withTiming(COLORS.white, { duration: 500 })
         }
-        
-        if (selectedTab == constants.screens.notification)
-        {   
+
+        if (selectedTab == constants.screens.notification) {
             flatListRef?.current?.scrollToIndex({
                 index: 4,
                 animated: false
             })
-            notiTabFlex.value = withTiming(4, { duration: 500})
-            notiTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            notiTabFlex.value = withTiming(4, { duration: 500 })
+            notiTabColor.value = withTiming(COLORS.green, { duration: 500 })
         }
-        else
-        {
-            notiTabFlex.value = withTiming(1, { duration: 500})
-            notiTabColor.value = withTiming(COLORS.white, { duration: 500})
+        else {
+            notiTabFlex.value = withTiming(1, { duration: 500 })
+            notiTabColor.value = withTiming(COLORS.white, { duration: 500 })
         }
 
 
     }, [selectedTab])
+
+    const handleSignOut = () => {
+        auth
+            .signOut()
+            .then(() => {
+                navigation.replace("Authentication")
+            })
+            .catch(error => alert(error.message))
+    }
 
     return (
         <Animated.View
@@ -246,34 +250,60 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 ...drawerAnimationStyle
             }}
         >
+            <StatusBar barStyle="light-content"
+                backgroundColor="transparent"
+                translucent />
             {/* Header */}
             <Header
                 containerStyle={{
-                    height: 50,
+                    height: Display.setHeight(14),
                     paddingHorizontal: SIZES.padding,
-                    marginTop: 40,
-                    alignItems: "center"
+                    paddingTop: 40,
+                    alignItems: "center",
+                    backgroundColor: COLORS.green,
                 }}
-                title={selectedTab.toUpperCase()} //to upper case later
+                //title={selectedTab.toUpperCase()} //to upper case later
                 leftComponent={
-                    <TouchableOpacity
-                        style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: SIZES.radius,
-                            backgroundColor: COLORS.gray2,
-                        }}
-                    >
-                        <Image
-                            source={dummyData?.myProfile?.profile_images}
+                    <View>
+                        <View
                             style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: SIZES.radius,
+                                flexDirection: 'row'
                             }}
-                        />
-                    </TouchableOpacity>
+                        >
+                            <EvilIcons name="location" size={24} color={COLORS.white} />
+                            <Text
+                                style={{
+                                    color: COLORS.white,
+                                    ...FONTS.body4,
+                                }}
+                            >
+                                Deliver to
+                            </Text>
+                        </View>
 
+                        <TouchableOpacity style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginTop: SIZES.base,
+
+                        }}>
+                            <Text style={{ ...FONTS.h3 }}>
+                                {dummyData?.myProfile?.address}
+                            </Text>
+
+                            <Image
+                                source={icons.down_arrow}
+                                style={{
+                                    marginLeft: SIZES.base,
+                                    height: 20,
+                                    width: 20,
+                                    tintColor: COLORS.white,
+                                }}
+                            />
+
+                        </TouchableOpacity>
+
+                    </View>
                 }
 
                 rightComponent={
@@ -283,13 +313,13 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                             height: 40,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            borderWidth: 1,
-                            borderRadius: SIZES.radius,
-                            backgroundColor: COLORS.white,
                         }}
                         onPress={() => { navigation.openDrawer() }}>
                         <Image
                             source={icons.menu}
+                            style={{
+                                tintColor: COLORS.white
+                            }}
                         />
                     </TouchableOpacity>
 
@@ -311,8 +341,8 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                     snapToInterval={SIZES.width}
                     showsHorizontalScrollIndicator={false}
                     data={constants.bottom_tabs}
-                    keyExtractor={item => `${item.id}` }
-                    renderItem={({item, index}) => {
+                    keyExtractor={item => `${item.id}`}
+                    renderItem={({ item, index }) => {
                         return (
                             <View
                                 style={{
@@ -325,12 +355,12 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                 {item.label == constants.screens.cart && <CartTab />}
                                 {item.label == constants.screens.favourite && <Favourite />}
                                 {item.label == constants.screens.notification && <Notification />}
-                                
+
 
                             </View>
                         )
                     }}
-                    
+
                 />
 
             </View>

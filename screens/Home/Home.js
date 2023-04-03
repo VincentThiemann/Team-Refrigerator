@@ -9,6 +9,7 @@ import {
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
 import Search from '../Search/Search';
 import { HorizontalFoodCard, VerticalFoodCard } from '../../components';
+import Display from '../../utils/Display';
 
 const Section = ({ title, onPress, children }) => {
     return (
@@ -29,7 +30,7 @@ const Section = ({ title, onPress, children }) => {
                 <TouchableOpacity
                     onPress={onPress}
                 >
-                    <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>
+                    <Text style={{ color: COLORS.green, ...FONTS.body3 }}>
                         Show All
                     </Text>
                 </TouchableOpacity>
@@ -53,6 +54,8 @@ const Home = () => {
         handleChangeCategory(selectedCategoryId, selectedMenuType)
     }, []);
 
+
+
     function handleChangeCategory(categoryId, menuTypeId) {
         //retrieve discount data
         let selectedDiscount = dummyData.menu.find(a => a.name == "Discount")
@@ -72,58 +75,69 @@ const Home = () => {
     //render
     function renderSearch() {
         return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    height: 60,
-                    alignItems: 'center',
-                    marginHorizontal: SIZES.padding,
-                    marginVertical: SIZES.base,
-                    paddingHorizontal: SIZES.radius,
-                    borderRadius: SIZES.radius,
-                    backgroundColor: COLORS.lightGray2,
-                    borderColor: COLORS.lightGreen
-                }}
-            >
-                {/* Icon */}
-                <Image
-                    source={icons.search}
+            <View style={{ height: Display.setHeight(12), backgroundColor: COLORS.green, borderBottomRightRadius: SIZES.padding, borderBottomLeftRadius: SIZES.padding }}>
+                <View
                     style={{
-                        height: 20,
-                        width: 20,
-                        tintColor: COLORS.black,
-                    }}
-                />
-
-                {/* Text Input */}
-                <TextInput
-                    style={{
-                        flex: 1,
-                        marginLeft: SIZES.radius,
-                        marginRight: SIZES.radius,
-                        ...FONTS.body3,
-                        textAlign: 'left',
-                        fontStyle: 'italic',
-                        alignSelf: 'center',
+                        flexDirection: 'row',
+                        height: Display.setHeight(7),
+                        alignItems: 'center',
+                        marginHorizontal: SIZES.padding,
+                        marginVertical: SIZES.base,
+                        paddingHorizontal: SIZES.radius,
                         borderRadius: SIZES.radius,
-                        textAlignVertical: "top"
+                        backgroundColor: COLORS.lightGray2,
                     }}
+<<<<<<< HEAD
                     placeholder="What are you craving?"
                     placeholderTextColor={COLORS.black}
                 />
 
                 {/* filter */}
                 <TouchableOpacity
+=======
+>>>>>>> main
                 >
+                    {/* Icon */}
                     <Image
-                        source={icons.filter}
+                        source={icons.search}
                         style={{
                             height: 20,
                             width: 20,
                             tintColor: COLORS.black,
                         }}
                     />
-                </TouchableOpacity>
+
+                    {/* Text Input */}
+                    <TextInput
+                        style={{
+                            flex: 1,
+                            marginLeft: SIZES.radius,
+                            marginRight: SIZES.radius,
+                            ...FONTS.body3,
+                            textAlign: 'left',
+                            fontStyle: 'italic',
+                            alignSelf: 'center',
+                            borderRadius: SIZES.radius,
+                            textAlignVertical: "top"
+                        }}
+                        placeholder="What are you craving?"
+                        placeholderTextColor={COLORS.black}
+                    />
+
+                    {/* filter */}
+                    <TouchableOpacity
+                        onPress={() => console.log('filter')}
+                    >
+                        <Image
+                            source={icons.filter}
+                            style={{
+                                height: 20,
+                                width: 20,
+                                tintColor: COLORS.black,
+                            }}
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
@@ -147,11 +161,11 @@ const Home = () => {
                             marginTop: SIZES.padding,
                             marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
                             marginRight: index == dummyData.menu.length - 1 ? SIZES.padding : 0,
-                            backgroundColor: selectedMenuType == item.id ? COLORS.lightGreen : COLORS.white,
+                            backgroundColor: selectedMenuType == item.id ? COLORS.green : COLORS.white,
                             padding: 10,
-                            borderTopLeftRadius: 25,
-                            borderBottomRightRadius: 25,
+                            borderRadius: SIZES.padding,
                             borderWidth: 1,
+                            borderColor: COLORS.green
                         }}
                         onPress={() => {
                             setSelectedMenuType(item.id)
@@ -162,7 +176,7 @@ const Home = () => {
                     >
                         <Text
                             style={{
-                                color: selectedMenuType == item.id ? COLORS.white : COLORS.lightGreen,
+                                color: selectedMenuType == item.id ? COLORS.white : COLORS.green,
                                 alignSelf: 'center',
                                 ...FONTS.h5,
                                 marginHorizontal: 12
@@ -234,7 +248,7 @@ const Home = () => {
                             marginRight: index == dummyData.categories.length - 1 ? SIZES.padding : 0,
                             paddingHorizontal: 0,
                             borderRadius: SIZES.radius,
-                            backgroundColor: selectedCategoryId == item.id ? COLORS.lightGreen : COLORS.white,
+                            backgroundColor: selectedCategoryId == item.id ? COLORS.green : COLORS.white,
                         }}
                         onPress={() => {
                             setSelectedCategoryId(item.id)
@@ -268,56 +282,12 @@ const Home = () => {
         )
     }
 
-    function renderDeliveryTo() {
-        return (
-            <View
-                style={{
-                    marginTop: SIZES.padding,
-                    marginHorizontal: SIZES.padding,
-                }}
-            >
-                <Text
-                    style={{
-                        color: COLORS.lightGreen,
-                        ...FONTS.body3,
-                    }}
-                >
-                    Deliver to
-                </Text>
-
-                <TouchableOpacity style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: SIZES.base,
-
-                }}>
-                    <Text style={{ ...FONTS.h3 }}>
-                        {dummyData?.myProfile?.address}
-                    </Text>
-
-                    <Image
-                        source={icons.down_arrow}
-                        style={{
-                            marginLeft: SIZES.base,
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.green,
-                        }}
-                    />
-
-                </TouchableOpacity>
-
-            </View>
-        )
-    }
-
     return (
         <View
             style={{
                 flex: 1,
             }}
         >
-            {renderDeliveryTo()}
             {/* Search */}
             {renderSearch()}
 
@@ -346,7 +316,7 @@ const Home = () => {
                                                 dummyData.offers.length - 1 ? SIZES.padding : 0,
                                             paddingRight: SIZES.radius,
                                             alignItems: "center",
-                                            marginTop: 20,                                        
+                                            marginTop: 20,
                                         }}
                                         imageStyle={{
                                             height: 180,
@@ -357,7 +327,7 @@ const Home = () => {
                                 )}
                             />
                         </Section>
-                                        
+
                         {renderFoodCategories()}
                         {renderDiscountSection()}
                         {renderRecommendedSection()}

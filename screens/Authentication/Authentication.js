@@ -1,8 +1,8 @@
 import React from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native"
+import { ScrollView, View, Text, Image, TouchableOpacity} from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon } from '@rneui/themed';
-import { color } from "react-native-reanimated";
+
+import { Button} from '@rneui/themed';
 
 
 export const Authentication = ({ navigation }) => {
@@ -11,11 +11,6 @@ export const Authentication = ({ navigation }) => {
     const [pressed3, setPressed3] = React.useState(false);
 
     return (
-        <ScrollView
-            style={{ flex: 1 }}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-        >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
                     style={{
@@ -80,6 +75,7 @@ export const Authentication = ({ navigation }) => {
                         borderRadius: 15,
                         marginVertical: 10,
                     }}
+                    
                 >
                     <Image
                         source={icons.facebookIcon}
@@ -89,7 +85,6 @@ export const Authentication = ({ navigation }) => {
                             marginRight: 10
                         }}
                     />
-
                     <Text
                         style={{
                             fontWeight: '700',
@@ -154,7 +149,7 @@ export const Authentication = ({ navigation }) => {
                 </Button>
 
                 <Button
-                    loading={!pressed1 &&!pressed2 && pressed3}
+                    loading={!pressed1 && !pressed2 && pressed3}
                     loadingProps={{
                         size: 'large',
                         color: COLORS.green,
@@ -207,7 +202,7 @@ export const Authentication = ({ navigation }) => {
                         justifyContent: "center",
                         alignItems: "center",
                         width: "100%",
-                        marginVertical: 30
+                        marginVertical: 20
                     }}
                 >
                     <View
@@ -257,19 +252,18 @@ export const Authentication = ({ navigation }) => {
                     }}
                 />
 
-                <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: COLORS.gray }}>Don't have account?</Text>
+                <View style={{ flexDirection: "row", marginTop: 20}}>
+                    <Text style={{ color: COLORS.gray, fontSize: 17}}>Don't have account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate("CreateNewAccount")
                             console.log("Sign Up")
                         }}
                     >
-                        <Text style={{ color: COLORS.green, fontWeight: "bold" }}>  Sign up</Text>
+                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17}}>  Sign up</Text>
                     </TouchableOpacity>
 
                 </View>
             </View>
-        </ScrollView>
     )
 }

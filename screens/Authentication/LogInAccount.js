@@ -202,7 +202,7 @@ export const LogInAccount = ({ navigation }) => {
                         justifyContent: "center",
                         alignItems: "center",
                         width: "100%",
-                        marginVertical: 40
+                        marginVertical: 30
                     }}
                 >
                     <View
@@ -315,6 +315,7 @@ export const LogInAccount = ({ navigation }) => {
                             size: 'large',
                             color: COLORS.green,
                         }}
+        
     
                         onPress={() => {
                             setPressed1(false)
@@ -344,15 +345,15 @@ export const LogInAccount = ({ navigation }) => {
                     </Button>
                 </View>
 
-                <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: COLORS.gray }}>Don't have an account?</Text>
+                <View style={{ flexDirection: "row", marginTop: 15}}>
+                    <Text style={{ color: COLORS.gray,  fontSize: 17}}>Don't have an account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate("CreateNewAccount")
                             console.log("Sign up")
                         }}
                     >
-                        <Text style={{ color: COLORS.green, fontWeight: "bold" }}>  Sign up</Text>
+                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17}}>  Sign up</Text>
                     </TouchableOpacity>
 
                 </View>

@@ -16,23 +16,38 @@
     "@react-navigation/material-top-tabs": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+<<<<<<< HEAD
     "@rneui/base": "^4.0.0-rc.7",
     "@rneui/themed": "^4.0.0-rc.7",
     "expo": "^48.0.9",
     "expo-linear-gradient": "~12.1.2",
+=======
+    "@rneui/base": "^0.0.0-edge.2",
+    "@rneui/themed": "^0.0.0-edge.2",
+    "axios": "^1.3.4",
+    "expo": "48.0.9",
+    "expo-linear-gradient": "~12.1.2",
+    "firebase": "^9.19.1",
+>>>>>>> main
     "react": "18.2.0",
     "react-native": "0.71.4",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-pager-view": "6.1.2",
     "react-native-reanimated": "~2.14.4",
+<<<<<<< HEAD
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
+=======
+    "react-native-safe-area-context": "^4.5.0",
+    "react-native-screens": "^3.20.0",
+>>>>>>> main
     "react-native-tab-view": "^3.5.1",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "expo-splash-screen": "~0.18.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -46,5 +61,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "projectConfig": {
+    "backendApiBaseUrl": "http://192.168.1.10:3000"
   }
 }
