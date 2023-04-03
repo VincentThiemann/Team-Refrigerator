@@ -1,8 +1,7 @@
-const profile = require("../assets/images/profile.png")
-
 
 export default {
-    profile,
+    profile: require("../assets/images/profile.png"),
+    coupon: require("../assets/images/coupon.jpg"),
     PLATE: require('../assets/images/plate.png'),
     DISCOVER: require('../assets/images/discover.png'),
     DELIVER: require('../assets/images/deliver.png'),
