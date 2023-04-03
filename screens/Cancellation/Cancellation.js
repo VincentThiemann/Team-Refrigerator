@@ -21,25 +21,26 @@ export default Cancellation = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <View style={{ flex: 4 }}>
-                <CancellationHeader />
-                <View style={{ marginTop: 15 }} />
-                <Text style={styles.text}>Please choose reasons for the cancellation</Text>
-                <View style={{ marginTop: 15 }} />
-                <CancellationList />
-                <View style={{ marginTop: 10 }} />
-                <Text style={styles.text}>Another reason</Text>
-                <View style={{ marginTop: 22 }} />
-                <ScrollView keyboardDismissMode="on-drag" keyboardShouldPersistTaps='handled'>
-                    <TextInput style={styles.input} multiline placeholder="Another reason..." placeholderTextColor={COLORS.gray} keyboardType="default" onEndEditing={this.clearFocus} />
-                </ScrollView>
+            <CancellationHeader />
+            <View style={{flex: 4}}>
+            <ScrollView keyboardDismissMode="on-drag" keyboardShouldPersistTaps='handled'>
+            <View style={{ marginTop: 10 }} />
+            <Text style={styles.text}>Please choose reasons for the cancellation</Text>
+            <View style={{ marginTop: 10 }} />
+            <CancellationList />
+            <View style={{ marginTop: 10 }} />
+            <Text style={styles.text}>Another reason</Text>
+            <View style={{ marginTop: 22 }} />
+            <TextInput style={styles.input} multiline placeholder="Another reason..." placeholderTextColor={COLORS.gray} keyboardType="default" onEndEditing={this.clearFocus} />
+            <View style={{ marginTop: 80 }} />
+            </ScrollView>
             </View>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Splash") }}>
                     <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Continue</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     )
 }
 
@@ -80,6 +81,7 @@ export const CancellationList = () => {
             <Reason title="Waiting for too long" />
             <Reason title="The total price is too high" />
             <Reason title="The order destination is wrong" />
+            <Reason title="Could not contact the driver" />
         </View>
     )
 }
