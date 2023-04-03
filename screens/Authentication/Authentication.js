@@ -11,11 +11,6 @@ export const Authentication = ({ navigation }) => {
     const [pressed3, setPressed3] = React.useState(false);
 
     return (
-        <ScrollView
-            style={{ flex: 1 }}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-        >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
                     style={{
@@ -270,6 +265,5 @@ export const Authentication = ({ navigation }) => {
 
                 </View>
             </View>
-        </ScrollView>
     )
 }

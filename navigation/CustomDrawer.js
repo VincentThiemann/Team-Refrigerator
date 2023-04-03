@@ -64,14 +64,10 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
             }}>
                 {/* Close */}
                 <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
                 }}>
-                    <TouchableOpacity onPress={() => navigation.closeDrawer()}
-                        style={{
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
+                    <TouchableOpacity onPress={() => navigation.closeDrawer()}>
                         <Image source={icons.cross} style={{
                             width: 35,
                             height: 35,
@@ -198,7 +194,7 @@ const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
         outputRange: [0, 26]
     })
 
-    const animatedStyle = { borderRadius, transform: [{ scale }], overflow: 'hidden' }
+    const animatedStyle = { borderRadius, transform: [{ scale }] }
 
 
     return (
