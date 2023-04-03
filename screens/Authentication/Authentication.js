@@ -1,12 +1,8 @@
 import React from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity} from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon } from '@rneui/themed';
-import { SocialIcon, SocialIconProps } from '@rneui/themed';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { color } from "react-native-reanimated";
+import { Button} from '@rneui/themed';
 
 
 export const Authentication = ({ navigation }) => {
