@@ -104,12 +104,12 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        fontSize: SIZES.h1,
+        fontSize: SIZES.h2,
         color: COLORS.black,
     },
     button: {
         height: '40%',
-        width: '80%',
+        width: '90%',
         paddingLeft: SIZES.radius,
         borderRadius: 50,
         backgroundColor: 'cyan',

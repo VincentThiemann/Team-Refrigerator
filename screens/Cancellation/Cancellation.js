@@ -11,20 +11,34 @@ import {
     Image,
     FlatList,
     StyleSheet,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView
 } from 'react-native';
 import { Icon, CheckBox } from '@rneui/themed';
 
-export default Cancellation = (props) => {
+export default Cancellation = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <CancellationHeader />
-            <Text style={styles.text}>Reasons for cancellation</Text>
-            <View style={{marginTop: 10}} />
-            <CancellationList />
-            <View style={{marginTop: 20}} />
-            <Text style={styles.text}>If you have another reason, please type in the box below:</Text>
-            <View style={{marginTop: 10}} />
-            <TextInput style={styles.input} placeholder = "Type another reason here" placeholderTextColor = {COLORS.gray} keyboardType = "default"/>
+            <View style={{ flex: 4 }}>
+                <CancellationHeader />
+                <View style={{ marginTop: 15 }} />
+                <Text style={styles.text}>Please choose reasons for the cancellation</Text>
+                <View style={{ marginTop: 15 }} />
+                <CancellationList />
+                <View style={{ marginTop: 10 }} />
+                <Text style={styles.text}>Another reason</Text>
+                <View style={{ marginTop: 22 }} />
+                <ScrollView keyboardDismissMode="on-drag" keyboardShouldPersistTaps='handled'>
+                    <TextInput style={styles.input} multiline placeholder="Another reason..." placeholderTextColor={COLORS.gray} keyboardType="default" onEndEditing={this.clearFocus} />
+                </ScrollView>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Splash") }}>
+                    <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Continue</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -32,7 +46,7 @@ export default Cancellation = (props) => {
 export const CancellationHeader = () => {
     const navigation = useNavigation();
     return (
-        <Header containerStyle={{ marginHorizontal: 20, marginTop: 50, marginBottom: 20 }} title={"CANCEL ORDER"}
+        <Header containerStyle={{ marginTop: 50, marginBottom: 20 }} title={"CANCEL ORDER"}
             leftComponent={
                 <TouchableOpacity
                     onPress={() => { navigation.navigate("Splash") }}>
@@ -46,12 +60,14 @@ export const Reason = (props) => {
     const [check, setCheck] = React.useState(false);
     return (
         <CheckBox
-        title={props.title}
-        checked={check}
-        onPress = {() => setCheck(!check)}
-        iconType="material"
-        checkedIcon="clear"
-        uncheckedIcon="add"
+            title={props.title}
+            checked={check}
+            onPress={() => setCheck(!check)}
+            iconType="material"
+            checkedIcon="clear"
+            uncheckedIcon="add"
+            containerStyle={{ backgroundColor: "transparent" }}
+            textStyle={styles.text}
         />
     )
 }
@@ -63,6 +79,7 @@ export const CancellationList = () => {
             <Reason title="Cannot contact driver" />
             <Reason title="Waiting for too long" />
             <Reason title="The total price is too high" />
+            <Reason title="The order destination is wrong" />
         </View>
     )
 }
@@ -70,16 +87,30 @@ export const CancellationList = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 10,
+        marginHorizontal: 20,
     },
     input: {
-        height: 50,
+        height: 100,
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 15,
         fontSize: SIZES.h3,
-
+        padding: 15,
+        borderWidth: 1,
+        borderColor: COLORS.lightGray1,
+        backgroundColor: COLORS.lightGray1
     },
     text: {
-        fontSize: SIZES.h3
+        fontSize: SIZES.h3,
+        fontWeight: 'bold'
+    },
+    button: {
+        height: '40%',
+        width: '90%',
+        paddingLeft: SIZES.radius,
+        borderRadius: 50,
+        backgroundColor: COLORS.green,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 15,
     }
 })
