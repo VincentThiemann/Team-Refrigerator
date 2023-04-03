@@ -11,12 +11,11 @@ import {
 } from 'react-native';
 import { FONTS, COLORS, SIZES, icons, images, dummyData } from "../../constants"
 import { IconButton, Header, Separator } from "../../components";
-import { Avatar, Badge, Icon, withBadge } from '@rneui/themed';
-import { Display } from '../../utils';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Display from '../../utils/Display';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-const BadgedIcon = withBadge(15)(Icon);
 const setStyle = isActive =>
     isActive
         ? styles.subMenuButtonText
@@ -43,47 +42,37 @@ const FoodDetail = ({ navigation }) => {
                     margintop: 40,
                    
                 }}
+
                 // leftComponent={
-                //     <IconButton
-                //         icon={icons.back}
+                //     <Icon
+                //         type="material"
+                //         name="arrow-back-ios"
                 //         containerStyle={styles.containerStyle}
-                //         iconStyle={{
-                //             width: 20,
-                //             height: 20,
-                //             tintColor: COLORS.lightGreen
-                //         }}
                 //         onPress={() => console.log("Go Back")} />
                 // }
-                leftComponent={
-                    <Icon
-                        type="material"
-                        name="arrow-back-ios"
-                        containerStyle={styles.containerStyle}
-                        onPress={() => console.log("Go Back")} />
-                }
-                rightComponent={
-                    <View>
-                        <Icon type="material-community"
-                            name="cart-outline"
-                            containerStyle={styles.containerStyle}
-                            onPress={() => console.log("Cart")} />
-                        <Badge
-                            value={43}
-                            containerStyle={{
-                                position: 'absolute',
-                                top: 5,
-                                right: 0,
+                // rightComponent={
+                //     <View>
+                //         <Icon type="material-community"
+                //             name="cart-outline"
+                //             containerStyle={styles.containerStyle}
+                //             onPress={() => console.log("Cart")} />
+                //         <Badge
+                //             value={43}
+                //             containerStyle={{
+                //                 position: 'absolute',
+                //                 top: 5,
+                //                 right: 0,
 
-                            }}
-                            badgeStyle={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: COLORS.red,
-                            }}
+                //             }}
+                //             badgeStyle={{
+                //                 alignItems: 'center',
+                //                 justifyContent: 'center',
+                //                 backgroundColor: COLORS.red,
+                //             }}
                             
-                        />
-                    </View>
-                }
+                //         />
+                //     </View>
+                // }
             />
 
 
@@ -99,7 +88,7 @@ const FoodDetail = ({ navigation }) => {
             {/* <StatusBar barStyle="default" translucent backgroundColor="transparent" /> */}
 
             <Image
-                source={food.image}
+                source={food?.image}
                 style={styles.backgroundImage}
             />
             {/* Header */}

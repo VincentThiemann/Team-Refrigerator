@@ -134,6 +134,7 @@ const menu = [
 
 
 export default {
+    vegBiryani,
     myProfile,
     categories,
     menu,
