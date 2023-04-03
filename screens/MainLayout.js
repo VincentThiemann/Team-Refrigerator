@@ -12,7 +12,7 @@ import {
 import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions';
 
@@ -21,6 +21,8 @@ import { Home, Search, CartTab, Notification, Favourite } from './'
 import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants';
 
 import { Header } from '../components';
+
+import { auth } from "../firebase"
 
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
@@ -54,7 +56,7 @@ const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, inner
                         style={{
                             width: 20,
                             height: 20,
-                            tintColor: isFocused ? COLORS.green : COLORS.gray,
+                            tintColor: isFocused ? COLORS.black : COLORS.gray,
                         }}
                     />
 
@@ -167,7 +169,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 animated: false
             })
             homeTabFlex.value = withTiming(4, { duration: 500})
-            homeTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            homeTabColor.value = withTiming(COLORS.green, { duration: 500})
         }
         else 
         {
@@ -182,7 +184,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 animated: false
             })
             searchTabFlex.value = withTiming(4, { duration: 500})
-            searchTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            searchTabColor.value = withTiming(COLORS.green, { duration: 500})
         }
         else
         {
@@ -197,7 +199,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 animated: false
             })
             cartTabFlex.value = withTiming(4, { duration: 500})
-            cartTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            cartTabColor.value = withTiming(COLORS.green, { duration: 500})
         }
         else
         {
@@ -212,7 +214,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 animated: false
             })
             favTabFlex.value = withTiming(4, { duration: 500})
-            favTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            favTabColor.value = withTiming(COLORS.green, { duration: 500})
         }
         else
         {
@@ -227,7 +229,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 animated: false
             })
             notiTabFlex.value = withTiming(4, { duration: 500})
-            notiTabColor.value = withTiming(COLORS.lightGreen, { duration: 500})
+            notiTabColor.value = withTiming(COLORS.green, { duration: 500})
         }
         else
         {
@@ -237,6 +239,15 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
 
 
     }, [selectedTab])
+
+    const handleSignOut = () => {
+        auth
+        .signOut()
+        .then(() => {
+            navigation.replace("Authentication")
+        })
+        .catch(error=>alert(error.message) )
+    }
 
     return (
         <Animated.View
@@ -263,6 +274,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                             borderRadius: SIZES.radius,
                             backgroundColor: COLORS.gray2,
                         }}
+                        onPress = {handleSignOut}
                     >
                         <Image
                             source={dummyData?.myProfile?.profile_images}
