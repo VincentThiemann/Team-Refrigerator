@@ -4,6 +4,7 @@ import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon } from '@rneui/themed';
 import { SocialIcon, SocialIconProps } from '@rneui/themed';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { color } from "react-native-reanimated";
 
@@ -83,14 +84,9 @@ export const Authentication = ({ navigation }) => {
                         borderRadius: 15,
                         marginVertical: 10,
                     }}
-                    icon={{
-                        name: 'home',
-                        type: 'font-awesome',
-                        size: 15,
-                        color: 'black',
-                    }}
-                >
                     
+                >
+                    <Ionicons name="md-checkmark-circle" size={32} color="green" />
                     <Text
                         style={{
                             fontWeight: '700',

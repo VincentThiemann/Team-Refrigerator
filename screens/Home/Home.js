@@ -388,7 +388,7 @@ const Home = () => {
                                 height: 110,
                                 width: 110,
                             }}
-                            onPress={() => console.log("Horizonal Food Card")}
+                            onPress={navigation.navigate("FoodDetails")}
                         />
                     )
                 }}
