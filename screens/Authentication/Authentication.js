@@ -86,7 +86,14 @@ export const Authentication = ({ navigation }) => {
                     }}
                     
                 >
-                    <Ionicons name="md-checkmark-circle" size={32} color="green" />
+                    <Image
+                        source={icons.facebookIcon}
+                        style={{
+                            width: 30,
+                            height: 30,
+                            marginRight: 10
+                        }}
+                    />
                     <Text
                         style={{
                             fontWeight: '700',

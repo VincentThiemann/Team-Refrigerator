@@ -12,6 +12,8 @@ import constants from '../constants/constants'
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions'
 
+import { auth } from "../firebase"
+
 const Drawer = createDrawerNavigator();
 const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
     return (
@@ -42,6 +44,15 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 }
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
+    const handleSignOut = () => {
+        auth
+        .signOut()
+        .then(() => {
+            navigation.replace("Authentication")
+        })
+        .catch(error=>alert(error.message) )
+    }
+
     return (
         <DrawerContentScrollView
             scrollEnabled={true}
@@ -164,6 +175,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     marginBottom: SIZES.padding,
                 }}>
                     <CustomDrawerItem label="Log out"
+                        onPress = {handleSignOut}
                         icon={icons.logout} />
                 </View>
             </View>
@@ -173,6 +185,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
 }
 
 const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
+
     const [progress, setProgress] = useState(new Animated.Value(0));
 
     const scale = Animated.interpolateNode(progress, {
