@@ -58,7 +58,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="CustomDrawer"
+          initialRouteName="FoodDetail"
           screenOptions={{ headerShown: false }}
         >
 

@@ -10,11 +10,11 @@ import {
     TextInput
 } from 'react-native';
 import { FONTS, COLORS, SIZES, icons, images, dummyData } from "../../constants"
-import { IconButton, Header, Separator } from "../../components";
+import { Header, Separator } from "../../components";
 import Display from '../../utils/Display';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 
 const setStyle = isActive =>
     isActive
@@ -37,19 +37,18 @@ const FoodDetail = ({ navigation }) => {
 
                 containerStyle={{
                    
+                    positon: 'absolute',
                     height: 60,
+                    top: Display.setHeight(3),
                     marginHorizontal: SIZES.padding,
                     margintop: 40,
+                    backgroundColor: 'green'
                    
                 }}
 
-                // leftComponent={
-                //     <Icon
-                //         type="material"
-                //         name="arrow-back-ios"
-                //         containerStyle={styles.containerStyle}
-                //         onPress={() => console.log("Go Back")} />
-                // }
+                leftComponent={
+                    <Ionicons name="ios-chevron-back-sharp" size={40} color="black" onPress={() => navigation.navigate("CustomDrawer")}/>
+                }
                 // rightComponent={
                 //     <View>
                 //         <Icon type="material-community"
@@ -83,9 +82,10 @@ const FoodDetail = ({ navigation }) => {
         <View
             style={{
                 flex: 1,
+
             }}
         >
-            {/* <StatusBar barStyle="default" translucent backgroundColor="transparent" /> */}
+            <StatusBar barStyle="default" translucent backgroundColor="transparent" />
 
             <Image
                 source={food?.image}
@@ -96,7 +96,7 @@ const FoodDetail = ({ navigation }) => {
 
 
             {/* Body */}
-            <ScrollView>
+            <ScrollView style={{flex: 1}}>
                 
                 <Separator height={Display.setWidth(100)} />
                 <View style={styles.mainContainer}>

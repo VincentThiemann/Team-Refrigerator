@@ -1,12 +1,8 @@
 import React from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity} from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon } from '@rneui/themed';
-import { SocialIcon, SocialIconProps } from '@rneui/themed';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { color } from "react-native-reanimated";
+import { Button} from '@rneui/themed';
 
 
 export const Authentication = ({ navigation }) => {
@@ -15,11 +11,6 @@ export const Authentication = ({ navigation }) => {
     const [pressed3, setPressed3] = React.useState(false);
 
     return (
-        <ScrollView
-            style={{ flex: 1 }}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-        >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
                     style={{
@@ -86,7 +77,14 @@ export const Authentication = ({ navigation }) => {
                     }}
                     
                 >
-                    <Ionicons name="md-checkmark-circle" size={32} color="green" />
+                    <Image
+                        source={icons.facebookIcon}
+                        style={{
+                            width: 30,
+                            height: 30,
+                            marginRight: 10
+                        }}
+                    />
                     <Text
                         style={{
                             fontWeight: '700',
@@ -267,6 +265,5 @@ export const Authentication = ({ navigation }) => {
 
                 </View>
             </View>
-        </ScrollView>
     )
 }

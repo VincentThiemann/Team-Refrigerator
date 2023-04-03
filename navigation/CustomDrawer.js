@@ -12,6 +12,8 @@ import constants from '../constants/constants'
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions'
 
+import { auth } from "../firebase"
+
 const Drawer = createDrawerNavigator();
 const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
     return (
@@ -42,6 +44,15 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 }
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
+    const handleSignOut = () => {
+        auth
+        .signOut()
+        .then(() => {
+            navigation.replace("Authentication")
+        })
+        .catch(error=>alert(error.message) )
+    }
+
     return (
         <DrawerContentScrollView
             scrollEnabled={true}
@@ -53,14 +64,10 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
             }}>
                 {/* Close */}
                 <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
                 }}>
-                    <TouchableOpacity onPress={() => navigation.closeDrawer()}
-                        style={{
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
+                    <TouchableOpacity onPress={() => navigation.closeDrawer()}>
                         <Image source={icons.cross} style={{
                             width: 35,
                             height: 35,
@@ -164,6 +171,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     marginBottom: SIZES.padding,
                 }}>
                     <CustomDrawerItem label="Log out"
+                        onPress = {handleSignOut}
                         icon={icons.logout} />
                 </View>
             </View>
@@ -173,6 +181,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
 }
 
 const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
+
     const [progress, setProgress] = useState(new Animated.Value(0));
 
     const scale = Animated.interpolateNode(progress, {
@@ -185,7 +194,7 @@ const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
         outputRange: [0, 26]
     })
 
-    const animatedStyle = { borderRadius, transform: [{ scale }], overflow: 'hidden' }
+    const animatedStyle = { borderRadius, transform: [{ scale }] }
 
 
     return (
