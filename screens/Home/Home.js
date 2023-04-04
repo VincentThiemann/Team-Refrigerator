@@ -87,15 +87,6 @@ const Home = () => {
                         borderRadius: SIZES.radius,
                         backgroundColor: COLORS.lightGray2,
                     }}
-<<<<<<< HEAD
-                    placeholder="What are you craving?"
-                    placeholderTextColor={COLORS.black}
-                />
-
-                {/* filter */}
-                <TouchableOpacity
-=======
->>>>>>> main
                 >
                     {/* Icon */}
                     <Image

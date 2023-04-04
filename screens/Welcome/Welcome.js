@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ImageBackground, StatusBar } from 'react-native';
 import { COLORS, SIZES, FONTS, MARGIN } from '../../constants';
 
-export default SplashScreen = () => (
+export default WelcomeScreen = () => (
     <View style={styles.container}>
         <WelcomeText name="FOOD DELIVERY" subtitle="Welcome to the food delivery app created uniquely for CWRU students" />
     </View>

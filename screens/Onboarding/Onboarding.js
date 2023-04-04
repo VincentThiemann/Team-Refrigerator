@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#F5FCFF',
     },
     text: {
         textAlign: 'center',
@@ -108,11 +108,11 @@ const styles = StyleSheet.create({
         color: COLORS.black,
     },
     button: {
-        height: '40%',
-        width: '90%',
+        height: 60,
+        width: '80%',
         paddingLeft: SIZES.radius,
         borderRadius: 50,
-        backgroundColor: 'cyan',
+        backgroundColor: COLORS.green,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,

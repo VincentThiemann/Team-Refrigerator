@@ -9,48 +9,53 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
-    FlatList,
     StyleSheet,
-    TouchableWithoutFeedback,
+    ScrollView,
+    KeyboardAvoidingView,
     Keyboard,
-    ScrollView
+    TouchableWithoutFeedback
 } from 'react-native';
 import { CheckBox } from '@rneui/themed';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 
 export default Cancellation = () => {
     const navigation = useNavigation();
     return (
-        <View style={styles.container}>
-            <CancellationHeader />
-            <View style={{flex: 4}}>
-            <ScrollView keyboardDismissMode="on-drag" keyboardShouldPersistTaps='handled'>
-            <View style={{ marginTop: 10 }} />
-            <Text style={styles.text}>Please choose reasons for the cancellation</Text>
-            <View style={{ marginTop: 10 }} />
-            <CancellationList />
-            <View style={{ marginTop: 10 }} />
-            <Text style={styles.text}>Another reason</Text>
-            <View style={{ marginTop: 22 }} />
-            <TextInput style={styles.input} multiline placeholder="Another reason..." placeholderTextColor={COLORS.gray} keyboardType="default" onEndEditing={this.clearFocus} />
-            <View style={{ marginTop: 80 }} />
-            </ScrollView>
-            </View>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Splash") }}>
-                    <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Continue</Text>
-                </TouchableOpacity>
-            </View>
-        </View >
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={{ flex: 1 }}>
+                    <CancellationHeader />
+                    <View style={{ flex: 4, marginHorizontal: 20 }}>
+                        <ScrollView>
+                        <View style={{ marginTop: 10 }} />
+                        <Text style={styles.text}>Please choose reasons for the cancellation</Text>
+                        <View style={{ marginTop: 10 }} />
+                        <CancellationList />
+                        <View style={{ marginTop: 10 }} />
+                        <Text style={styles.text}>Another reason</Text>
+                        <View style={{ marginTop: 22 }} />
+                        <TextInput style={styles.input} multiline placeholder="Another reason..." placeholderTextColor={COLORS.gray} keyboardType="default" />
+                        <View style={{ marginTop: 80 }} />
+                        </ScrollView>
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Onboarding") }}>
+                            <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Continue</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 }
 
 export const CancellationHeader = () => {
     const navigation = useNavigation();
     return (
-        <Header containerStyle={{ marginTop: 50, marginBottom: 20 }} title={"CANCEL ORDER"}
+        <Header containerStyle={{ marginTop: 40, marginHorizontal: 20 }} title={"CANCEL ORDER"}
             leftComponent={
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate("Splash") }}>
+                    onPress={() => { navigation.navigate("Welcome") }}>
                     <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
                 </TouchableOpacity>
             }
@@ -65,8 +70,8 @@ export const Reason = (props) => {
             checked={check}
             onPress={() => setCheck(!check)}
             iconType="material"
-            checkedIcon="clear"
-            uncheckedIcon="add"
+            checkedIcon={<Feather name="check-square" size={SIZES.h2} color={COLORS.green} />}
+            uncheckedIcon={<Feather name="square" size={SIZES.h2} color={COLORS.green} />}
             containerStyle={{ backgroundColor: "transparent" }}
             textStyle={styles.text}
         />
@@ -89,7 +94,6 @@ export const CancellationList = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 20,
     },
     input: {
         height: 100,
@@ -106,8 +110,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     button: {
-        height: '40%',
-        width: '90%',
+        height: 60,
+        width: '80%',
         paddingLeft: SIZES.radius,
         borderRadius: 50,
         backgroundColor: COLORS.green,

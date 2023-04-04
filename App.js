@@ -2,18 +2,14 @@ import React, { useCallback, useEffect } from "react";
 import 'react-native-gesture-handler'
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
-<<<<<<< HEAD
 // import CustomDrawer from './navigation/CustomDrawer';
-import SplashScreen from './screens/Welcome/Welcome.js';
+import WelcomeScreen from './screens/Welcome/Welcome.js';
 // import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
 import Onboarding from './screens/Onboarding/Onboarding.js';
-import HelpCenter from './screens/HelpCenter/HelpCenter.js';
 import Cancellation from './screens/Cancellation/Cancellation.js';
-=======
 
 import CustomDrawer from './navigation/CustomDrawer';
 //import SplashScreen from './screens/Welcome/Welcome.js';
-import Onboarding from './screens/Onboarding/Onboarding.js';
 import HelpCenter from './screens/HelpCenter/HelpCenter.js';
 import FoodDetail from './screens/Food/FoodDetail';
 import * as SplashScreen from 'expo-splash-screen';
@@ -22,18 +18,14 @@ import { useFonts } from 'expo-font';
 import { CreateNewAccount } from "./screens/Authentication/CreateNewAccount";
 import { LogInAccount } from "./screens";
 
->>>>>>> main
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
-<<<<<<< HEAD
-=======
 import { OTPCodeVerification } from "./screens";
 import Header from './components/Header';
 import { Authentication } from "./screens";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
->>>>>>> main
 
 const Stack = createStackNavigator();
 
@@ -70,21 +62,13 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-<<<<<<< HEAD
           initialRouteName="Cancellation"
           screenOptions={{ headerShown: false }}
         >
           {/* <Stack.Screen name="Home" component={CustomDrawer} /> */}
-          <Stack.Screen name="Splash" component={SplashScreen} />
-          <Stack.Screen name="Onboarding" component={Onboarding} />
-          <Stack.Screen name="HelpCenter" component={HelpCenter} />
-          {/* <Stack.Screen name="List" component={List} /> */}
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Cancellation" component={Cancellation} />
-=======
-          initialRouteName="FoodDetail"
-          screenOptions={{ headerShown: false }}
-        >
-
+          {/* <Stack.Screen name="List" component={List} /> */}
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="Authentication" component={Authentication} />
           <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
@@ -95,7 +79,6 @@ const App = () => {
           <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
           <Stack.Screen name="FoodDetail" component={FoodDetail} />
 
->>>>>>> main
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
