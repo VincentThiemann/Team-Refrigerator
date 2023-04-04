@@ -307,22 +307,61 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 }
 
                 rightComponent={
-                    <TouchableOpacity
-                        style={{
-                            width: 40,
-                            height: 40,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                        onPress={() => { navigation.openDrawer() }}>
-                        <Image
-                            source={icons.menu}
+                    <View style = {{flexDirection: "row"}}>
+                        {/* <TouchableOpacity
                             style={{
-                                tintColor: COLORS.white
+                                width: 40,
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'center',
                             }}
-                        />
-                    </TouchableOpacity>
+                            onPress={() => { navigation.openDrawer() }}>
+                            <Image
+                                source={icons.menu}
+                                style={{
+                                    tintColor: COLORS.white
+                                }}
+                            />
+                        </TouchableOpacity> */}
 
+                        
+                        <TouchableOpacity
+                            style={{
+                                width: 40,
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                            onPress={() => { setSelectedTab(constants.screens.notification) }}>
+                            <Image
+                                source={icons.notification}
+                                style={{
+                                    height: 20,
+                                    width: 20,
+                                    tintColor: COLORS.white
+                                }}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={{
+                                width: 40,
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                            onPress={() => { setSelectedTab(constants.screens.cart) }}>
+                            <Image
+                                source={icons.cart}
+                                style={{
+                                    height: 20,
+                                    width: 20,
+                                    tintColor: COLORS.white,
+
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 }
             />
 
