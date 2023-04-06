@@ -27,15 +27,15 @@ export default Cancellation = () => {
                     <CancellationHeader />
                     <View style={{ flex: 4, marginHorizontal: 20 }}>
                         <ScrollView>
-                        <View style={{ marginTop: 10 }} />
-                        <Text style={styles.text}>Please choose reasons for the cancellation</Text>
-                        <View style={{ marginTop: 10 }} />
-                        <CancellationList />
-                        <View style={{ marginTop: 10 }} />
-                        <Text style={styles.text}>Another reason</Text>
-                        <View style={{ marginTop: 22 }} />
-                        <TextInput style={styles.input} multiline placeholder="Another reason..." placeholderTextColor={COLORS.gray} keyboardType="default" />
-                        <View style={{ marginTop: 80 }} />
+                            <View style={{ marginTop: 10 }} />
+                            <Text style={styles.text}>Please choose reasons for the cancellation</Text>
+                            <View style={{ marginTop: 10 }} />
+                            <CancellationList />
+                            <View style={{ marginTop: 10 }} />
+                            <Text style={styles.text}>Another reason</Text>
+                            <View style={{ marginTop: 22 }} />
+                            <TextInput style={styles.input} multiline placeholder="Another reason..." placeholderTextColor={COLORS.gray} keyboardType="default" />
+                            <View style={{ marginTop: 80 }} />
                         </ScrollView>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
