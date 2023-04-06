@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
         marginTop: 20,
-        marginHorizontal: 10
+        marginHorizontal: 10,
     },
     item: {
         height: 60,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         padding: 15,
-        marginTop: 20
+        marginTop: 20,
     },
     largeItem: {
         height: 200,
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         padding: 15,
-        marginTop: 20
+        marginTop: 20,
     },
     title:
     {

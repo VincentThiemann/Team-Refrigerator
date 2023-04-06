@@ -54,14 +54,14 @@ export const CancellationHeader = () => {
     return (
         <Header containerStyle={{ marginTop: 40, marginHorizontal: 20 }} title={"CANCEL ORDER"}
             leftComponent={
-                <TouchableOpacity
-                    onPress={() => { navigation.navigate("Welcome") }}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Welcome") }}>
                     <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
                 </TouchableOpacity>
             }
         />
     )
 }
+
 export const Reason = (props) => {
     const [check, setCheck] = React.useState(false);
     return (
@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
         padding: 15,
         borderWidth: 1,
         borderColor: COLORS.lightGray1,
-        backgroundColor: COLORS.lightGray1
+        backgroundColor: COLORS.lightGray1,
     },
     text: {
         fontSize: SIZES.h3,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     button: {
         height: 60,

@@ -25,13 +25,13 @@ export const COLORS = {
     DARK_THREE: '#404040',
     DARK_FOUR: '#282828',
     DARK_FIVE: '#B3B3B3',
-    primary: "#FF6C44", //orange
+    primary: "#FF6C44",
     transparentPrimray: 'rgba(227, 120, 75, 0.4)',
     orange: "#FFA133",
     lightOrange: "#FFA133",
     lightOrange2: "#FDDED4",
     lightOrange3: '#FFD9AD',
-    green: '#28B463',
+    green: '#28B463', // primary
     lightGreen: "#E8F7ED",
     red: "#FF1717",
     blue: '#0064C0',
