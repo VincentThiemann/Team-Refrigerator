@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header.js';
-import { SIZES, COLORS, icons } from '../../constants';
+import { SIZES, COLORS, icons } from '../../constants/index.js';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -16,20 +16,31 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Display from '../../utils/Display.js';
-// import { Rating } from 'react-native-ratings';
+import { MaterialIcons } from '@expo/vector-icons';
 
-export default Rating = () => {
-
+export default Ratings = () => {
     return (
         <View style={styles.container}>
             <RatingHeader />
-            <View style = {{ flex: 1, justifyContent: 'center'}}>
+            <View style={{marginVertical: 20}} />
                 <Image style={styles.image} source={require('../../assets/images/splash_image.jpg')} />
+                <View style={{marginVertical: 20}} />
                 <Text style={styles.title}>How was your order?</Text>
+                <View style={{marginVertical: 10}} />
                 <Text style={styles.text}>Did you enjoy it? Please rate the restaurant</Text>
-                {/* <Rating showRating ratingCount={5} imageSize={20} style = {{paddingVertical: 10}} /> */}
-            </View>
         </View>
+    )
+}
+
+export const Star = ({number}) => {
+    return (
+        <TouchableOpacity onPress={() => setStarRating(number)}>
+            <MaterialIcons
+            name = {starRating >= number ? 'star' : 'star-border'}
+            size = {20}
+            style = {starRating >= number ? styles.unselected : styles.selected}
+            />
+        </TouchableOpacity>
     )
 }
 
@@ -83,8 +94,8 @@ const styles = StyleSheet.create({
     },
     image: {
         alignSelf: 'center',
-        width: Display.setWidth(50),
-        height: Display.setHeight(25),
+        width: Display.setWidth(60),
+        height: Display.setHeight(30),
         borderRadius: SIZES.padding,
     }
 })

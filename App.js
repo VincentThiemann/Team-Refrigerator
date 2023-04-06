@@ -7,7 +7,7 @@ import WelcomeScreen from './screens/Welcome/Welcome.js';
 // import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
 import Onboarding from './screens/Onboarding/Onboarding.js';
 import Cancellation from './screens/Cancellation/Cancellation.js';
-import Rating from './screens/Rating/Rating.js';
+import Ratings from './screens/Ratings/Ratings.js';
 
 import CustomDrawer from './navigation/CustomDrawer';
 //import SplashScreen from './screens/Welcome/Welcome.js';
@@ -79,7 +79,7 @@ const App = () => {
           <Stack.Screen name="HelpCenter" component={HelpCenter} />
           <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
           <Stack.Screen name="FoodDetail" component={FoodDetail} />
-          <Stack.Screen name="Rating" component={Rating} />
+          <Stack.Screen name="Ratings" component={Ratings} />
 
         </Stack.Navigator>
       </NavigationContainer>
