@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header.js';
-import { SIZES, COLORS, icons } from '../../constants';
+import { FONTS, SIZES, COLORS, icons } from '../../constants';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -237,11 +237,13 @@ const styles = StyleSheet.create({
         fontSize: SIZES.h3,
         color: COLORS.black,
         fontWeight: 'bold',
+        fontFamily: FONTS.h1.fontFamily,
     },
     text:
     {
         fontSize: SIZES.h4,
         color: COLORS.black,
+        fontFamily: FONTS.body1.fontFamily,
     }
 });
 

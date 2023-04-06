@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: SIZES.h2,
         color: COLORS.black,
+        fontFamily: FONTS.POPPINS_BOLD,
     },
     button: {
         height: 60,

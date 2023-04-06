@@ -40,7 +40,7 @@ export default Cancellation = () => {
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Onboarding") }}>
-                            <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Continue</Text>
+                            <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Confirm your choice</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

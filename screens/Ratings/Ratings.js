@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header.js';
-import { SIZES, COLORS, icons } from '../../constants/index.js';
+import { FONTS, SIZES, COLORS, icons } from '../../constants/index.js';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -16,29 +16,46 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Display from '../../utils/Display.js';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export default Ratings = () => {
+    const [rating, setRating] = React.useState(0);
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <RatingHeader />
-            <View style={{marginVertical: 20}} />
+            <View style = {{flex: 4}}>
+                <View style={{ marginVertical: 20 }} />
                 <Image style={styles.image} source={require('../../assets/images/splash_image.jpg')} />
-                <View style={{marginVertical: 20}} />
+                <View style={{ marginVertical: 20 }} />
                 <Text style={styles.title}>How was your order?</Text>
-                <View style={{marginVertical: 10}} />
-                <Text style={styles.text}>Did you enjoy it? Please rate the restaurant</Text>
+                <View style={{ marginVertical: 15 }} />
+                <Text style={styles.text}>Did you enjoy it? Please rate your experience</Text>
+                <View style={{ marginVertical: 5 }} />
+                <View style={{ justifyContent: 'center', marginVertical: 20, display: 'flex', flexDirection: 'row' }}>
+                    <Star starNumber={1} onPress={() => setRating(1)} currentRating={rating} />
+                    <Star starNumber={2} onPress={() => setRating(2)} currentRating={rating} />
+                    <Star starNumber={3} onPress={() => setRating(3)} currentRating={rating} />
+                    <Star starNumber={4} onPress={() => setRating(4)} currentRating={rating} />
+                    <Star starNumber={5} onPress={() => setRating(5)} currentRating={rating} />
+                </View>
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Onboarding") }}>
+                            <Text style={{ fontSize: SIZES.h2, color: COLORS.white, fontFamily: FONTS.POPPINS_BOLD }}>Confirm your choice</Text>
+                        </TouchableOpacity>
+                    </View>
         </View>
     )
 }
 
-export const Star = ({number}) => {
+export const Star = ({ starNumber, onPress, currentRating }) => {
     return (
-        <TouchableOpacity onPress={() => setStarRating(number)}>
-            <MaterialIcons
-            name = {starRating >= number ? 'star' : 'star-border'}
-            size = {20}
-            style = {starRating >= number ? styles.unselected : styles.selected}
+        <TouchableOpacity onPress={onPress}>
+            <Entypo
+                name={currentRating >= starNumber ? 'star' : 'star-outlined'}
+                size={50}
+                style={{ color: COLORS.DEFAULT_YELLOW }}
             />
         </TouchableOpacity>
     )
@@ -60,16 +77,19 @@ export const RatingHeader = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginHorizontal: 10,
     },
     title: {
         textAlign: 'center',
         fontSize: SIZES.h1,
         color: COLORS.black,
+        fontFamily: FONTS.h1.fontFamily,
     },
     text: {
         textAlign: 'center',
         fontSize: SIZES.h2,
         color: COLORS.black,
+        fontFamily: FONTS.body1.fontFamily,
     },
     input: {
         height: 100,
@@ -94,8 +114,8 @@ const styles = StyleSheet.create({
     },
     image: {
         alignSelf: 'center',
-        width: Display.setWidth(60),
-        height: Display.setHeight(30),
+        width: Display.setWidth(80),
+        height: Display.setHeight(40),
         borderRadius: SIZES.padding,
     }
 })

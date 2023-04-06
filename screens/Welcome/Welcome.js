@@ -11,11 +11,11 @@ export default WelcomeScreen = () => (
 const WelcomeText = (props) => (
     <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
         <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginLeft: 20, marginRight: 20, marginBottom: 80 }}>
-            <Text style={{ textAlign: 'center', color: COLORS.green, fontSize: SIZES.largeTitle, textShadowColor: 'cyan', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>
+            <Text style={{ fontFamily: FONTS.POPPINS_BOLD, textAlign: 'center', color: COLORS.green, fontSize: SIZES.largeTitle, textShadowColor: 'cyan', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>
                 {props.name}
             </Text>
             <View style={{ marginTop: 15 }} />
-            <Text style={{ textAlign: 'center', color: COLORS.white, fontSize: SIZES.h2 }}>
+            <Text style={{ fontFamily: FONTS.POPPINS_BOLD, textAlign: 'center', color: COLORS.white, fontSize: SIZES.h2 }}>
                 {props.subtitle}
             </Text>
         </View>
