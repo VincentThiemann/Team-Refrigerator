@@ -3,47 +3,14 @@ import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet,
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import { firebaseConfig } from "../../firebase";
-import firebase from "firebase/compat/app";
 
 
 export const OTPCodeVerification = ({ navigation, route }) => {
     const [remember, setRemember] = useState(false);
-    const [code, setCode] = useState("312352");
-    const [verificationId, setVerificationId] = useState(null);
-    const recaptchaVerifier = useRef(null);
 
     //phone number
     const phoneNumber = route.params.test;
-    React.useEffect(() => {
-        console.log(phoneNumber);
-        const phoneProvider = new firebase.auth.PhoneAuthProvider();
-        phoneProvider
-             .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
-             .then(setVerificationId);
-    }, []);
-
-    const confirmCode = () => {
-        const credential = firebase.auth.PhoneAuthProvider.credential(
-            verificationId,
-            code
-        );
-        firebase
-            .auth()
-            .signInWithCredential(credential)
-            .then(() => {
-                setCode('');
-            })
-            .catch((error) => {
-                // show an alert in case of error
-                alert(error);
-            })
-        Alert.alert(
-            'Login Successful. Welcome to Dashboard.',
-        );
-
-    };
 
     var [textNum, setTextNum] = React.useState(1);
     //Refferences to 4 textInputs for OTP code
@@ -155,10 +122,6 @@ export const OTPCodeVerification = ({ navigation, route }) => {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
         >
-            <FirebaseRecaptchaVerifierModal
-                ref={recaptchaVerifier}
-                firebaseConfig={firebaseConfig}
-            />
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
                     style={{
@@ -449,7 +412,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
 
 
                 <Button
-                    onPress={confirmCode}
+                    onPress={()=> console.log("Verify")}
                     title="Verify"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
