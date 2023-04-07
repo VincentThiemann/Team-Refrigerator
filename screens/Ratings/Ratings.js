@@ -83,13 +83,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: SIZES.h1,
         color: COLORS.black,
-        fontFamily: FONTS.h1.fontFamily,
+        ...FONTS.h1,
     },
     text: {
         textAlign: 'center',
-        fontSize: SIZES.h2,
         color: COLORS.black,
-        fontFamily: FONTS.body1.fontFamily,
+        ...FONTS.body1,
     },
     input: {
         height: 100,

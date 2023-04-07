@@ -234,16 +234,14 @@ const styles = StyleSheet.create({
     },
     title:
     {
-        fontSize: SIZES.h3,
         color: COLORS.black,
         fontWeight: 'bold',
-        fontFamily: FONTS.h1.fontFamily,
+        ...FONTS.h3,
     },
     text:
     {
-        fontSize: SIZES.h4,
         color: COLORS.black,
-        fontFamily: FONTS.body1.fontFamily,
+        ...FONTS.h4,
     }
 });
 
