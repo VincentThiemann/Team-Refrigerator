@@ -19,6 +19,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
 import { OTPCodeVerification } from "./screens";
 import { Authentication } from "./screens";
+import 'expo-dev-client';
 
 const Stack = createStackNavigator();
 
