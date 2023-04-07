@@ -1,5 +1,31 @@
+import React from 'react';
+import Header from '../../components/Header.js';
+import { FONTS, SIZES, COLORS, icons } from '../../constants/index.js';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useNavigation } from '@react-navigation/native';
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Image,
+    StyleSheet,
+    ScrollView,
+    KeyboardAvoidingView,
+    Keyboard,
+    TouchableWithoutFeedback,
+    FlatList,
+} from 'react-native';
+import Display from '../../utils/Display.js';
+import { Entypo } from '@expo/vector-icons';
 
-
+export default Address = () => {
+    return (
+        <View>
+            
+        </View>
+    )
+}
 const styles = StyleSheet.create({
     container: {
         flex: 1,
