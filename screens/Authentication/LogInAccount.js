@@ -4,7 +4,6 @@ import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { auth } from "../../firebase"
-import { useUserAuth } from "../../context/UserAuthContext";
 
 export const LogInAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);
@@ -14,27 +13,11 @@ export const LogInAccount = ({ navigation }) => {
     const [pressed3, setPressed3] = React.useState(false);
     const [phoneNumber, setPhoneNumber] = React.useState("");
     const [result, setResult] = React.useState("");
-    const { setUpRecaptcha } = useUserAuth();
 
     function isPhoneNumberValid() {
         var pattern = /^\+[0-9\s\-\(\)]+$/;
         return phoneNumber.search(pattern) !== -1;
     }
-
-    const getOtp = async (e) => {
-        e.preventDefault();
-        console.log(phoneNumber)
-        if (!isPhoneNumberValid())
-            console.log("Please enter a valid phone number!");
-        try {
-            const response = await setUpRecaptcha(phoneNumber);
-            setResult(response);
-            setFlag(true);
-            navigation.navigate("OTPCodeVerification", { phoneNumber: phoneNumber, response: response })
-        } catch (err) {
-            console.log("Error", err.message);
-        }
-    };
 
     return (
         <KeyboardAwareScrollView
@@ -144,7 +127,7 @@ export const LogInAccount = ({ navigation }) => {
 
 
                 <Button
-                    onPress={getOtp}
+                    onPress={() => {navigation.navigate("OTPCodeVerification", {test: phoneNumber})}}
                     title="Sign in"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{

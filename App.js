@@ -19,7 +19,6 @@ import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
 import { OTPCodeVerification } from "./screens";
 import { Authentication } from "./screens";
-import { UserAuthContextProvider } from "./context/UserAuthContext";
 
 const Stack = createStackNavigator();
 
@@ -58,7 +57,6 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <UserAuthContextProvider>
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{ headerShown: false }}
@@ -82,7 +80,6 @@ const App = () => {
             } */}
           </Stack.Navigator>
         </NavigationContainer>
-      </UserAuthContextProvider>
     </Provider>
   )
 }

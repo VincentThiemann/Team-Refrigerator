@@ -1,15 +1,50 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, Keyboard } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon, Input } from '@rneui/themed';
+import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { color, Value } from "react-native-reanimated";
-import { auth } from "../../firebase";
-import { useUserAuth } from "../../context/UserAuthContext";
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
+import { firebaseConfig } from "../../firebase";
+import firebase from "firebase/compat/app";
 
 
 export const OTPCodeVerification = ({ navigation, route }) => {
-    const [remember, setRemember] = React.useState(false);
+    const [remember, setRemember] = useState(false);
+    const [code, setCode] = useState("312352");
+    const [verificationId, setVerificationId] = useState(null);
+    const recaptchaVerifier = useRef(null);
+
+    //phone number
+    const phoneNumber = route.params.test;
+    React.useEffect(() => {
+        console.log(phoneNumber);
+        const phoneProvider = new firebase.auth.PhoneAuthProvider();
+        phoneProvider
+             .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
+             .then(setVerificationId);
+    }, []);
+
+    const confirmCode = () => {
+        const credential = firebase.auth.PhoneAuthProvider.credential(
+            verificationId,
+            code
+        );
+        firebase
+            .auth()
+            .signInWithCredential(credential)
+            .then(() => {
+                setCode('');
+            })
+            .catch((error) => {
+                // show an alert in case of error
+                alert(error);
+            })
+        Alert.alert(
+            'Login Successful. Welcome to Dashboard.',
+        );
+
+    };
+
     var [textNum, setTextNum] = React.useState(1);
     //Refferences to 4 textInputs for OTP code
     const ref_input1 = React.useRef();
@@ -27,7 +62,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
     //Concatination of all teh 4 input textBoxes
     var [OTP_CODE, setOTP_CODE] = React.useState("");
     React.useEffect(() => {
-        console.log(OTP_CODE)
+        //console.log(OTP_CODE)
     }, [OTP_CODE]);
 
 
@@ -54,25 +89,6 @@ export const OTPCodeVerification = ({ navigation, route }) => {
             keyboardDidShowListener.remove();
         };
     }, []);
-
-    //phone number
-    const phoneNumber = route.params?.phoneNumber;
-    const { setUpRecaptcha } = useUserAuth();
-    const [otp, setOtp] = React.useState("312352");
-
-    const response = route.params.response;
-    const verifyOtp = async (e) => {
-        e.preventDefault();
-        if (otp === "" || otp === null) return;
-        try {
-            await result.confirm(otp);
-            navigation.navigate("Home");
-        } catch (err) {
-            console.log("Error occured");
-        }
-    };
-
-    
 
     const styles = StyleSheet.create({
         input: {
@@ -139,6 +155,10 @@ export const OTPCodeVerification = ({ navigation, route }) => {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
         >
+            <FirebaseRecaptchaVerifierModal
+                ref={recaptchaVerifier}
+                firebaseConfig={firebaseConfig}
+            />
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
                     style={{
@@ -429,7 +449,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
 
 
                 <Button
-                    onPress={getOtp}
+                    onPress={confirmCode}
                     title="Verify"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{

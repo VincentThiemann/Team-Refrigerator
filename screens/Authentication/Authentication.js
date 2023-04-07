@@ -3,25 +3,12 @@ import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 
 import { Button } from '@rneui/themed';
-import { auth } from "../../firebase"
-import { useUserAuth } from "../../context/UserAuthContext";
 
 export const Authentication = ({ navigation }) => {
     const [pressed1, setPressed1] = React.useState(false);
     const [pressed2, setPressed2] = React.useState(false);
     const [pressed3, setPressed3] = React.useState(false);
-    const { googleSignIn } = useUserAuth();
-    
 
-    const handleGoogleSignIn = async (e) => {
-        e.preventDefault();
-        try {
-          await googleSignIn();
-          navigate("Home");
-        } catch (error) {
-          console.log(error.stack);
-        }
-      };
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>

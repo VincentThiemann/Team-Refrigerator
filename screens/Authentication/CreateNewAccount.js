@@ -3,7 +3,6 @@ import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet,
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthenticationService } from '../../services';
 import { auth } from '../../firebase';
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
