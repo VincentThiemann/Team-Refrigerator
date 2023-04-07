@@ -4,9 +4,11 @@ import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { color, Value } from "react-native-reanimated";
+import { auth } from "../../firebase";
+import { useUserAuth } from "../../context/UserAuthContext";
 
 
-export const OTPCodeVerification = ({ navigation }) => {
+export const OTPCodeVerification = ({ navigation, route }) => {
     const [remember, setRemember] = React.useState(false);
     var [textNum, setTextNum] = React.useState(1);
     //Refferences to 4 textInputs for OTP code
@@ -27,6 +29,7 @@ export const OTPCodeVerification = ({ navigation }) => {
     React.useEffect(() => {
         console.log(OTP_CODE)
     }, [OTP_CODE]);
+
 
 
     const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
@@ -52,6 +55,24 @@ export const OTPCodeVerification = ({ navigation }) => {
         };
     }, []);
 
+    //phone number
+    const phoneNumber = route.params?.phoneNumber;
+    const { setUpRecaptcha } = useUserAuth();
+    const [otp, setOtp] = React.useState("312352");
+
+    const response = route.params.response;
+    const verifyOtp = async (e) => {
+        e.preventDefault();
+        if (otp === "" || otp === null) return;
+        try {
+            await result.confirm(otp);
+            navigation.navigate("Home");
+        } catch (err) {
+            console.log("Error occured");
+        }
+    };
+
+    
 
     const styles = StyleSheet.create({
         input: {
@@ -204,7 +225,7 @@ export const OTPCodeVerification = ({ navigation }) => {
                         }}
 
                         onKeyPress={(event) => {
-                            if (event.nativeEvent.key == "Backspace"){
+                            if (event.nativeEvent.key == "Backspace") {
                                 if (inputVal1 != "") {
                                     setInputVal1("")
                                 } else setOTP_CODE(OTP_CODE.slice(0, -1))
@@ -214,8 +235,8 @@ export const OTPCodeVerification = ({ navigation }) => {
                                 setInputVal1(event.nativeEvent.key)
                                 setTextNum(textNum + 1)
 
-                                if((event.nativeEvent.key != "Backspace"))
-                                ref_input2.current.focus()
+                                if ((event.nativeEvent.key != "Backspace"))
+                                    ref_input2.current.focus()
                             }
                         }}
 
@@ -261,11 +282,11 @@ export const OTPCodeVerification = ({ navigation }) => {
                             if (event.nativeEvent.key == "Backspace") {
                                 if (inputVal2 == "") {
                                     ref_input1.current.focus()
-                                    setTextNum(textNum - 1)   
-                                    setOTP_CODE(OTP_CODE.slice(0, -1))   
+                                    setTextNum(textNum - 1)
+                                    setOTP_CODE(OTP_CODE.slice(0, -1))
                                     setInputVal1("")
                                 } else setInputVal2("")
-                                
+
                             } else {
                                 setInputVal2(event.nativeEvent.key)
                                 setOTP_CODE(OTP_CODE + event.nativeEvent.key)
@@ -363,7 +384,7 @@ export const OTPCodeVerification = ({ navigation }) => {
                         onSubmitEditing={() => {
                             Keyboard.dismiss()
                         }}
-                        
+
                         onKeyPress={(event) => {
                             if (event.nativeEvent.key == "Backspace") {
                                 if (inputVal4 == "") {
@@ -371,7 +392,7 @@ export const OTPCodeVerification = ({ navigation }) => {
                                     setTextNum(textNum - 1)
                                     setInputVal3("")
                                 } else setInputVal4("")
-                                setOTP_CODE(OTP_CODE.slice(0, -1))    
+                                setOTP_CODE(OTP_CODE.slice(0, -1))
                             } else {
                                 setInputVal4(event.nativeEvent.key)
                                 setOTP_CODE(OTP_CODE + event.nativeEvent.key)
@@ -408,9 +429,7 @@ export const OTPCodeVerification = ({ navigation }) => {
 
 
                 <Button
-                    onPress={() => {
-                        console.log("Verify")
-                    }}
+                    onPress={getOtp}
                     title="Verify"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{

@@ -1,10 +1,10 @@
 import React from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon, Input } from '@rneui/themed';
+import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { color } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { auth } from "../../firebase"
+import { useUserAuth } from "../../context/UserAuthContext";
 
 export const LogInAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);
@@ -12,66 +12,34 @@ export const LogInAccount = ({ navigation }) => {
     const [pressed1, setPressed1] = React.useState(false);
     const [pressed2, setPressed2] = React.useState(false);
     const [pressed3, setPressed3] = React.useState(false);
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+    const [result, setResult] = React.useState("");
+    const { setUpRecaptcha } = useUserAuth();
 
-    const styles = StyleSheet.create({
-        input: {
-            position: "relative",
-            left: 0,
-            height: 60,
-            width: "100%",
-            borderRadius: 20,
-            marginVertical: 10,
-            borderWidth: 1,
-            backgroundColor: COLORS.lightGray2,
-            borderColor: COLORS.lightGray2,
-            padding: 10,
-            paddingLeft: 50
-        },
-        selectedInput: {
-            position: "relative",
-            left: 0,
-            height: 60,
-            width: "100%",
-            borderRadius: 20,
-            marginVertical: 10,
-            borderWidth: 1,
-            backgroundColor: COLORS.lightGreen2,
-            borderColor: COLORS.green,
-            padding: 10,
-            paddingLeft: 50
-        },
+    function isPhoneNumberValid() {
+        var pattern = /^\+[0-9\s\-\(\)]+$/;
+        return phoneNumber.search(pattern) !== -1;
+    }
 
-        inputProfileIcon: {
-            position: "relative",
-            left: 40,
-            zIndex: 30,
-            height: 20,
-            width: 20,
-            tintColor: COLORS.black
-        },
-
-        inputProfileIconSelected: {
-            position: "relative",
-            left: 40,
-            zIndex: 30,
-            height: 20,
-            width: 20,
-            tintColor: COLORS.green
-        },
-
-        inputVeiwStyle: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            flex: 1,
-        },
-    });
-
+    const getOtp = async (e) => {
+        e.preventDefault();
+        console.log(phoneNumber)
+        if (!isPhoneNumberValid())
+            console.log("Please enter a valid phone number!");
+        try {
+            const response = await setUpRecaptcha(phoneNumber);
+            setResult(response);
+            setFlag(true);
+            navigation.navigate("OTPCodeVerification", { phoneNumber: phoneNumber, response: response })
+        } catch (err) {
+            console.log("Error", err.message);
+        }
+    };
 
     return (
         <KeyboardAwareScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
@@ -130,13 +98,14 @@ export const LogInAccount = ({ navigation }) => {
                         onEndEditing={() => {
                             setEditting1(false)
                         }}
+                        onChangeText={text => setPhoneNumber(text)}
 
                         id="phoneNumber"
                         style={editting1 ? styles.selectedInput : styles.input}
                         placeholder="+1 000 000 000 "
                     />
                 </View>
-        
+
 
                 <View
                     style={{
@@ -175,10 +144,7 @@ export const LogInAccount = ({ navigation }) => {
 
 
                 <Button
-                    onPress={() => {
-                        navigation.navigate("OTPCodeVerification")
-                        console.log("Sign in")
-                    }}
+                    onPress={getOtp}
                     title="Sign in"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
@@ -281,7 +247,7 @@ export const LogInAccount = ({ navigation }) => {
                             size: 'large',
                             color: COLORS.green,
                         }}
-    
+
                         onPress={() => {
                             setPressed1(false)
                             setPressed2(true)
@@ -315,8 +281,8 @@ export const LogInAccount = ({ navigation }) => {
                             size: 'large',
                             color: COLORS.green,
                         }}
-        
-    
+
+
                         onPress={() => {
                             setPressed1(false)
                             setPressed2(false)
@@ -345,15 +311,15 @@ export const LogInAccount = ({ navigation }) => {
                     </Button>
                 </View>
 
-                <View style={{ flexDirection: "row", marginTop: 15}}>
-                    <Text style={{ color: COLORS.gray,  fontSize: 17}}>Don't have an account?</Text>
+                <View style={{ flexDirection: "row", marginTop: 15 }}>
+                    <Text style={{ color: COLORS.gray, fontSize: 17 }}>Don't have an account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate("CreateNewAccount")
                             console.log("Sign up")
                         }}
                     >
-                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17}}>  Sign up</Text>
+                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17 }}>  Sign up</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -362,3 +328,56 @@ export const LogInAccount = ({ navigation }) => {
     )
 }
 
+const styles = StyleSheet.create({
+    input: {
+        position: "relative",
+        left: 0,
+        height: 60,
+        width: "100%",
+        borderRadius: 20,
+        marginVertical: 10,
+        borderWidth: 1,
+        backgroundColor: COLORS.lightGray2,
+        borderColor: COLORS.lightGray2,
+        padding: 10,
+        paddingLeft: 50
+    },
+    selectedInput: {
+        position: "relative",
+        left: 0,
+        height: 60,
+        width: "100%",
+        borderRadius: 20,
+        marginVertical: 10,
+        borderWidth: 1,
+        backgroundColor: COLORS.lightGreen2,
+        borderColor: COLORS.green,
+        padding: 10,
+        paddingLeft: 50
+    },
+
+    inputProfileIcon: {
+        position: "relative",
+        left: 40,
+        zIndex: 30,
+        height: 20,
+        width: 20,
+        tintColor: COLORS.black
+    },
+
+    inputProfileIconSelected: {
+        position: "relative",
+        left: 40,
+        zIndex: 30,
+        height: 20,
+        width: 20,
+        tintColor: COLORS.green
+    },
+
+    inputVeiwStyle: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+    },
+});
