@@ -3,8 +3,9 @@ import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet,
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthenticationService } from '../../services';
 import { auth } from '../../firebase';
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
 
 export const CreateNewAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);
@@ -27,35 +28,34 @@ export const CreateNewAccount = ({ navigation }) => {
     const [usernameState, setUsernameState] = useState('default');
 
     useEffect(() => {
-        const subscribe = auth.onAuthStateChanged(user => {
-            if(user) {
+        const subscribe = onAuthStateChanged(auth, user => {
+            if (user) {
                 navigation.replace("CustomDrawer")
             }
         })
         return subscribe
-    },[])
+    }, [])
 
     const handleSignUp = () => {
-        auth.createUserWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log(user.email);
-        })
-        .catch(error => alert(error.message))
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log(user.email);
+            })
+            .catch(error => alert(error.message))
     }
 
     const handleLogin = () => {
-        auth.signInWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log("Logged in as ", user.email);
-            //navigate to home menu
-            navigation.re
-        })
-        .catch(error => alert(error.message))
+        signInWithEmailAndPassword(auth, email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log("Logged in as ", user.email);
+                //navigate to home menu
+                navigation.replace("Home")
+            })
+            .catch(error => alert(error.message))
     }
 
-    
     return (
         <KeyboardAwareScrollView
             showsHorizontalScrollIndicator={false}
@@ -382,14 +382,14 @@ export const CreateNewAccount = ({ navigation }) => {
                 </View>
 
                 <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: COLORS.gray, fontSize: 17}}>Already have an account?</Text>
+                    <Text style={{ color: COLORS.gray, fontSize: 17 }}>Already have an account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate("LogInAccount")
                             console.log("Sign In")
                         }}
                     >
-                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17}}>  Sign in</Text>
+                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17 }}>  Sign in</Text>
                     </TouchableOpacity>
 
                 </View>

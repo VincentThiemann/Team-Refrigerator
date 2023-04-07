@@ -8,20 +8,17 @@ import CustomDrawer from './navigation/CustomDrawer';
 import Onboarding from './screens/Onboarding/Onboarding.js';
 import HelpCenter from './screens/HelpCenter/HelpCenter.js';
 import FoodDetail from './screens/Food/FoodDetail';
+import CartTab from './screens/Cart/CartTab'
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-
 import { CreateNewAccount } from "./screens/Authentication/CreateNewAccount";
 import { LogInAccount } from "./screens";
-
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
 import { OTPCodeVerification } from "./screens";
-import Header from './components/Header';
 import { Authentication } from "./screens";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +38,8 @@ const App = () => {
     'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
   });
 
+  //authentication flow
+  const [isSignedIn, setIsSignedIn] = React.useState(false)
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
@@ -54,26 +53,33 @@ const App = () => {
     SplashScreen.hideAsync();
   }
 
+
+
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="FoodDetail"
-          screenOptions={{ headerShown: false }}
-        >
-
-          <Stack.Screen name="Onboarding" component={Onboarding} />
-          <Stack.Screen name="Authentication" component={Authentication} />
-          <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
-          <Stack.Screen name="LogInAccount" component={LogInAccount} />
-          <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
-          {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
-          <Stack.Screen name="HelpCenter" component={HelpCenter} />
-          <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
-          <Stack.Screen name="FoodDetail" component={FoodDetail} />
-
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+          >
+            {/* {!isSignedIn ? (
+              <> */}
+                <Stack.Screen name="Authentication" component={Authentication} />
+                <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
+                <Stack.Screen name="LogInAccount" component={LogInAccount} />
+                <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
+              {/* </>
+            ) :
+              (
+                <> */}
+                  <Stack.Screen name="Cart" component={CartTab} />
+                  <Stack.Screen name="HelpCenter" component={HelpCenter} />
+                  <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
+                  <Stack.Screen name="FoodDetail" component={FoodDetail} />
+                {/* </>
+              )
+            } */}
+          </Stack.Navigator>
+        </NavigationContainer>
     </Provider>
   )
 }
