@@ -5,17 +5,19 @@ import { useNavigation } from '@react-navigation/native';
 import {
     View,
     Text,
+    TextInput,
     TouchableOpacity,
     Image,
     StyleSheet,
     ScrollView,
-    TouchableWithoutFeedback,
+    KeyboardAvoidingView,
+    Keyboard,
+    FlatList,
 } from 'react-native';
 import Display from '../../utils/Display.js';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default Address = () => {
-    const navigation = useNavigation();
     const [currentlyPressed, setCurrentlyPressed] = React.useState(0);
     return (
         <View style={styles.container}>
@@ -35,7 +37,7 @@ export default Address = () => {
                     })
                 }
                 <View style={{marginVertical: 4}} />
-                <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate("NewAddress")}}>
+                <TouchableOpacity style={styles.button} onPress={() => { }}>
                     <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Add new address</Text>
                 </TouchableOpacity>
             </ScrollView>
@@ -82,8 +84,7 @@ const AddressItem = ({ id, title, detail, onPress, currentlyPressed }) => {
     }
     const Item = () => {
         return (
-            <View style={styles.item}>
-            <TouchableWithoutFeedback onPress={onPress}>
+            <TouchableOpacity style={styles.item} onPress={onPress}>
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                     <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
                         <Image style={styles.image} source={require('../../assets/icons/location.png')} tintColor={COLORS.green} />
@@ -97,8 +98,7 @@ const AddressItem = ({ id, title, detail, onPress, currentlyPressed }) => {
                         <CheckBox />
                     </View>
                 </View>
-            </TouchableWithoutFeedback>
-            </View>
+            </TouchableOpacity>
         )
     }
     return (<Item />)
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
+        fontSize: SIZES.h1,
         color: COLORS.black,
         ...FONTS.h2,
     },
@@ -126,6 +127,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: COLORS.black,
         ...FONTS.body3,
+    },
+    input: {
+        height: 100,
+        marginHorizontal: 20,
+        borderWidth: 1,
+        borderRadius: 15,
+        fontSize: SIZES.h3,
+        padding: 15,
+        borderWidth: 1,
+        borderColor: COLORS.lightGray1,
+        backgroundColor: COLORS.lightGray1,
     },
     button: {
         height: 60,

@@ -9,57 +9,22 @@ import {
     TouchableOpacity,
     Image,
     StyleSheet,
+    ScrollView,
     KeyboardAvoidingView,
     Keyboard,
-    TouchableWithoutFeedback
+    FlatList,
 } from 'react-native';
 import Display from '../../utils/Display.js';
 
 export default NewAddress = () => {
-    const navigation = useNavigation();
-    return (
-        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={{ flex: 1 }}>
-                    <NewAddressHeader />
-                    <View style={{ marginVertical: 10 }} />
-                    <Text style={styles.title}>NEW ADDRESS INFORMATION</Text>
-                    <View style={{ flex: 4, justifyContent: 'center' }}>
-                        <View style={{ marginVertical: 10 }} />
-                        <LocationInput type={"ADDRESS TYPE"} placeholder={"Type address type here..."} />
-                        <View style={{ marginVertical: 15 }} />
-                        <LocationInput type={"ADDRESS DETAIL"} placeholder={"Type address detail here..."} />
-                    </View>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Address") }}>
-                            <Text style={{ fontSize: SIZES.h2, color: COLORS.white }}>Submit</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-    )
-}
-
-export const NewAddressHeader = () => {
-    const navigation = useNavigation();
-    return (
-        <Header containerStyle={{ marginTop: 40, marginHorizontal: 20 }} title={"ADD NEW ADDRESS"}
-            leftComponent={
-                <TouchableOpacity onPress={() => { navigation.navigate("Address") }}>
-                    <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
-                </TouchableOpacity>
-            }
-        />
-    )
-}
-
-export const LocationInput = ({ type, content }) => {
     return (
         <View>
-            <Text style={styles.text}>{type}</Text>
-            <View style={{ marginVertical: 5 }} />
-            <TextInput style={styles.input} placeholder={content} />
+            <View style={{flex: 1}}>
+                
+            </View>
+            <View style={{flex: 1}}>
+
+            </View>
         </View>
     )
 }
@@ -71,24 +36,25 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
+        fontSize: SIZES.h1,
         color: COLORS.black,
-        ...FONTS.h2,
+        ...FONTS.h1,
     },
     text: {
         textAlign: 'center',
         color: COLORS.black,
-        ...FONTS.body2,
+        ...FONTS.body1,
     },
     input: {
-        height: 70,
+        height: 100,
         marginHorizontal: 20,
         borderWidth: 1,
         borderRadius: 15,
+        fontSize: SIZES.h3,
         padding: 15,
         borderWidth: 1,
         borderColor: COLORS.lightGray1,
         backgroundColor: COLORS.lightGray1,
-        ...FONTS.body3,
     },
     button: {
         height: 60,
