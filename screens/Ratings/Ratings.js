@@ -33,11 +33,11 @@ export default Ratings = () => {
                 <Text style={styles.text}>Did you enjoy it? Please rate your experience</Text>
                 <View style={{ marginVertical: 5 }} />
                 <View style={{ justifyContent: 'center', marginVertical: 20, display: 'flex', flexDirection: 'row' }}>
-                    <Star starNumber={1} currentRating={rating} />
-                    <Star starNumber={2} currentRating={rating} />
-                    <Star starNumber={3} currentRating={rating} />
-                    <Star starNumber={4} currentRating={rating} />
-                    <Star starNumber={5} currentRating={rating} />
+                    <Star starNumber={1} onPress={() => setRating(1)} currentRating={rating} />
+                    <Star starNumber={2} onPress={() => setRating(2)} currentRating={rating} />
+                    <Star starNumber={3} onPress={() => setRating(3)} currentRating={rating} />
+                    <Star starNumber={4} onPress={() => setRating(4)} currentRating={rating} />
+                    <Star starNumber={5} onPress={() => setRating(5)} currentRating={rating} />
                 </View>
                 </View>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -49,9 +49,9 @@ export default Ratings = () => {
     )
 }
 
-export const Star = ({ starNumber, currentRating }) => {
+export const Star = ({ starNumber, onPress, currentRating }) => {
     return (
-        <TouchableOpacity onPress={() => setRating(starNumber)}>
+        <TouchableOpacity onPress={onPress}>
             <Entypo
                 name={currentRating >= starNumber ? 'star' : 'star-outlined'}
                 size={50}

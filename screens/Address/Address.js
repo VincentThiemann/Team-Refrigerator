@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header.js';
 import { FONTS, SIZES, COLORS, icons } from '../../constants/index.js';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import {
     View,
@@ -10,20 +9,12 @@ import {
     Image,
     StyleSheet,
     ScrollView,
-<<<<<<< HEAD
     TouchableWithoutFeedback,
-=======
-    KeyboardAvoidingView,
-    Keyboard,
-    TouchableWithoutFeedback,
-    FlatList,
->>>>>>> parent of 83722e1 (Update)
 } from 'react-native';
 import Display from '../../utils/Display.js';
-import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default Address = () => {
-<<<<<<< HEAD
     const navigation = useNavigation();
     const [currentlyPressed, setCurrentlyPressed] = React.useState(0);
     return (
@@ -113,32 +104,32 @@ const AddressItem = ({ id, title, detail, onPress, currentlyPressed }) => {
     return (<Item />)
 }
 
-=======
-    return (
-        <View>
-            
-        </View>
-    )
-}
->>>>>>> parent of 83722e1 (Update)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 10,
+        justifyContent: 'center',
+    },
+    item: {
+        height: 80,
+        marginVertical: 8,
+        backgroundColor: COLORS.lightGray1,
+        borderRadius: 10,
+        borderColor: COLORS.black,
+        marginHorizontal: 20,
     },
     title: {
         textAlign: 'center',
         color: COLORS.black,
-        ...FONTS.h1,
+        ...FONTS.h2,
     },
     text: {
         textAlign: 'center',
         color: COLORS.black,
-        ...FONTS.body1,
+        ...FONTS.body3,
     },
     button: {
         height: 60,
-        width: '80%',
+        marginHorizontal: 80,
         paddingLeft: SIZES.radius,
         borderRadius: 50,
         backgroundColor: COLORS.green,
@@ -147,9 +138,7 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     image: {
-        alignSelf: 'center',
-        width: Display.setWidth(80),
-        height: Display.setHeight(40),
-        borderRadius: SIZES.padding,
+        width: 45,
+        height: 45,
     }
 })
