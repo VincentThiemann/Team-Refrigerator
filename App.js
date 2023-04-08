@@ -8,6 +8,7 @@ import WelcomeScreen from './screens/Welcome/Welcome.js';
 import Onboarding from './screens/Onboarding/Onboarding.js';
 import Cancellation from './screens/Cancellation/Cancellation.js';
 import Ratings from './screens/Ratings/Ratings.js';
+import Address from './screens/Address/Address.js';
 
 import CustomDrawer from './navigation/CustomDrawer';
 //import SplashScreen from './screens/Welcome/Welcome.js';
@@ -63,7 +64,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Ratings"
+          initialRouteName="Address"
           screenOptions={{ headerShown: false }}
         >
           {/* <Stack.Screen name="Home" component={CustomDrawer} /> */}
@@ -80,6 +81,7 @@ const App = () => {
           <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
           <Stack.Screen name="FoodDetail" component={FoodDetail} />
           <Stack.Screen name="Ratings" component={Ratings} />
+          <Stack.Screen name="Address" component={Address} />
 
         </Stack.Navigator>
       </NavigationContainer>
