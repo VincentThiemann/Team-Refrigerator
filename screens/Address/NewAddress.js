@@ -11,7 +11,7 @@ import {
     StyleSheet,
     KeyboardAvoidingView,
     Keyboard,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
 } from 'react-native';
 import Display from '../../utils/Display.js';
 

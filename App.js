@@ -8,8 +8,11 @@ import WelcomeScreen from './screens/Welcome/Welcome.js';
 import Onboarding from './screens/Onboarding/Onboarding.js';
 import Cancellation from './screens/Cancellation/Cancellation.js';
 import Ratings from './screens/Ratings/Ratings.js';
+<<<<<<< HEAD
 import Address from './screens/Address/Address.js';
 import NewAddress from './screens/Address/NewAddress.js';
+=======
+>>>>>>> parent of 83722e1 (Update)
 
 import CustomDrawer from './navigation/CustomDrawer';
 //import SplashScreen from './screens/Welcome/Welcome.js';
@@ -65,7 +68,11 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
+<<<<<<< HEAD
           initialRouteName="NewAddress"
+=======
+          initialRouteName="Ratings"
+>>>>>>> parent of 83722e1 (Update)
           screenOptions={{ headerShown: false }}
         >
           {/* <Stack.Screen name="Home" component={CustomDrawer} /> */}
@@ -82,8 +89,11 @@ const App = () => {
           <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
           <Stack.Screen name="FoodDetail" component={FoodDetail} />
           <Stack.Screen name="Ratings" component={Ratings} />
+<<<<<<< HEAD
           <Stack.Screen name="Address" component={Address} />
           <Stack.Screen name="NewAddress" component={NewAddress} />
+=======
+>>>>>>> parent of 83722e1 (Update)
 
         </Stack.Navigator>
       </NavigationContainer>
