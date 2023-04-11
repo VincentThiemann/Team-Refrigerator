@@ -20,7 +20,6 @@ import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
 import { OTPCodeVerification } from "./screens";
 import { Authentication } from "./screens";
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from "@react-native-firebase/auth";
 import 'expo-dev-client'
 

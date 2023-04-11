@@ -1,12 +1,3 @@
-import {
-FIREBASE_API_KEY,
-FIREBASE_AUTH_DOMAIN,
-FIREBASE_MESSAGER_SENDER_ID,
-FIREBASE_PROJECT_ID,
-FIREBASE_STORAGE_BUCKET,
-FIREBASE_APP_ID
-} from "@env"
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
@@ -16,12 +7,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 export const firebaseConfig = {
-    apiKey: FIREBASE_API_KEY,
-    authDomain: FIREBASE_AUTH_DOMAIN,
-    projectId: FIREBASE_PROJECT_ID,
-    storageBucket: FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: FIREBASE_MESSAGER_SENDER_ID,
-    appId: FIREBASE_APP_ID,
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain:  process.env.FIREBASE_AUTH_DOMAIN,
+    projectId:  process.env.FIREBASE_PROJECT_ID,
+    storageBucket:  process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId:  process.env.FIREBASE_MESSAGER_SENDER_ID,
+    appId:  process.env.FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
