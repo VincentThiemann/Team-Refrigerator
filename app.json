@@ -11,6 +11,6 @@
       "package": "com.lmd0612.fooddelivery",
       "googleServicesFile": "./google-services.json"
     },
-    "plugins": ["react-native-fbsdk-next"]
+    "plugins": ["@react-native-google-signin/google-signin"]
   }
 }

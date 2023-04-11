@@ -64,3 +64,6 @@ yarn.lock
 /ios/Pods/
 /vendor/bundle/
 
+#Environment variables
+.env
+
