@@ -4,7 +4,7 @@ import { MainLayout } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
-export default function Tab() {
+export default function TabNav() {
 
     return (
         <Tab.Navigator
