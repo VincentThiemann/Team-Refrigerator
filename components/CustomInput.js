@@ -1,21 +1,15 @@
-import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import React, {useState}  from 'react';
+import {View, TextInput, StyleSheet} from 'react-native';
 
 
 
-const CustomInput = (value, setValue, placeholder) => {
-
-constructor(props); {
-    super(props);
-    this.state = {value: ''};
-}
-
+const CustomInput = ({placeholder}) => {
+  const[val, setVal] = useState('');
 
   return (
     <View style={styles.container}>
       <TextInput
-      value={value}
-      onChangeText={(setValue) => this.setState(value , setValue)}
+      onChangeText={(text) => setVal(text)}
       placeholder={placeholder}
       style={styles.input}
       />
@@ -27,8 +21,10 @@ constructor(props); {
 
     container: {backgroundColor: 'white',
     width: '80%',
-    borderRadius: 5,
+    height: '5%',
+    borderRadius: 13,
     paddingHorizontal: 10,
+    paddingVertical: 13,
     marginVertical: 15,
     },
 

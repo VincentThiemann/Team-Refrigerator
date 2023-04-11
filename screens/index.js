@@ -15,11 +15,15 @@ import Favourite from "./Favourite/Favourite";
 // Notification
 import Notification from "./Notification/Notification"
 
+//EditProfile
+import EditProfile from "./EditProfile/EditProfile"
+
 export {
     MainLayout,
     Home,
     Search,
     CartTab,
     Favourite,
-    Notification
+    Notification,
+    EditProfile
 }

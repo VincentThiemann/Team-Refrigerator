@@ -4,12 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import CustomDrawer from './navigation/CustomDrawer';
 import SplashScreen from './screens/Welcome/Welcome.js';
+import {EditProfile} from './screens';
 import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
+import { MenuProvider } from 'react-native-popup-menu';
+
 
 const Stack = createStackNavigator();
 
@@ -17,14 +20,16 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const App = () => {
   return (
+    <MenuProvider>
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Onboarding1"
+          initialRouteName="EditProfile"
           screenOptions={{
             headerShown: false,
           }}
         >
+        <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="Home" component={CustomDrawer} />
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
@@ -34,6 +39,7 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
+    </MenuProvider>
   )
 }
 
