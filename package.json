@@ -28,6 +28,7 @@
     "firebase": "^9.19.1",
     "react": "18.1.0",
     "react-native": "0.70.8",
+    "react-native-fbsdk-next": "^11.2.1",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-input-style": "^1.0.2",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

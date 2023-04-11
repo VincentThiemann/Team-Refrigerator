@@ -5,14 +5,12 @@ import { createDrawerNavigator, DrawerContentScrollView } from "@react-navigatio
 import Animated from "react-native-reanimated";
 
 import { MainLayout } from '../screens'
-import { Tab } from './'
 
 import { COLORS, FONTS, SIZES, dummyData, icons } from '../constants'
 import constants from '../constants/constants'
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions'
-
-import { auth } from "../firebase"
+import auth from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
 const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
@@ -45,10 +43,11 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
     const handleSignOut = () => {
-        auth
+        auth()
         .signOut()
         .then(() => {
-            navigation.replace("Authentication")
+            navigation.replace("Authentication");
+            console.log('User signed out!');
         })
         .catch(error=>alert(error.message) )
     }

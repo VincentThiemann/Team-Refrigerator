@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView } from "react-native"
+import { Platform, ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { auth } from '../../firebase';
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import auth from '@react-native-firebase/auth';
 
 
 export const CreateNewAccount = ({ navigation }) => {
@@ -27,17 +26,9 @@ export const CreateNewAccount = ({ navigation }) => {
     const [emailState, setEmailState] = useState('default');
     const [usernameState, setUsernameState] = useState('default');
 
-    useEffect(() => {
-        const subscribe = onAuthStateChanged(auth, user => {
-            if (user) {
-                navigation.replace("CustomDrawer")
-            }
-        })
-        return subscribe
-    }, [])
-
     const handleSignUp = () => {
-        createUserWithEmailAndPassword(auth, email, password)
+        auth()
+            .createUserWithEmailAndPassword(email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
                 console.log(user.email);
@@ -46,7 +37,8 @@ export const CreateNewAccount = ({ navigation }) => {
     }
 
     const handleLogin = () => {
-        signInWithEmailAndPassword(auth, email, password)
+        auth()
+            .signInWithEmailAndPassword(email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
                 console.log("Logged in as ", user.email);
@@ -215,7 +207,7 @@ export const CreateNewAccount = ({ navigation }) => {
 
 
                 <Button
-                    onPress={handleLogin}
+                    onPress={handleSignUp}
                     title="Sign up"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
