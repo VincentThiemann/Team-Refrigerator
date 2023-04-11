@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import 'react-native-gesture-handler'
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,6 +19,8 @@ import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
 import { OTPCodeVerification } from "./screens";
 import { Authentication } from "./screens";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import auth from "@react-native-firebase/auth";
 import 'expo-dev-client';
 
 const Stack = createStackNavigator();
@@ -40,7 +42,46 @@ const App = () => {
   });
 
   //authentication flow
-  const [isSignedIn, setIsSignedIn] = React.useState(false)
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  GoogleSignin.configure({
+    webClientId: '675071634893-vtfk81icgitaf5rchkm1pdfaridehqn1.apps.googleusercontent.com',
+  });
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    const user_sign_in = auth().signInWithCredential(googleCredential);
+    user_sign_in
+    .then((user)=>{
+      console.log(user, "authenticated");
+    })
+    .catch((error)=>{
+      console.log(error.message);
+    });
+  }
+
+  if (initializing) return null;
+
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
@@ -54,33 +95,31 @@ const App = () => {
     SplashScreen.hideAsync();
   }
 
-
-
   return (
     <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{ headerShown: false }}
-          >
-            {/* {!isSignedIn ? (
-              <> */}
-                <Stack.Screen name="Authentication" component={Authentication} />
-                <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
-                <Stack.Screen name="LogInAccount" component={LogInAccount} />
-                <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
-              {/* </>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+        >
+          {!user ? (
+              <> 
+          <Stack.Screen name="Authentication" component={Authentication} />
+          <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
+          <Stack.Screen name="LogInAccount" component={LogInAccount} />
+          <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
+          </>
             ) :
               (
-                <> */}
-                  <Stack.Screen name="Cart" component={CartTab} />
-                  <Stack.Screen name="HelpCenter" component={HelpCenter} />
-                  <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
-                  <Stack.Screen name="FoodDetail" component={FoodDetail} />
-                {/* </>
+                <>
+          <Stack.Screen name="Cart" component={CartTab} />
+          <Stack.Screen name="HelpCenter" component={HelpCenter} />
+          <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
+          <Stack.Screen name="FoodDetail" component={FoodDetail} />
+          </>
               )
-            } */}
-          </Stack.Navigator>
-        </NavigationContainer>
+            }
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   )
 }
