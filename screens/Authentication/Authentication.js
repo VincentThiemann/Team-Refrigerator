@@ -5,6 +5,7 @@ import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button } from '@rneui/themed';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from "@react-native-firebase/auth";
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import 'expo-dev-client'
 
 export const Authentication = ({ navigation }) => {
@@ -23,6 +24,35 @@ export const Authentication = ({ navigation }) => {
 
         // Sign-in the user with the credential
         const user_sign_in = auth().signInWithCredential(googleCredential);
+        user_sign_in
+            .then((user) => {
+                console.log("authenticated");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    async function onFacebookButtonPress() {
+        // Attempt login with permissions
+        const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+
+        if (result.isCancelled) {
+            throw 'User cancelled the login process';
+        }
+
+        // Once signed in, get the users AccesToken
+        const data = await AccessToken.getCurrentAccessToken();
+
+        if (!data) {
+            throw 'Something went wrong obtaining access token';
+        }
+
+        // Create a Firebase credential with the AccessToken
+        const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+
+        // Sign-in the user with the credential
+        const user_sign_in = await auth().signInWithCredential(facebookCredential);
         user_sign_in
             .then((user) => {
                 console.log("authenticated");
@@ -83,10 +113,10 @@ export const Authentication = ({ navigation }) => {
                 }}
 
                 onPress={() => {
-                    console.log("Sign Up With Facebook")
                     setPressed1(true)
                     setPressed2(false)
                     setPressed3(false)
+                    onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))
 
                 }}
                 buttonStyle={{
