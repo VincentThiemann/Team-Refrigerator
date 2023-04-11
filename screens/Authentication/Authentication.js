@@ -3,6 +3,7 @@ import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 
 import { Button } from '@rneui/themed';
+import 'expo-dev-client';
 
 export const Authentication = ({ navigation }) => {
     const [pressed1, setPressed1] = React.useState(false);
