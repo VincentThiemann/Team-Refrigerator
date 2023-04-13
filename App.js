@@ -2,6 +2,14 @@ import React, { useCallback, useState, useEffect } from "react";
 import 'react-native-gesture-handler'
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
+// import CustomDrawer from './navigation/CustomDrawer';
+import WelcomeScreen from './screens/Welcome/Welcome.js';
+// import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
+import Onboarding from './screens/Onboarding/Onboarding.js';
+import Cancellation from './screens/Cancellation/Cancellation.js';
+import Ratings from './screens/Ratings/Ratings.js';
+import Address from './screens/Address/Address.js';
+import NewAddress from './screens/Address/NewAddress.js';
 
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
@@ -76,7 +84,6 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="Authentication"
         >
           {!user ? (
             <>

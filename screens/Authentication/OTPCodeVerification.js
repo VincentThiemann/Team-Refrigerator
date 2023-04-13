@@ -408,7 +408,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
                         </Text> s
                     </Text>
 
-                </View>
+                    </View>
 
 
                 <Button
