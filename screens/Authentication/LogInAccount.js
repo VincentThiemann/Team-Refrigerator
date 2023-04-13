@@ -1,10 +1,12 @@
 import React from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon, Input } from '@rneui/themed';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { color } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Button } from '@rneui/themed';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import auth from "@react-native-firebase/auth";
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+
 
 export const LogInAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);
@@ -12,61 +14,72 @@ export const LogInAccount = ({ navigation }) => {
     const [pressed1, setPressed1] = React.useState(false);
     const [pressed2, setPressed2] = React.useState(false);
     const [pressed3, setPressed3] = React.useState(false);
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+    const [result, setResult] = React.useState("");
 
-    const styles = StyleSheet.create({
-        input: {
-            position: "relative",
-            left: 0,
-            height: 60,
-            width: "100%",
-            borderRadius: 20,
-            marginVertical: 10,
-            borderWidth: 1,
-            backgroundColor: COLORS.lightGray2,
-            borderColor: COLORS.lightGray2,
-            padding: 10,
-            paddingLeft: 50
-        },
-        selectedInput: {
-            position: "relative",
-            left: 0,
-            height: 60,
-            width: "100%",
-            borderRadius: 20,
-            marginVertical: 10,
-            borderWidth: 1,
-            backgroundColor: COLORS.lightGreen2,
-            borderColor: COLORS.green,
-            padding: 10,
-            paddingLeft: 50
-        },
+    // If null, no SMS has been sent
+    const [confirm, setConfirm] = React.useState(null);
 
-        inputProfileIcon: {
-            position: "relative",
-            left: 40,
-            zIndex: 30,
-            height: 20,
-            width: 20,
-            tintColor: COLORS.black
-        },
+    // Handle the button press
+    async function signInWithPhoneNumber(phoneNumber) {
+        try {
+            const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+            navigation.navigate("OTPCodeVerification", { confirm: confirmation });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-        inputProfileIconSelected: {
-            position: "relative",
-            left: 40,
-            zIndex: 30,
-            height: 20,
-            width: 20,
-            tintColor: COLORS.green
-        },
-
-        inputVeiwStyle: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            flex: 1,
-        },
+    GoogleSignin.configure({
+        webClientId: '675071634893-vtfk81icgitaf5rchkm1pdfaridehqn1.apps.googleusercontent.com',
     });
 
+    const onGoogleButtonPress = async () => {
+        // Check if your device supports Google Play
+        await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+        // Get the users ID token
+        const { idToken } = await GoogleSignin.signIn();
+
+        // Create a Google credential with the token
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+        // Sign-in the user with the credential
+        const user_sign_in = auth().signInWithCredential(googleCredential);
+        user_sign_in
+            .then((user) => {
+                console.log("authenticated");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    async function onFacebookButtonPress() {
+        // Attempt login with permissions
+        const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+
+        if (result.isCancelled) {
+            throw 'User cancelled the login process';
+        }
+
+        // Once signed in, get the users AccesToken
+        const data = await AccessToken.getCurrentAccessToken();
+
+        if (!data) {
+            throw 'Something went wrong obtaining access token';
+        }
+
+        // Create a Firebase credential with the AccessToken
+        const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+
+        // Sign-in the user with the credential
+        return auth().signInWithCredential(facebookCredential);
+    }
+
+    function isPhoneNumberValid() {
+        var pattern = /^\+[0-9\s\-\(\)]+$/;
+        return phoneNumber.search(pattern) !== -1;
+    }
 
     return (
         <KeyboardAwareScrollView
@@ -130,13 +143,14 @@ export const LogInAccount = ({ navigation }) => {
                         onEndEditing={() => {
                             setEditting1(false)
                         }}
+                        onChangeText={text => setPhoneNumber(text)}
 
                         id="phoneNumber"
                         style={editting1 ? styles.selectedInput : styles.input}
                         placeholder="+1 000 000 000 "
                     />
                 </View>
-        
+
 
                 <View
                     style={{
@@ -176,9 +190,9 @@ export const LogInAccount = ({ navigation }) => {
 
                 <Button
                     onPress={() => {
-                        navigation.navigate("OTPCodeVerification")
-                        console.log("Sign in")
+                        signInWithPhoneNumber(phoneNumber)
                     }}
+
                     title="Sign in"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
@@ -251,7 +265,7 @@ export const LogInAccount = ({ navigation }) => {
                             setPressed1(true)
                             setPressed2(false)
                             setPressed3(false)
-                            console.log("Sign Up With Facebook")
+                            onFacebookButtonPress()
                         }}
 
                         buttonStyle={{
@@ -281,12 +295,12 @@ export const LogInAccount = ({ navigation }) => {
                             size: 'large',
                             color: COLORS.green,
                         }}
-    
+
                         onPress={() => {
                             setPressed1(false)
                             setPressed2(true)
                             setPressed3(false)
-                            console.log("Sign Up With Google")
+                            onGoogleButtonPress()
                         }}
                         buttonStyle={{
                             backgroundColor: 'transparent',
@@ -309,51 +323,53 @@ export const LogInAccount = ({ navigation }) => {
                         />
                     </Button>
 
-                    <Button
-                        loading={pressed3}
-                        loadingProps={{
-                            size: 'large',
-                            color: COLORS.green,
-                        }}
-        
-    
-                        onPress={() => {
-                            setPressed1(false)
-                            setPressed2(false)
-                            setPressed3(true)
-                            console.log("Sign Up With Apple")
-                        }}
-                        buttonStyle={{
-                            backgroundColor: 'transparent',
-                            borderColor: COLORS.lightGray1,
-                            borderWidth: 1,
-                            borderRadius: 15,
-                            height: 60,
-                        }}
-                        containerStyle={{
-                            width: 100,
-                            borderRadius: 15,
-                        }}
-                    >
-                        <Image
-                            source={icons.appleIcon}
-                            style={{
-                                width: 30,
-                                height: 30,
+                    {Platform.OS === 'ios' &&
+                        <Button
+                            loading={pressed3}
+                            loadingProps={{
+                                size: 'large',
+                                color: COLORS.green,
                             }}
-                        />
-                    </Button>
+
+
+                            onPress={() => {
+                                setPressed1(false)
+                                setPressed2(false)
+                                setPressed3(true)
+                                console.log("Sign Up With Apple")
+                            }}
+                            buttonStyle={{
+                                backgroundColor: 'transparent',
+                                borderColor: COLORS.lightGray1,
+                                borderWidth: 1,
+                                borderRadius: 15,
+                                height: 60,
+                            }}
+                            containerStyle={{
+                                width: 100,
+                                borderRadius: 15,
+                            }}
+                        >
+                            <Image
+                                source={icons.appleIcon}
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                }}
+                            />
+                        </Button>
+                    }
                 </View>
 
-                <View style={{ flexDirection: "row", marginTop: 15}}>
-                    <Text style={{ color: COLORS.gray,  fontSize: 17}}>Don't have an account?</Text>
+                <View style={{ flexDirection: "row", marginTop: 15 }}>
+                    <Text style={{ color: COLORS.gray, fontSize: 17 }}>Don't have an account?</Text>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate("CreateNewAccount")
                             console.log("Sign up")
                         }}
                     >
-                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17}}>  Sign up</Text>
+                        <Text style={{ color: COLORS.green, fontWeight: "bold", fontSize: 17 }}>  Sign up</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -362,3 +378,56 @@ export const LogInAccount = ({ navigation }) => {
     )
 }
 
+const styles = StyleSheet.create({
+    input: {
+        position: "relative",
+        left: 0,
+        height: 60,
+        width: "100%",
+        borderRadius: 20,
+        marginVertical: 10,
+        borderWidth: 1,
+        backgroundColor: COLORS.lightGray2,
+        borderColor: COLORS.lightGray2,
+        padding: 10,
+        paddingLeft: 50
+    },
+    selectedInput: {
+        position: "relative",
+        left: 0,
+        height: 60,
+        width: "100%",
+        borderRadius: 20,
+        marginVertical: 10,
+        borderWidth: 1,
+        backgroundColor: COLORS.lightGreen2,
+        borderColor: COLORS.green,
+        padding: 10,
+        paddingLeft: 50
+    },
+
+    inputProfileIcon: {
+        position: "relative",
+        left: 40,
+        zIndex: 30,
+        height: 20,
+        width: 20,
+        tintColor: COLORS.black
+    },
+
+    inputProfileIconSelected: {
+        position: "relative",
+        left: 40,
+        zIndex: 30,
+        height: 20,
+        width: 20,
+        tintColor: COLORS.green
+    },
+
+    inputVeiwStyle: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+    },
+});

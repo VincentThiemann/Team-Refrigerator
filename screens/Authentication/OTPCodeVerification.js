@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, Keyboard } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon, Input } from '@rneui/themed';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { color, Value } from "react-native-reanimated";
+import { Button } from '@rneui/themed';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import auth from '@react-native-firebase/auth';
 
 export const OTPCodeVerification = ({ navigation }) => {
 
@@ -56,7 +56,6 @@ export const OTPCodeVerification = ({ navigation }) => {
             keyboardDidShowListener.remove();
         };
     }, []);
-
 
     const styles = StyleSheet.create({
         input: {
@@ -201,6 +200,7 @@ export const OTPCodeVerification = ({ navigation }) => {
                         style={(OTPInput.length == 2 && isKeyboardVisible) ? styles.selectedInput : styles.input}
                         onPress={() => {
                             OTPInputRef.current.focus();
+
                         }}
                     >{OTPInput.substring(2, 3)}</Text>
 
@@ -246,7 +246,6 @@ export const OTPCodeVerification = ({ navigation }) => {
                         if (event.nativeEvent.key == "Backspace" && OTPInput.length == 0)
                             OTPInputRef.current.blur();
                             
-
                     }}
 
                     onChangeText={(Text) => {
@@ -311,9 +310,7 @@ export const OTPCodeVerification = ({ navigation }) => {
 
 
                 <Button
-                    onPress={() => {
-                        console.log("Verify")
-                    }}
+                    onPress={() => confirmCode()}
                     title="Verify"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{

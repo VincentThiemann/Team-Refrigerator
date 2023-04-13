@@ -10,22 +10,18 @@ import {
     StatusBar
 } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
-
 import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions';
-
 import { Home, Search, CartTab, Notification, Favourite, TransactionHistory} from './'
-
 import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants';
-
 import { Header } from '../components';
-
 import { auth } from "../firebase"
 import Display from '../utils/Display';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { TextInputComponent } from 'react-native';
 
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
@@ -96,6 +92,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
     const favTabColor = useSharedValue(COLORS.white);
     const notiTabFlex = useSharedValue(1);
     const notiTabColor = useSharedValue(COLORS.white);
+    const [toggleLocation, setToggleLocation] = React.useState(false);
 
 
     // reanimated styles
@@ -255,11 +252,15 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             {/* Header */}
             <Header
                 containerStyle={{
-                    height: Display.setHeight(14),
+                    position: "absolute",
+                    zIndex: 1,
+                    width: Display.setWidth(100),
+                    height: !toggleLocation ? Display.setHeight(14) : Display.setHeight(70),
                     paddingHorizontal: SIZES.padding,
                     paddingTop: 40,
-                    alignItems: "center",
                     backgroundColor: COLORS.green,
+                    borderBottomRightRadius: SIZES.radius,
+                    borderBottomLeftRadius: SIZES.radius,
                 }}
                 //title={selectedTab.toUpperCase()} //to upper case later
                 leftComponent={
@@ -280,12 +281,13 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                             </Text>
                         </View>
 
-                        <TouchableOpacity style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: SIZES.base,
-
-                        }}>
+                        <TouchableOpacity
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                marginTop: SIZES.base,
+                            }}
+                            onPress={() => setToggleLocation(!toggleLocation)}>
                             <Text style={{ ...FONTS.h3 }}>
                                 {dummyData?.myProfile?.address}
                             </Text>
@@ -302,11 +304,42 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
 
                         </TouchableOpacity>
 
+                        {toggleLocation &&
+                            <GooglePlacesAutocomplete
+                                placeholder='Search'
+                                styles={{
+                                    textInput: {
+                                        flex: 1,
+                                        ...FONTS.body3,
+                                        textAlign: 'left',
+                                        fontStyle: 'italic',
+                                        alignSelf: 'center',
+                                        textAlignVertical: "top"
+
+
+                                    },
+                                    textInputContainer: {
+                                        flexDirection: 'row',
+
+                                        alignItems: 'center',
+
+                                        paddingHorizontal: SIZES.radius,
+                                        borderRadius: SIZES.radius,
+                                        height: Display.setHeight(7),
+                                        width: Display.setWidth(70),
+                                        marginHorizontal: SIZES.padding,
+                                        marginVertical: SIZES.radius,
+
+                                    }
+                                }} />
+                        }
+
                     </View>
                 }
 
                 rightComponent={
-                    <View style = {{flexDirection: "row"}}>
+                    <View style={{ flexDirection: "row" }}>
+
                         {/* <TouchableOpacity
                             style={{
                                 width: 40,
@@ -322,7 +355,6 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                 }}
                             />
                         </TouchableOpacity> */}
-
                         
                         <TouchableOpacity
                             style={{
