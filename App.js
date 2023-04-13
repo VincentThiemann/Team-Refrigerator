@@ -56,10 +56,8 @@ const App = () => {
   });
 
   useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
   }, []);
 
   if (!fontsLoaded) {
@@ -71,7 +69,6 @@ const App = () => {
   if (initializing) return null;
 
   // import fonts here
-  
 
   return (
     <Provider store={store}>

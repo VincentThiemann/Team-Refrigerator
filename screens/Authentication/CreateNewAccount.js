@@ -8,6 +8,7 @@ import auth from "@react-native-firebase/auth";
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 
+
 export const CreateNewAccount = ({ navigation }) => {
     GoogleSignin.configure({
         webClientId: '675071634893-vtfk81icgitaf5rchkm1pdfaridehqn1.apps.googleusercontent.com',
@@ -31,7 +32,7 @@ export const CreateNewAccount = ({ navigation }) => {
     const [emailErrorMessage, setEmailErrorMessage] = useState('');
     const [emailState, setEmailState] = useState('default');
     const [usernameState, setUsernameState] = useState('default');
-
+    
     const onGoogleButtonPress = async () => {
         // Check if your device supports Google Play
         await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -74,7 +75,6 @@ export const CreateNewAccount = ({ navigation }) => {
         // Sign-in the user with the credential
         return auth().signInWithCredential(facebookCredential);
     }
-
     const handleSignUp = () => {
         auth()
             .createUserWithEmailAndPassword(email, password)

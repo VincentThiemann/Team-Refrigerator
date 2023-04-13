@@ -340,6 +340,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
 
                 rightComponent={
                     <View style={{ flexDirection: "row" }}>
+
                         {/* <TouchableOpacity
                             style={{
                                 width: 40,
@@ -355,8 +356,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                 }}
                             />
                         </TouchableOpacity> */}
-
-
+                        
                         <TouchableOpacity
                             style={{
                                 width: 40,

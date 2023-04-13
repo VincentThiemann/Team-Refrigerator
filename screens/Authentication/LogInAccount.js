@@ -16,6 +16,7 @@ export const LogInAccount = ({ navigation }) => {
     const [pressed3, setPressed3] = React.useState(false);
     const [phoneNumber, setPhoneNumber] = React.useState("");
     const [result, setResult] = React.useState("");
+
     // If null, no SMS has been sent
     const [confirm, setConfirm] = React.useState(null);
 
@@ -191,6 +192,7 @@ export const LogInAccount = ({ navigation }) => {
                     onPress={() => {
                         signInWithPhoneNumber(phoneNumber)
                     }}
+
                     title="Sign in"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
