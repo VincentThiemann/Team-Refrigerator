@@ -3,7 +3,10 @@ import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet 
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import auth from "@react-native-firebase/auth";
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+
 
 export const LogInAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);
@@ -20,13 +23,58 @@ export const LogInAccount = ({ navigation }) => {
     // Handle the button press
     async function signInWithPhoneNumber(phoneNumber) {
         try {
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        navigation.navigate("OTPCodeVerification", { confirm: confirmation });
+            const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+            navigation.navigate("OTPCodeVerification", { confirm: confirmation });
         } catch (error) {
             console.log(error);
         }
     }
 
+    GoogleSignin.configure({
+        webClientId: '675071634893-vtfk81icgitaf5rchkm1pdfaridehqn1.apps.googleusercontent.com',
+    });
+
+    const onGoogleButtonPress = async () => {
+        // Check if your device supports Google Play
+        await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+        // Get the users ID token
+        const { idToken } = await GoogleSignin.signIn();
+
+        // Create a Google credential with the token
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+        // Sign-in the user with the credential
+        const user_sign_in = auth().signInWithCredential(googleCredential);
+        user_sign_in
+            .then((user) => {
+                console.log("authenticated");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    async function onFacebookButtonPress() {
+        // Attempt login with permissions
+        const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+
+        if (result.isCancelled) {
+            throw 'User cancelled the login process';
+        }
+
+        // Once signed in, get the users AccesToken
+        const data = await AccessToken.getCurrentAccessToken();
+
+        if (!data) {
+            throw 'Something went wrong obtaining access token';
+        }
+
+        // Create a Firebase credential with the AccessToken
+        const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+
+        // Sign-in the user with the credential
+        return auth().signInWithCredential(facebookCredential);
+    }
 
     function isPhoneNumberValid() {
         var pattern = /^\+[0-9\s\-\(\)]+$/;
@@ -142,7 +190,9 @@ export const LogInAccount = ({ navigation }) => {
 
                 <Button
                     onPress={() => {
-                        signInWithPhoneNumber(phoneNumber)}}
+                        signInWithPhoneNumber(phoneNumber)
+                    }}
+
                     title="Sign in"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
@@ -215,7 +265,7 @@ export const LogInAccount = ({ navigation }) => {
                             setPressed1(true)
                             setPressed2(false)
                             setPressed3(false)
-                            console.log("Sign Up With Facebook")
+                            onFacebookButtonPress()
                         }}
 
                         buttonStyle={{
@@ -250,7 +300,7 @@ export const LogInAccount = ({ navigation }) => {
                             setPressed1(false)
                             setPressed2(true)
                             setPressed3(false)
-                            console.log("Sign Up With Google")
+                            onGoogleButtonPress()
                         }}
                         buttonStyle={{
                             backgroundColor: 'transparent',
@@ -273,40 +323,42 @@ export const LogInAccount = ({ navigation }) => {
                         />
                     </Button>
 
-                    <Button
-                        loading={pressed3}
-                        loadingProps={{
-                            size: 'large',
-                            color: COLORS.green,
-                        }}
-
-
-                        onPress={() => {
-                            setPressed1(false)
-                            setPressed2(false)
-                            setPressed3(true)
-                            console.log("Sign Up With Apple")
-                        }}
-                        buttonStyle={{
-                            backgroundColor: 'transparent',
-                            borderColor: COLORS.lightGray1,
-                            borderWidth: 1,
-                            borderRadius: 15,
-                            height: 60,
-                        }}
-                        containerStyle={{
-                            width: 100,
-                            borderRadius: 15,
-                        }}
-                    >
-                        <Image
-                            source={icons.appleIcon}
-                            style={{
-                                width: 30,
-                                height: 30,
+                    {Platform.OS === 'ios' &&
+                        <Button
+                            loading={pressed3}
+                            loadingProps={{
+                                size: 'large',
+                                color: COLORS.green,
                             }}
-                        />
-                    </Button>
+
+
+                            onPress={() => {
+                                setPressed1(false)
+                                setPressed2(false)
+                                setPressed3(true)
+                                console.log("Sign Up With Apple")
+                            }}
+                            buttonStyle={{
+                                backgroundColor: 'transparent',
+                                borderColor: COLORS.lightGray1,
+                                borderWidth: 1,
+                                borderRadius: 15,
+                                height: 60,
+                            }}
+                            containerStyle={{
+                                width: 100,
+                                borderRadius: 15,
+                            }}
+                        >
+                            <Image
+                                source={icons.appleIcon}
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                }}
+                            />
+                        </Button>
+                    }
                 </View>
 
                 <View style={{ flexDirection: "row", marginTop: 15 }}>

@@ -2,11 +2,12 @@ import React, { useState, useRef } from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, Keyboard } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button } from '@rneui/themed';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import auth from '@react-native-firebase/auth';
 
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import auth from '@react-native-firebase/auth';
 
 export const OTPCodeVerification = ({ navigation, route }) => {
     const [remember, setRemember] = useState(false);
@@ -40,7 +41,6 @@ export const OTPCodeVerification = ({ navigation, route }) => {
           console.log('Invalid code.');
         }
       }
-
 
     const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
 
