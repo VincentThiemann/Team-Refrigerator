@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header.js';
-import { SIZES, COLORS, icons } from '../../constants';
+import { FONTS, SIZES, COLORS, icons } from '../../constants';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -12,15 +12,15 @@ import {
     FlatList,
     StyleSheet,
     ScrollView,
-    Linking,
+    Linking
 } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
 const HelpCenter = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.green }}>
+    <View style={{ flex: 1 }}>
         <HelpCenterHeader />
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ tabBarLabelStyle: {fontSize: 16}, tabBarIndicatorStyle: {backgroundColor: COLORS.green}, tabBarActiveTintColor: COLORS.green, tabBarInactiveTintColor: COLORS.black }}>
             <Tab.Screen name="FAQ" component={FAQ} />
             <Tab.Screen name="CONTACT" component={ContactInfo} />
         </Tab.Navigator>
@@ -30,10 +30,10 @@ const HelpCenter = () => (
 export const HelpCenterHeader = () => {
     const navigation = useNavigation();
     return (
-        <Header containerStyle={{ marginHorizontal: 20, marginTop: 45, marginBottom: 20 }} title={"HELP CENTER"}
+        <Header containerStyle={{ marginHorizontal: 20, marginTop: 50, marginBottom: 20 }} title={"HELP CENTER"}
             leftComponent={
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate("Home") }}>
+                    onPress={() => { navigation.navigate("Splash") }}>
                     <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
                 </TouchableOpacity>
             }
@@ -122,6 +122,7 @@ const FAQItem = ({ question, answer }) => {
         if (pressed) {
             return <TouchableOpacity style={styles.largeItem} onPress={() => { setPressed(!pressed) }}>
                 <Text style={styles.title}>{question}</Text>
+                <Text />
                 <Text style={styles.text}>{answer}</Text>
             </TouchableOpacity>
         } else {
@@ -146,11 +147,11 @@ const ContactItem = ({ content, page }) => {
 export const FAQ = () => {
     const [requiredTopic, setRequiredTopic] = React.useState(0);
     return (
-        <View style={styles.container}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ flexDirection: 'row' }}>
-                <ScrollView horizontal={true}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(0) }}>
-                        <Text style={styles.title}>All topics</Text>
+                        <Text style={styles.title}>All Topics</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(1) }}>
                         <Text style={styles.title}>Topic 1</Text>
@@ -192,15 +193,14 @@ export const ContactInfo = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.white,
         alignItems: 'center',
         justifyContent: 'center',
     },
     category: {
-        height: 60,
-        width: 98,
+        height: 52,
+        width: 110,
         paddingLeft: SIZES.radius,
-        borderRadius: 15,
+        borderRadius: 28,
         backgroundColor: "transparent",
         borderColor: COLORS.green,
         justifyContent: 'center',
@@ -208,39 +208,40 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
         marginTop: 20,
-        marginHorizontal: 10
+        marginHorizontal: 10,
     },
     item: {
         height: 60,
         width: 350,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: COLORS.green,
+        backgroundColor: COLORS.white,
         justifyContent: 'center',
         alignItems: 'flex-start',
         padding: 15,
-        marginTop: 20
+        marginTop: 20,
     },
     largeItem: {
         height: 200,
         width: 350,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: COLORS.green,
+        backgroundColor: COLORS.white,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         padding: 15,
-        marginTop: 20
+        marginTop: 20,
     },
     title:
     {
-        fontSize: SIZES.h3,
         color: COLORS.black,
+        fontWeight: 'bold',
+        ...FONTS.h3,
     },
     text:
     {
-        fontSize: SIZES.h4,
         color: COLORS.black,
+        ...FONTS.h4,
     }
 });
 

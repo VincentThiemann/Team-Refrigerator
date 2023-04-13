@@ -1,295 +1,351 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Image,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
+    View,
+    Text,
+    Image,
+    TextInput,
+    FlatList, TouchableOpacity
 } from 'react-native';
-import {CategoryListItem, FoodCard, Separator} from '../components';
-import {ApiContants, Colors, Fonts, Images} from '../contants';
-import {RestaurantService, StaticImageService} from '../services';
-import {Display} from '../utils';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useDispatch, useSelector} from 'react-redux';
-import {BookmarkAction} from '../actions';
+import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
+import Search from '../Search/Search';
+import { HorizontalFoodCard, VerticalFoodCard } from '../../components';
 
-const ListHeader = () => (
-  <View
-    style={{
-      flexDirection: 'row',
-      flex: 1,
-      width: 40,
-      justifyContent: 'flex-end',
-    }}>
-    <View
-      style={{
-        backgroundColor: Colors.LIGHT_YELLOW,
-        width: 20,
-        borderTopLeftRadius: 64,
-        borderBottomLeftRadius: 64,
-      }}
-    />
-  </View>
-);
+const List = () => {
+    const [selectedCategoryId, setSelectedCategoryId] = React.useState(1);
+    const [selectedMenuType, setSelectedMenuType] = React.useState(1);
+    const [recommends, setRecommends] = React.useState([]);
+    const [menuList, setMenuList] = React.useState([]);
+    const [discounts, setDiscounts] = React.useState([]);
 
-const ListFooter = () => (
-  <View
-    style={{
-      flexDirection: 'row',
-      flex: 1,
-      width: 40,
-    }}>
-    <View
-      style={{
-        backgroundColor: Colors.LIGHT_YELLOW,
-        width: 20,
-        borderTopRightRadius: 64,
-        borderBottomRightRadius: 64,
-      }}
-    />
-  </View>
-);
+    React.useEffect(() => {
+        //handler
+        handleChangeCategory(selectedCategoryId, selectedMenuType)
+    }, []);
 
-const Restaurant = ({
-  navigation,
-  route: {
-    params: {restaurantId},
-  },
-}) => {
-  const [restaurant, setRestaurant] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  //const [isBookmarked, setIsBookmarked] = useState(false);
+    function handleChangeCategory(categoryId, menuTypeId) {
+        //retrieve discount data
+        let selectedDiscount = dummyData.menu.find(a => a.name == "Discount")
+        //retrieve recommened data
+        let selectedRecommend = dummyData.menu.find(a => a.name == "Recommended")
+        //find menu by menutypeid
+        let selectedMenu = dummyData.menu.find(a => a.id == menuTypeId)
 
-  useEffect(() => {
-    RestaurantService.getOneRestaurantById(restaurantId).then(response => {
-      setSelectedCategory(response?.data?.categories[0]);
-      setRestaurant(response?.data);
-    });
-  }, []);
+        //set recommened data
+        setRecommends(selectedRecommend?.list.filter(a => a.categories.includes(categoryId)))
+        //set the menu based on the categoryId
+        setMenuList(selectedMenu?.list.filter(a => a.categories.includes(categoryId)))
+        //set recommened data
+        setDiscounts(selectedDiscount?.list.filter(a => a.categories.includes(categoryId)))
+    }
 
-  const dispatch = useDispatch();
-  const isBookmarked = useSelector(
-    state =>
-      state?.bookmarkState?.bookmarks?.filter(
-        item => item?.restaurantId === restaurantId,
-      )?.length > 0,
-  );
-  const addBookmark = () =>
-    dispatch(BookmarkAction.addBookmark({restaurantId}));
-  const removeBookmark = () =>
-    dispatch(BookmarkAction.removeBookmark({restaurantId}));
-
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="default" translucent backgroundColor="transparent" />
-      <>
-        <Image
-          source={{
-            uri: StaticImageService.getGalleryImage(
-              restaurant?.images?.cover,
-              ApiContants.STATIC_IMAGE.SIZE.SQUARE,
-            ),
-          }}
-          style={styles.backgroundImage}
-        />
-        <ScrollView>
-          <Separator height={Display.setHeight(35)} />
-          <View style={styles.mainContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>{restaurant?.name}</Text>
-              <Ionicons
-                name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
-                color={Colors.DEFAULT_YELLOW}
-                size={24}
-                onPress={() =>
-                  isBookmarked ? removeBookmark() : addBookmark()
-                }
-              />
-            </View>
-            <Text style={styles.tagText}>{restaurant?.tags?.join(' • ')}</Text>
-            <View style={styles.ratingReviewsContainer}>
-              <FontAwesome
-                name="star"
-                size={18}
-                color={Colors.DEFAULT_YELLOW}
-              />
-              <Text style={styles.ratingText}>4.2</Text>
-              <Text style={styles.reviewsText}>(455 Reviews)</Text>
-            </View>
-            <View style={styles.deliveryDetailsContainer}>
-              <View style={styles.rowAndCenter}>
+    //render
+    function renderSearch() {
+        return (
+            <View
+                style={{
+                    flexDirection: 'row',
+                    height: 60,
+                    alignItems: 'center',
+                    marginHorizontal: SIZES.padding,
+                    marginVertical: SIZES.base,
+                    paddingHorizontal: SIZES.radius,
+                    borderRadius: SIZES.radius,
+                    backgroundColor: COLORS.lightGray2,
+                    borderColor: COLORS.lightGreen
+                }}
+            >
+                {/* Icon */}
                 <Image
-                  style={styles.deliveryDetailIcon}
-                  source={Images.DELIVERY_CHARGE}
+                    source={icons.search}
+                    style={{
+                        height: 20,
+                        width: 20,
+                        tintColor: COLORS.black,
+                    }}
                 />
-                <Text style={styles.deliveryDetailText}>Free Delivery</Text>
-              </View>
-              <View style={styles.rowAndCenter}>
-                <Image
-                  style={styles.deliveryDetailIcon}
-                  source={Images.DELIVERY_TIME}
+
+                {/* Text Input */}
+                <TextInput
+                    style={{
+                        flex: 1,
+                        marginLeft: SIZES.radius,
+                        marginRight: SIZES.radius,
+                        ...FONTS.body3,
+                        textAlign: 'left',
+                        fontStyle: 'italic',
+                        alignSelf: 'center',
+                        borderRadius: SIZES.radius,
+                        textAlignVertical: "top"
+                    }}
+                    placeholder="What are you craving?"
+                    placeholderTextColor={COLORS.black}
                 />
-                <Text style={styles.deliveryDetailText}>
-                  {restaurant?.time} min
-                </Text>
-              </View>
-              <View style={styles.rowAndCenter}>
-                <Image
-                  style={styles.deliveryDetailIcon}
-                  source={Images.MARKER}
-                />
-                <Text style={styles.deliveryDetailText}>
-                  {restaurant?.distance / 1000}km
-                </Text>
-              </View>
-              <View style={styles.restaurantType}>
-                <Text style={styles.restaurantTypeText}>
-                  {restaurant?.type}
-                </Text>
-              </View>
+
+                {/* filter */}
+                <TouchableOpacity
+                    onPress={() => console.log('filter')}
+                >
+                    <Image
+                        source={icons.filter}
+                        style={{
+                            height: 20,
+                            width: 20,
+                            tintColor: COLORS.black,
+                        }}
+                    />
+                </TouchableOpacity>
             </View>
-            <View style={styles.categoriesContainer}>
-              <FlatList
-                data={restaurant?.categories}
-                keyExtractor={item => item}
+        )
+    }
+
+    function renderMenuTypes() {
+        return (
+            <FlatList
                 horizontal
-                ListHeaderComponent={() => <ListHeader />}
-                ListFooterComponent={() => <ListFooter />}
+                data={dummyData.menu}
+                keyExtractor={(item) => `${item.id}`}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => (
-                  <CategoryListItem
-                    name={item}
-                    isActive={item === selectedCategory}
-                    selectCategory={category => setSelectedCategory(category)}
-                  />
+                contentContainerStyle={{
+                    marginTop: 0,
+                    marginBottom: 20
+                }}
+                renderItem={({ item, index }) => (
+                    <TouchableOpacity
+                        style={{
+                            flexDirection: 'row',
+                            height: 42,
+                            marginTop: SIZES.padding,
+                            marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
+                            marginRight: index == dummyData.menu.length - 1 ? SIZES.padding : 0,
+                            backgroundColor: selectedMenuType == item.id ? COLORS.lightGreen : COLORS.white,
+                            padding: 10,
+                            borderTopLeftRadius: 25,
+                            borderBottomRightRadius: 25,
+                            borderWidth: 1,
+                        }}
+                        onPress={() => {
+                            setSelectedMenuType(item.id)
+                            handleChangeCategory(selectedCategoryId, item.id)
+                        }
+
+                        }
+                    >
+                        <Text
+                            style={{
+                                color: selectedMenuType == item.id ? COLORS.white : COLORS.lightGreen,
+                                alignSelf: 'center',
+                                ...FONTS.h5,
+                                marginHorizontal: 12
+                            }}
+                        >
+                            {item.name}
+                        </Text>
+                    </TouchableOpacity>
+
                 )}
-              />
-            </View>
-            <View style={styles.foodList}>
-              {restaurant?.foods
-                ?.filter(food => food?.category === selectedCategory)
-                ?.map(item => (
-                  <FoodCard
-                    key={item?.id}
-                    {...item}
-                    navigate={() =>
-                      navigation.navigate('Food', {foodId: item?.id})
-                    }
-                  />
-                ))}
-              <Separator height={Display.setHeight(2)} />
-            </View>
-          </View>
-        </ScrollView>
-      </>
-    </View>
-  );
-};
+            />
+        )
+    }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  backgroundImage: {
-    position: 'absolute',
-    top: 0,
-    height: Display.setWidth(100),
-    width: Display.setWidth(100),
-  },
-  mainContainer: {
-    backgroundColor: Colors.SECONDARY_WHITE,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginHorizontal: 25,
-    marginTop: 15,
-  },
-  title: {
-    fontSize: 23,
-    lineHeight: 23 * 1.4,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-    color: Colors.DEFAULT_BLACK,
-  },
-  tagText: {
-    marginHorizontal: 25,
-    marginTop: 5,
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-    color: Colors.DEFAULT_GREY,
-  },
-  ratingReviewsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 25,
-    marginTop: 10,
-  },
-  ratingText: {
-    marginLeft: 5,
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_BOLD,
-    color: Colors.DEFAULT_BLACK,
-  },
-  reviewsText: {
-    marginLeft: 5,
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    color: Colors.DEFAULT_BLACK,
-  },
-  deliveryDetailsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 25,
-    marginTop: 10,
-    justifyContent: 'space-between',
-  },
-  deliveryDetailText: {
-    marginLeft: 3,
-    fontSize: 12,
-    lineHeight: 12 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    color: Colors.DEFAULT_BLACK,
-  },
-  deliveryDetailIcon: {
-    height: 16,
-    width: 16,
-  },
-  rowAndCenter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  restaurantType: {
-    backgroundColor: Colors.LIGHT_YELLOW,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 8,
-  },
-  restaurantTypeText: {
-    fontSize: 12,
-    lineHeight: 12 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    color: Colors.DEFAULT_YELLOW,
-  },
-  categoriesContainer: {
-    marginVertical: 20,
-  },
-  foodList: {
-    marginHorizontal: 15,
-  },
-});
+    function renderRecommendedSection() {
+        return (
+            <Section
+                title="Recommended for you"
+                onPress={() => console.log("See All")}
+            >
+                {renderMenuTypes()}
+            </Section>
+        )
+    }
 
-export default Restaurant;
+    function renderDiscountSection() {
+        return (
+            <Section
+                title="Discount Guaranteed"
+                onPress={() => console.log("See All")}
+            >
+                <FlatList
+                    data={discounts}
+                    keyExtractor={(item) => `${item.id}`}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{
+                        marginTop: 20
+                    }}
+                    renderItem={({ item, index }) => (
+                        <VerticalFoodCard
+                            containerStyle={{
+                                marginLeft: index == 0 ? SIZES.padding : 18,
+                                marginRight: index ==
+                                    discounts.length - 1 ? SIZES.padding : 0,
+                                paddingRight: SIZES.radius,
+                                alignItems: "center"
+                            }}
+                            item={item}
+                            onPress={() => console.log("Vertical Food Card")}
+                        />
+                    )}
+                />
+            </Section>
+        )
+    }
+
+    function renderFoodCategories() {
+        return (
+            <FlatList
+                data={dummyData.categories}
+                keyExtractor={(item) => `${item.id}`}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                    <TouchableOpacity
+                        style={{
+                            flexDirection: 'row',
+                            height: 55,
+                            marginTop: SIZES.padding,
+                            marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
+                            marginRight: index == dummyData.categories.length - 1 ? SIZES.padding : 0,
+                            paddingHorizontal: 0,
+                            borderRadius: SIZES.radius,
+                            backgroundColor: selectedCategoryId == item.id ? COLORS.lightGreen : COLORS.white,
+                        }}
+                        onPress={() => {
+                            setSelectedCategoryId(item.id)
+                            handleChangeCategory(item.id, selectedMenuType)
+                        }}
+                    >
+                        <Image
+                            source={item.icon}
+                            style={{
+                                height: 50,
+                                width: 50,
+                                marginTop: 5,
+                            }}
+                        />
+                        <Text
+                            style={{
+                                alignSelf: 'center',
+                                marginRight: SIZES.base,
+                                color: selectedCategoryId == item.id ? COLORS.white : COLORS.black,
+                                ...FONTS.h3,
+                            }}
+                        >
+                            {item.name}
+                        </Text>
+
+                    </TouchableOpacity>
+
+                )}
+            />
+
+        )
+    }
+
+    function renderDeliveryTo() {
+        return (
+            <View
+                style={{
+                    marginTop: SIZES.padding,
+                    marginHorizontal: SIZES.padding,
+                }}
+            >
+                <Text
+                    style={{
+                        color: COLORS.lightGreen,
+                        ...FONTS.body3,
+                    }}
+                >
+                    Deliver to
+                </Text>
+
+                <TouchableOpacity style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: SIZES.base,
+
+                }}>
+                    <Text style={{ ...FONTS.h3 }}>
+                        {dummyData?.myProfile?.address}
+                    </Text>
+
+                    <Image
+                        source={icons.down_arrow}
+                        style={{
+                            marginLeft: SIZES.base,
+                            height: 20,
+                            width: 20,
+                            tintColor: COLORS.green,
+                        }}
+                    />
+
+                </TouchableOpacity>
+
+            </View>
+        )
+    }
+
+    return (<FlatList
+        data={menuList}
+        keyExtractor={(item) => `${item.id}`}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+            <View>
+                <Section
+                    title="Special Offers"
+                    onPress={() => console.log("See All")}
+                >
+                    <FlatList
+                        data={dummyData.offers}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <HorizontalFoodCard
+                                containerStyle={{
+                                    height: 180,
+                                    width: SIZES.width * 0.85,
+                                    marginLeft: index == 0 ? SIZES.padding : 18,
+                                    marginRight: index ==
+                                        dummyData.offers.length - 1 ? SIZES.padding : 0,
+                                    paddingRight: SIZES.radius,
+                                    alignItems: "center",
+                                    marginTop: 20,
+                                }}
+                                imageStyle={{
+                                    height: 180,
+                                    width: SIZES.width * 0.85,
+                                }}
+                                item={item}
+                                onPress={() => console.log("Horiontal Food Card")}
+                            />
+                        )}
+                    />
+                </Section>
+                {renderRecommendedSection()}
+
+            </View>
+        }
+
+        renderItem={({ item, index }) => {
+            return (
+                <HorizontalFoodCard
+                    item={item}
+                    containerStyle={{
+                        height: 130,
+                        alignItems: 'center',
+                        marginHorizontal: SIZES.padding,
+                        marginBottom: SIZES.radius,
+                    }}
+                    imageStyle={{
+                        marginTop: 20,
+                        height: 110,
+                        width: 110,
+                    }}
+                    onPress={() => console.log("Horizonal Food Card")}
+                />
+            )
+        }}
+    />)
+}
+
+export default List;
