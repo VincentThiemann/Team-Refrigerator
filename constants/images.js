@@ -8,7 +8,7 @@ export default {
     FAVORITE: require('../assets/images/favorite.png'),
     FACEBOOK: require('../assets/images/facebook.png'),
     GOOGLE: require('../assets/images/google.png'),
-    LOADING: require('../assets/images/loading.json'),
+   // LOADING: require('../assets/images/loading.json'),
     FRIED_CHICKEN: require('../assets/images/fried_chicken.png'),
     BURGER: require('../assets/images/burger.png'),
     PIZZA: require('../assets/images/pizza.png'),

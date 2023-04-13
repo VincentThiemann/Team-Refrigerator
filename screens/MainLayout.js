@@ -18,7 +18,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions';
 
-import { Home, Search, CartTab, Notification, Favourite } from './'
+import { Home, Search, CartTab, Notification, Favourite, TransactionHistory} from './'
 
 import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants';
 
@@ -228,8 +228,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
         else {
             notiTabFlex.value = withTiming(1, { duration: 500 })
             notiTabColor.value = withTiming(COLORS.white, { duration: 500 })
-        }
-
+        } 
 
     }, [selectedTab])
 
@@ -389,12 +388,12 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                     width: SIZES.width,
                                 }}
                             >
-                                {item.label == constants.screens.home && <Home />}
-                                {item.label == constants.screens.search && <Search />}
-                                {item.label == constants.screens.cart && <CartTab />}
-                                {item.label == constants.screens.favourite && <Favourite />}
-                                {item.label == constants.screens.notification && <Notification />}
-
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.home && <Home />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.search && <Search />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.cart && <CartTab />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.favourite && <Favourite />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.notification && <Notification />}
+                                {selectedTab == constants.screens.my_wallet && <TransactionHistory />}
 
                             </View>
                         )

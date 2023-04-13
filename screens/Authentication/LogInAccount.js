@@ -72,6 +72,7 @@ export const LogInAccount = ({ navigation }) => {
         <KeyboardAwareScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
@@ -99,8 +100,7 @@ export const LogInAccount = ({ navigation }) => {
                     style={{
                         width: 100,
                         height: 100,
-                        margin: 20,
-                        marginTop: 90,
+                        marginTop: 80,
                         borderRadius: 900
                     }}
                 />
