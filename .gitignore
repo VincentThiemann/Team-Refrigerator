@@ -67,3 +67,4 @@ yarn.lock
 #Environment variables
 .env
 ./expo
+

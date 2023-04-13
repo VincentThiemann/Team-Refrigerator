@@ -5,7 +5,6 @@ import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import auth from '@react-native-firebase/auth';
 
-
 export const LogInAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);
     const [editting1, setEditting1] = React.useState(false);
@@ -14,6 +13,7 @@ export const LogInAccount = ({ navigation }) => {
     const [pressed3, setPressed3] = React.useState(false);
     const [phoneNumber, setPhoneNumber] = React.useState("");
     const [result, setResult] = React.useState("");
+
     // If null, no SMS has been sent
     const [confirm, setConfirm] = React.useState(null);
 
@@ -26,6 +26,7 @@ export const LogInAccount = ({ navigation }) => {
             console.log(error);
         }
     }
+
 
     function isPhoneNumberValid() {
         var pattern = /^\+[0-9\s\-\(\)]+$/;
