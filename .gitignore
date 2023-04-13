@@ -66,4 +66,5 @@ yarn.lock
 
 #Environment variables
 .env
-./expo
+.expo
+package-lock.json
