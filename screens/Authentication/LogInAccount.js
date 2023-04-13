@@ -3,7 +3,7 @@ import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet 
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { auth } from "../../firebase"
+
 
 export const LogInAccount = ({ navigation }) => {
     const [remember, setRemember] = React.useState(false);

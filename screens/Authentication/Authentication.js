@@ -36,31 +36,24 @@ export const Authentication = ({ navigation }) => {
     async function onFacebookButtonPress() {
         // Attempt login with permissions
         const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-
+      
         if (result.isCancelled) {
-            throw 'User cancelled the login process';
+          throw 'User cancelled the login process';
         }
-
+      
         // Once signed in, get the users AccesToken
         const data = await AccessToken.getCurrentAccessToken();
-
+      
         if (!data) {
-            throw 'Something went wrong obtaining access token';
+          throw 'Something went wrong obtaining access token';
         }
-
+      
         // Create a Firebase credential with the AccessToken
         const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
-
+      
         // Sign-in the user with the credential
-        const user_sign_in = await auth().signInWithCredential(facebookCredential);
-        user_sign_in
-            .then((user) => {
-                console.log("authenticated");
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+        return auth().signInWithCredential(facebookCredential);
+      }
 
     const [pressed1, setPressed1] = React.useState(false);
     const [pressed2, setPressed2] = React.useState(false);
