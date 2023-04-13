@@ -9,12 +9,6 @@ import auth from '@react-native-firebase/auth';
 
 export const OTPCodeVerification = ({ navigation, route }) => {
     const [remember, setRemember] = useState(false);
-    // If null, no SMS has been sent
-    const [confirm, setConfirm] = useState(null);
-
-    //phone number
-    const phoneNumber = route.params.test;
-
     var [textNum, setTextNum] = React.useState(1);
     //Refferences to 4 textInputs for OTP code
     const ref_input1 = React.useRef();
@@ -33,8 +27,18 @@ export const OTPCodeVerification = ({ navigation, route }) => {
     var [OTP_CODE, setOTP_CODE] = React.useState("312352");
     React.useEffect(() => {
         console.log(OTP_CODE)
-        console.log(phoneNumber)
+        console.log(confirm)
     }, [OTP_CODE]);
+
+    const confirm = route.params.confirm
+
+    async function confirmCode() {
+        try {
+          await confirm.confirm(OTP_CODE);
+        } catch (error) {
+          console.log('Invalid code.');
+        }
+      }
 
     const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
 
@@ -58,16 +62,6 @@ export const OTPCodeVerification = ({ navigation, route }) => {
             keyboardDidShowListener.remove();
         };
     }, []);
-
-    async function confirmCode() {
-        const confirmation = auth().signInWithPhoneNumber(phoneNumber);
-        setConfirm(confirmation);
-        try {
-          await confirm.confirm(OTP_CODE);
-        } catch (error) {
-          console.log('Invalid code.');
-        }
-      }
 
     const styles = StyleSheet.create({
         input: {
