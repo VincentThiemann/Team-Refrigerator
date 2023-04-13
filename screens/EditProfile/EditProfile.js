@@ -63,11 +63,12 @@ const EditProfile = () => {
             
             {/* Date Picker */}
             <View style = {styles.container}>
-                <TouchableOpacity onPress={showDatePicker}>
+                <TouchableOpacity onPress={showDatePicker} styles={styles.touch}>
                     <Text style = {{color: dateColor}}>{text}</Text>
-                </TouchableOpacity>
-                <Image style = {{width: 40, height: 40, resizeMode: 'contain', marginLeft: 175, marginVertical: -12}} 
+                    <Image style = {{width: 40, height: 40, resizeMode: 'contain', padding: 10}} 
                 source = {icons.calendar}/>
+                </TouchableOpacity>
+                
             </View>
 
             {/* Gender Picker */}
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
         paddingVertical: 13,
         marginVertical: 15,
         flexDirection: 'row',
+        justifyContent: 'left',
     },
 
     placeholderColor:{
@@ -156,6 +158,14 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginLeft: 175,
         marginVertical: -12
+    },
+
+    touch: {
+        flex: 1,
+        paddingTop: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        paddingLeft: 0,
     },
 
 
