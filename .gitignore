@@ -58,8 +58,14 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+yarn.lock
 
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
-yarn.lock
+
+#Environment variables
+.env
+.expo
+package-lock.json
+

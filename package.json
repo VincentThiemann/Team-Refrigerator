@@ -10,30 +10,48 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@expo/ngrok": "^4.1.0",
     "@react-native-community/datetimepicker": "6.5.2",
     "@react-native-picker/picker": "^2.4.8",
+    "@react-native-firebase/app": "^17.4.2",
+    "@react-native-firebase/auth": "^17.4.2",
+    "@react-native-google-signin/google-signin": "^9.0.2",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/drawer": "^6.6.2",
+    "@react-navigation/material-top-tabs": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
-    "expo": "^47.0.0",
     "moment": "^2.29.4",
+    "@rneui/base": "^0.0.0-edge.2",
+    "@rneui/themed": "^0.0.0-edge.2",
+    "axios": "^1.3.4",
+    "expo": "^47.0.13",
+    "expo-dev-client": "~2.0.1",
+    "expo-linear-gradient": "~12.0.1",
+    "expo-splash-screen": "~0.17.5",
+    "firebase": "^9.19.1",
     "react": "18.1.0",
-    "react-native": "0.70.5",
+    "react-native": "0.70.8",
+    "react-native-dotenv": "^3.4.8",
+    "react-native-fbsdk-next": "^11.2.1",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-modal-datetime-picker": "^14.0.1",
     "react-native-popup-menu": "^0.16.1",
+    "react-native-google-places-autocomplete": "^2.5.1",
+    "react-native-input-style": "^1.0.2",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-linear-gradient": "^2.6.2",
+    "react-native-pager-view": "6.0.1",
     "react-native-reanimated": "~2.12.0",
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "~3.18.0",
-    "react-navigation": "^4.4.4",
+    "react-native-tab-view": "^3.5.1",
+    "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.19.3",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.6.3",
@@ -44,5 +62,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "projectConfig": {
+    "backendApiBaseUrl": "http://192.168.1.10:3000"
   }
 }

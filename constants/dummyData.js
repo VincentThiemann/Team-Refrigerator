@@ -7,11 +7,20 @@ const myProfile = {
     address: " empty address",
 }
 
+const offers = [
+    {
+        id: 1,
+        name: "Coupon 1",
+        image: images.coupon,
+    }
+]
+
 const categories = [
     {
         id: 1,
         name: "Fast Food",
         icon: icons.burger
+        
     },
     {
         id: 2,
@@ -72,52 +81,62 @@ const wrapSandwich = {
 const menu = [
     {
         id: 1,
-        name: "Featured",
-        list: [
-            hamburger, hotTacos, vegBiryani,
-        ]
-    },
-    {
-        id: 2,
-        name: "Nearby you",
-        list: [
-            hamburger, vegBiryani, wrapSandwich,
-        ]
-    },
-    {
-        id: 3,
-        name: "Popular",
-        list: [
-            hamburger, hotTacos, wrapSandwich,
-        ]
-    },
-    {
-        id: 4,
-        name: "Newest",
-        list: [
-            hamburger, hotTacos, vegBiryani,
-        ]
-    },
-    {
-        id: 5,
-        name: "Trending",
-        list: [
-            hamburger, vegBiryani, wrapSandwich,
-        ]
-    },
-    {
-        id: 6,
         name: "Recommended",
         list: [
             hamburger, hotTacos, wrapSandwich,
         ]
     },
+    {
+        id: 2,
+        name: "Hamburger",
+        list: [
+            hamburger
+        ]
+    },
+    {
+        id: 3,
+        name: "Pizza",
+        list: [
+            
+        ]
+    },
+    {
+        id: 4,
+        name: "Noddles",
+        list: [
+            
+        ]
+    },
+    {
+        id: 5,
+        name: "Indian",
+        list: [
+            vegBiryani,
+        ]
+    },
+    {
+        id: 6,
+        name: "Dessert",
+        list: [
+        
+        ]
+    },
+    {
+        id: 7,
+        name: "Discount",
+        list: [
+            hamburger, hotTacos, wrapSandwich,
+        ]
+    },
+
 
 ]
 
 
 export default {
+    vegBiryani,
     myProfile,
     categories,
     menu,
+    offers
 }

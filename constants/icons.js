@@ -1,3 +1,4 @@
+const arrow_back = require("../assets/icons/arrow_back.png")
 const coupon = require("../assets/icons/coupon.png")
 const cross = require("../assets/icons/cross.png")
 const cart = require("../assets/icons/cart.png")
@@ -22,8 +23,21 @@ const wallet = require("../assets/icons/wallet.png")
 const help = require("../assets/icons/help.png")
 const calendar = require("../assets/icons/calendar.png")
 const black_down_arrow = require("../assets/icons/black_down_arrow.png")
+const googleIcon = require ("../assets/icons/googleIcon.png")
+const appleIcon = require ("../assets/icons/appleIcon.png")
+const facebookIcon = require ("../assets/icons/facebookIcon.png")
+const checkMarkIcon = require ("../assets/icons/checkMarkIcon.png")
+const emailIcon = require ("../assets/icons/emailIcon.png")
+const phoneIcon = require ("../assets/icons/phoneIcon.png")
 
 export default {
+    emailIcon,
+    phoneIcon,
+    checkMarkIcon,
+    appleIcon,
+    facebookIcon,
+    googleIcon,
+    arrow_back,
     coupon,
     cross,
     cart,

@@ -4,9 +4,16 @@ import {
     Text
 } from 'react-native';
 
-const CartTab = () => {
+const CartTab = ({navigation}) => {
     return (
-        <View>
+        <View
+            style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}
+        >
+            <Text>Cart</Text>
         </View>
     )
 }
