@@ -2,14 +2,6 @@ import React, { useCallback, useState, useEffect } from "react";
 import 'react-native-gesture-handler'
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
-// import CustomDrawer from './navigation/CustomDrawer';
-import WelcomeScreen from './screens/Welcome/Welcome.js';
-// import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './screens/Onboarding/Onboarding.js';
-import Onboarding from './screens/Onboarding/Onboarding.js';
-import Cancellation from './screens/Cancellation/Cancellation.js';
-import Ratings from './screens/Ratings/Ratings.js';
-import Address from './screens/Address/Address.js';
-import NewAddress from './screens/Address/NewAddress.js';
 
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
@@ -51,39 +43,39 @@ const App = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
+  const [fontsLoaded] = useFonts({
+    'Poppins-Black': require('./assets/fonts/Poppins-Black.ttf'),
+    'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-ExtraBold': require('./assets/fonts/Poppins-ExtraBold.ttf'),
+    'Poppins-ExtraLight': require('./assets/fonts/Poppins-ExtraLight.ttf'),
+    'Poppins-Light': require('./assets/fonts/Poppins-Light.ttf'),
+    'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
+  });
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (!fontsLoaded) {
+    return undefined;
+  } else {
+    SplashScreen.hideAsync();
+  }
+  
   if (initializing) return null;
 
-  //import fonts here
-  // const [fontsLoaded] = useFonts({
-  //   'Poppins-Black': require('./assets/fonts/Poppins-Black.ttf'),
-  //   'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
-  //   'Poppins-ExtraBold': require('./assets/fonts/Poppins-ExtraBold.ttf'),
-  //   'Poppins-ExtraLight': require('./assets/fonts/Poppins-ExtraLight.ttf'),
-  //   'Poppins-Light': require('./assets/fonts/Poppins-Light.ttf'),
-  //   'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
-  //   'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
-  //   'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
-  //   'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
-  // });
-
-  // useEffect(() => {
-  //   async function prepare() {
-  //     await SplashScreen.preventAutoHideAsync();
-  //   }
-  //   prepare();
-  // }, []);
-
-  // if (!fontsLoaded) {
-  //   return undefined;
-  // } else {
-  //   SplashScreen.hideAsync();
-  // }
+  // import fonts here
 
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
+          initialRouteName="Authentication"
         >
           {!user ? (
             <>

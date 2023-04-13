@@ -2,16 +2,14 @@ import React, { useState, useRef } from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, Keyboard } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button } from '@rneui/themed';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { firebaseConfig } from "../../firebase";
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import auth from '@react-native-firebase/auth';
+
 
 
 export const OTPCodeVerification = ({ navigation, route }) => {
     const [remember, setRemember] = useState(false);
-
-    //phone number
-    const phoneNumber = route.params.test;
-
     var [textNum, setTextNum] = React.useState(1);
     //Refferences to 4 textInputs for OTP code
     const ref_input1 = React.useRef();
@@ -27,11 +25,21 @@ export const OTPCodeVerification = ({ navigation, route }) => {
 
 
     //Concatination of all teh 4 input textBoxes
-    var [OTP_CODE, setOTP_CODE] = React.useState("");
+    var [OTP_CODE, setOTP_CODE] = React.useState("312352");
     React.useEffect(() => {
-        //console.log(OTP_CODE)
+        console.log(OTP_CODE)
+        console.log(confirm)
     }, [OTP_CODE]);
 
+    const confirm = route.params.confirm
+
+    async function confirmCode() {
+        try {
+          await confirm.confirm(OTP_CODE);
+        } catch (error) {
+          console.log('Invalid code.');
+        }
+      }
 
 
     const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
@@ -408,11 +416,11 @@ export const OTPCodeVerification = ({ navigation, route }) => {
                         </Text> s
                     </Text>
 
-                    </View>
+                </View>
 
 
                 <Button
-                    onPress={()=> console.log("Verify")}
+                    onPress={() => confirmCode()}
                     title="Verify"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{

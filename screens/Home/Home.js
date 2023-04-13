@@ -186,6 +186,7 @@ const Home = () => {
         return (
             <Section
                 title="Recommended for you"
+                onPress={() => console.log("See All")}
             >
                 {renderMenuTypes()}
             </Section>
@@ -196,6 +197,7 @@ const Home = () => {
         return (
             <Section
                 title="Discount Guaranteed"
+                onPress={() => console.log("See All")}
             >
                 <FlatList
                     data={discounts}
@@ -215,6 +217,7 @@ const Home = () => {
                                 alignItems: "center"
                             }}
                             item={item}
+                            onPress={() => console.log("Vertical Food Card")}
                         />
                     )}
                 />
@@ -291,6 +294,7 @@ const Home = () => {
                     <View>
                         <Section
                             title="Special Offers"
+                            onPress={() => console.log("See All")}
                         >
                             <FlatList
                                 data={dummyData.offers}
@@ -314,6 +318,7 @@ const Home = () => {
                                             width: SIZES.width * 0.85,
                                         }}
                                         item={item}
+                                        onPress={() => console.log("Horiontal Food Card")}
                                     />
                                 )}
                             />
@@ -341,6 +346,7 @@ const Home = () => {
                                 height: 110,
                                 width: 110,
                             }}
+                            onPress={() => console.log("Horizonal Food Card")}
                         />
                     )
                 }}
