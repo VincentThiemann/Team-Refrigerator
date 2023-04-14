@@ -2,7 +2,7 @@ import React from 'react';
 
 export const RegisterScreen = () => {
     return (
-        <View style={styles.container}>
+        <View style={style.container}>
             <InputData keyboardType = "default" type = "First name:" placeholder = "Type first name here" />
             <InputData keyboardType = "default" type = "Last name:" placeholder = "Type last name here" />
             <InputData keyboardType = "default" type = "Username:" placeholder = "Type username here" />
@@ -14,7 +14,7 @@ export const RegisterScreen = () => {
 }
 export const InputData = (props) => {
     return (
-        <View style={styles.container}>
+        <View style={style.container}>
             <Text>{props.type}</Text>
             <TextInput style = {styles.input} placeholder = {props.placeholder} keyboardType = {props.dataType}/>
         </View>
