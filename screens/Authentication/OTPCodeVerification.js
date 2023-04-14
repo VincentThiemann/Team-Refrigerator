@@ -1,40 +1,36 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, Keyboard } from "react-native"
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button } from '@rneui/themed';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import auth from '@react-native-firebase/auth';
+import { Button, Icon, Input } from '@rneui/themed';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { color, Value } from "react-native-reanimated";
+
 
 export const OTPCodeVerification = ({ navigation }) => {
+    const [remember, setRemember] = React.useState(false);
+    var [textNum, setTextNum] = React.useState(1);
+    //Refferences to 4 textInputs for OTP code
+    const ref_input1 = React.useRef();
+    const ref_input2 = React.useRef();
+    const ref_input3 = React.useRef();
+    const ref_input4 = React.useRef();
 
-    var [OTPInput, setOTPinput] = React.useState("");
-    const OTPInputRef = React.useRef();
+    //Values of the  4 OTP input textBoxes
+    var [inputVal1, setInputVal1] = React.useState("");
+    var [inputVal2, setInputVal2] = React.useState("");
+    var [inputVal3, setInputVal3] = React.useState("");
+    var [inputVal4, setInputVal4] = React.useState("");
+
+
+    //Concatination of all teh 4 input textBoxes
+    var [OTP_CODE, setOTP_CODE] = React.useState("");
+    React.useEffect(() => {
+        console.log(OTP_CODE)
+    }, [OTP_CODE]);
+
 
     const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
 
-    var [canResendCode, setCanResendCode] = React.useState(false);
-    var resendTime = 15;//Time to resend OTP code
-    const [time, setTime] = React.useState(resendTime);
-    const timerRef = React.useRef(time);
-
-   
-    React.useEffect(() => {
-        const timerId = setInterval(() => {
-            timerRef.current -= 1;
-           
-            if (timerRef.current <= 0) {
-                setCanResendCode(true);
-                clearInterval(timerId);
-            } else {
-                setTime(timerRef.current);
-            }
-        }, 1000);
-        return () => {
-            clearInterval(timerId);
-        };
-    }, []);
-
-    
     //Listerners for if keyboard is open or not
     React.useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -50,41 +46,40 @@ export const OTPCodeVerification = ({ navigation }) => {
             }
         );
 
-
         return () => {
             keyboardDidHideListener.remove();
             keyboardDidShowListener.remove();
         };
     }, []);
 
+
     const styles = StyleSheet.create({
         input: {
             position: "relative",
             left: 0,
-            width: 50,
+            width: 60,
             marginHorizontal: 20,
-            height: 50,
-            borderRadius: 10,
+            height: 60,
+            borderRadius: 20,
             marginVertical: 10,
             textAlign: "center",
             borderWidth: 1,
             fontSize: 25,
             backgroundColor: COLORS.lightGray2,
-            borderColor: COLORS.green,
+            borderColor: COLORS.lightGray2,
             padding: 10,
         },
         selectedInput: {
             fontSize: 25,
             position: "relative",
-            color: COLORS.green,
             left: 0,
-            height: 50,
-            width: 50,
+            height: 60,
+            width: 60,
             textAlign: "center",
             marginHorizontal: 20,
-            borderRadius: 10,
+            borderRadius: 20,
             marginVertical: 10,
-            borderWidth: 2,
+            borderWidth: 1,
             backgroundColor: COLORS.lightGreen2,
             borderColor: COLORS.green,
             padding: 10
@@ -111,22 +106,17 @@ export const OTPCodeVerification = ({ navigation }) => {
         inputVeiwStyle: {
             flexDirection: "row",
             alignItems: "center",
-            width: "100%",
             justifyContent: "space-evenly",
-            marginTop: 40,
-            marginBottom: 20,
+            marginVertical: 50,
             flex: 1,
         },
     });
-
-    
 
 
     return (
         <KeyboardAwareScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{flexGrow: 1}}
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
@@ -166,96 +156,233 @@ export const OTPCodeVerification = ({ navigation }) => {
                     style={{
                         width: 80,
                         height: 80,
-                        marginBottom: 38,
+                        marginBottom: 31,
                         marginVertical: 30,
                         borderRadius: 900
                     }}
                 />
-
-                <Text style={{
-                    fontWeight: "bold",
-                    marginTop: 20,
-                    ...FONTS.h3
-
-                }}>Code has been sent to +1 111 ********99</Text>
                 <View
                     style={styles.inputVeiwStyle}
+
                 >
 
-                    <Text
-                        style={(OTPInput.length == 0 && isKeyboardVisible) ? styles.selectedInput : styles.input}
-                        onPress={() => {
-                            OTPInputRef.current.focus();
+                    <TextInput
+
+                        maxLength={1}
+                        inputMode="decimal"
+                        blurOnSubmit={false}
+                        caretHidden={true}
+                        autoFocus={true}
+                        ref={ref_input1}
+                        cursorColor={COLORS.green}
+                        value={inputVal1}
+
+
+                        onFocus={() => {
+                            switch (textNum) {
+                                case 1:
+                                    ref_input1.current.focus()
+                                    break;
+                                case 2:
+                                    ref_input2.current.focus()
+                                    break;
+                                case 3:
+                                    ref_input3.current.focus()
+                                    break;
+                                case 4:
+                                    ref_input4.current.focus()
+                                    break;
+                                default:
+                                    ref_input1.current.focus();
+                                    break;
+                            }
                         }}
-                    >{OTPInput.substring(0, 1)}</Text>
 
-                    <Text
-                        style={(OTPInput.length == 1 && isKeyboardVisible) ? styles.selectedInput : styles.input}
-                        onPress={() => {
-                            OTPInputRef.current.focus();
+
+                        onSubmitEditing={() => {
+                            Keyboard.dismiss()
                         }}
-                    >{OTPInput.substring(1, 2)}</Text>
 
-                    <Text
-                        style={(OTPInput.length == 2 && isKeyboardVisible) ? styles.selectedInput : styles.input}
-                        onPress={() => {
-                            OTPInputRef.current.focus();
+                        onKeyPress={(event) => {
+                            if (event.nativeEvent.key == "Backspace"){
+                                if (inputVal1 != "") {
+                                    setInputVal1("")
+                                } else setOTP_CODE(OTP_CODE.slice(0, -1))
+
+                            } else {
+                                setOTP_CODE(OTP_CODE + event.nativeEvent.key)
+                                setInputVal1(event.nativeEvent.key)
+                                setTextNum(textNum + 1)
+
+                                if((event.nativeEvent.key != "Backspace"))
+                                ref_input2.current.focus()
+                            }
+                        }}
+
+                        style={textNum == 1 && isKeyboardVisible ? styles.selectedInput : styles.input}
+                    />
+
+                    <TextInput
+                        maxLength={1}
+                        inputMode="decimal"
+                        blurOnSubmit={false}
+                        caretHidden={true}
+                        cursorColor={COLORS.green}
+                        ref={ref_input2}
+                        value={inputVal2}
+
+                        onFocus={() => {
+
+                            switch (textNum) {
+                                case 1:
+                                    ref_input1.current.focus()
+                                    break;
+                                case 2:
+                                    ref_input2.current.focus()
+                                    break;
+                                case 3:
+                                    ref_input3.current.focus()
+                                    break;
+                                case 4:
+                                    ref_input4.current.focus()
+                                    break;
+                                default:
+                                    ref_input1.current.focus();
+                                    break;
+                            }
+                        }}
+
+                        onSubmitEditing={() => {
+                            Keyboard.dismiss()
+                        }}
+
+
+                        onKeyPress={(event) => {
+                            if (event.nativeEvent.key == "Backspace") {
+                                if (inputVal2 == "") {
+                                    ref_input1.current.focus()
+                                    setTextNum(textNum - 1)   
+                                    setOTP_CODE(OTP_CODE.slice(0, -1))   
+                                    setInputVal1("")
+                                } else setInputVal2("")
+                                
+                            } else {
+                                setInputVal2(event.nativeEvent.key)
+                                setOTP_CODE(OTP_CODE + event.nativeEvent.key)
+                                setTextNum(textNum + 1)
+                                ref_input3.current.focus()
+                            }
+                        }}
+
+                        style={textNum == 2 && isKeyboardVisible ? styles.selectedInput : styles.input}
+                    />
+
+                    <TextInput
+                        maxLength={1}
+                        inputMode="decimal"
+                        blurOnSubmit={false}
+                        caretHidden={true}
+                        cursorColor={COLORS.green}
+                        ref={ref_input3}
+                        value={inputVal3}
+
+                        onFocus={() => {
+                            switch (textNum) {
+                                case 1:
+                                    ref_input1.current.focus()
+                                    break;
+                                case 2:
+                                    ref_input2.current.focus()
+                                    break;
+                                case 3:
+                                    ref_input3.current.focus()
+                                    break;
+                                case 4:
+                                    ref_input4.current.focus()
+                                    break;
+                                default:
+                                    ref_input1.current.focus();
+                                    break;
+                            }
+                        }}
+
+                        onSubmitEditing={() => {
+                            Keyboard.dismiss()
+                        }}
+
+                        onKeyPress={(event) => {
+                            if (event.nativeEvent.key == "Backspace") {
+                                if (inputVal3 == "") {
+                                    ref_input2.current.focus()
+                                    setTextNum(textNum - 1)
+                                    setOTP_CODE(OTP_CODE.slice(0, -1))
+                                    setInputVal2("")
+                                } else setInputVal3("")
+                            } else {
+                                setInputVal3(event.nativeEvent.key)
+                                setOTP_CODE(OTP_CODE + event.nativeEvent.key)
+                                setTextNum(textNum + 1)
+                                ref_input4.current.focus()
+                            }
 
                         }}
-                    >{OTPInput.substring(2, 3)}</Text>
 
-                    <Text
-                        style={(OTPInput.length == 3 && isKeyboardVisible) ? styles.selectedInput : styles.input}
-                        onPress={() => {
-                            OTPInputRef.current.focus();
+                        style={textNum == 3 && isKeyboardVisible ? styles.selectedInput : styles.input}
+                    />
+
+                    <TextInput
+                        maxLength={1}
+                        inputMode="decimal"
+                        cursorColor={COLORS.green}
+                        caretHidden={true}
+                        blurOnSubmit={false}
+                        ref={ref_input4}
+                        value={inputVal4}
+
+
+                        onFocus={() => {
+                            switch (textNum) {
+                                case 1:
+                                    ref_input1.current.focus()
+                                    break;
+                                case 2:
+                                    ref_input2.current.focus()
+                                    break;
+                                case 3:
+                                    ref_input3.current.focus()
+                                    break;
+                                case 4:
+                                    ref_input4.current.focus()
+                                    break;
+                                default:
+                                    ref_input1.current.focus();
+                                    break;
+                            }
                         }}
-                    >{OTPInput.substring(3, 4)}</Text>
 
-                    <Text
-                        style={(OTPInput.length == 4 && isKeyboardVisible) ? styles.selectedInput : styles.input}
-                        onPress={() => {
-                            OTPInputRef.current.focus();
+                        onSubmitEditing={() => {
+                            Keyboard.dismiss()
                         }}
-                    >{OTPInput.substring(4, 5)}</Text>
-
-                    <Text
-                        style={((OTPInput.length == 5 || OTPInput.length == 6) && isKeyboardVisible) ? styles.selectedInput : styles.input}
-                        onPress={() => {
-                            OTPInputRef.current.focus();
+                        
+                        onKeyPress={(event) => {
+                            if (event.nativeEvent.key == "Backspace") {
+                                if (inputVal4 == "") {
+                                    ref_input3.current.focus()
+                                    setTextNum(textNum - 1)
+                                    setInputVal3("")
+                                } else setInputVal4("")
+                                setOTP_CODE(OTP_CODE.slice(0, -1))    
+                            } else {
+                                setInputVal4(event.nativeEvent.key)
+                                setOTP_CODE(OTP_CODE + event.nativeEvent.key)
+                                ref_input4.current.blur()
+                            }
                         }}
-                    >{OTPInput.substring(5, 6)}</Text>
 
-
+                        style={textNum == 4 && isKeyboardVisible ? styles.selectedInput : styles.input}
+                    />
                 </View>
 
-
-                <TextInput
-                    maxLength={6}
-                    inputMode="decimal"
-                    ref={OTPInputRef}
-                    autoFocus={true}
-                    value={OTPInput}
-                
-                    style={{
-                        width: 1,
-                        height: 1,
-                        opacity: 0
-                    }}
-
-                    onKeyPress={(event) => {
-                        if (event.nativeEvent.key == "Backspace" && OTPInput.length == 0)
-                            OTPInputRef.current.blur();
-                            
-                    }}
-
-                    onChangeText={(Text) => {
-                        setOTPinput(Text);
-
-                        if (Text.length == 6)
-                            OTPInputRef.current.blur();
-
-                    }}
-                />
 
                 <View
                     style={{
@@ -266,51 +393,24 @@ export const OTPCodeVerification = ({ navigation }) => {
 
                     }}
                 >
-                    <TouchableOpacity
-                        disabled = {!canResendCode}
-
-                        onPress={()=>{
-                            setOTPinput('');                  
-
-                            timerRef.current = resendTime;
-                            setTime(timerRef.current);                    
-                            setCanResendCode(false);   
-
-                            timerId = setInterval(() => {
-                                timerRef.current -= 1;
-                               
-                                if (timerRef.current <= 0) {
-                                    setCanResendCode(true);
-                                    clearInterval(timerId);
-                                } else {
-                                    setTime(timerRef.current);
-                                }
-                            }, 1000);
-                            return () => {
-                                clearInterval(timerId);
-                            };
-
-                            console.log("Resend OTP Code");       
-                        }}
+                    <Text style={{
+                        fontWeight: "bold",
+                        marginBottom: 220,
+                        ...FONTS.h3
+                    }} >Resend code in <Text
+                        style={{ fontWeight: "bold", ...FONTS.h3, color: COLORS.green }}
                     >
-                        <Text style={{
-                            fontWeight: "bold",
-                            marginBottom: 189,
-                            ...FONTS.h3
+                            {60}
+                        </Text> s
+                    </Text>
 
-                        }}>{canResendCode ? "" : "Resend code in "}<Text
-                            style={{ fontWeight: "bold", ...FONTS.h3, color: COLORS.green }}
-                        >
-                                {canResendCode ? "Resend Code" : time}
-                            </Text> {canResendCode ? "" : "s"}
-                        </Text>
-                    </TouchableOpacity>
-
-                </View>
+                    </View>
 
 
-                <Button
-                    onPress={() => confirmCode()}
+                    <Button
+                    onPress={() => {
+                        console.log("Verify")
+                    }}
                     title="Verify"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{

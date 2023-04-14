@@ -29,12 +29,10 @@ const bottom_tabs = [
         id: 4,
         label: screens.notification,
     },
-    
     {
         id: 5,
         label: screens.my_wallet,
     },
-
 ]
 
 const delivery_time = [

@@ -1,29 +1,4 @@
 {
-  "expo": {
-    "name": "FoodDelivery",
-    "slug": "FoodDelivery",
-    "extra": {
-      "eas": {
-        "projectId": "b7be7756-a967-4836-9e5b-9231a361d974"
-      }
-    },
-    "android": {
-      "package": "com.lmd0612.fooddelivery",
-      "googleServicesFile": "./google-services.json"
-    },
-    "plugins": [
-      ["@react-native-google-signin/google-signin"],
-      ["@react-native-firebase/app", "@react-native-firebase/auth"],
-      [
-        "react-native-fbsdk-next",
-        {
-          "appID": "3367317896820221",
-          "clientToken": "ef77c2231811e1ad5ec76fcef71e6e2c",
-          "displayName": "csds393-auth",
-          "scheme": "fb3367317896820221"
-
-        }
-      ]
-    ]
-  }
+  "name": "FoodDelivery",
+  "displayName": "FoodDelivery"
 }

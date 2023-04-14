@@ -26,13 +26,9 @@ import { LogInAccount } from "./Authentication/LogInAccount";
 
 //OTPCodeVerification
 import {OTPCodeVerification}  from "./Authentication/OTPCodeVerification";
-
-//FriensScreen
-import { TransactionHistory } from "./EWallet/TransactionHistory";
 export {
     MainLayout,
     OTPCodeVerification,
-    TransactionHistory,
     Home,
     Search,
     CartTab,
