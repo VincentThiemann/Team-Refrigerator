@@ -4,7 +4,7 @@ import {
     Text
 } from 'react-native';
 
-const CartTab = () => {
+const CartTab = ({navigation}) => {
     return (
         <View
             style={{

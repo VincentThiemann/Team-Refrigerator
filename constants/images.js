@@ -1,15 +1,14 @@
-const profile = require("../assets/images/profile.png")
-
 
 export default {
-    profile,
+    profile: require("../assets/images/profile.png"),
+    coupon: require("../assets/images/coupon.jpg"),
     PLATE: require('../assets/images/plate.png'),
     DISCOVER: require('../assets/images/discover.png'),
     DELIVER: require('../assets/images/deliver.png'),
     FAVORITE: require('../assets/images/favorite.png'),
     FACEBOOK: require('../assets/images/facebook.png'),
     GOOGLE: require('../assets/images/google.png'),
-    // LOADING: require('../assets/images/loading.json'),
+    LOADING: require('../assets/images/loading.json'),
     FRIED_CHICKEN: require('../assets/images/fried_chicken.png'),
     BURGER: require('../assets/images/burger.png'),
     PIZZA: require('../assets/images/pizza.png'),
