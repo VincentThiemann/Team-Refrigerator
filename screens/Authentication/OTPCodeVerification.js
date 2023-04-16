@@ -17,11 +17,11 @@ export const OTPCodeVerification = ({ navigation }) => {
     const [time, setTime] = React.useState(resendTime);
     const timerRef = React.useRef(time);
 
-   
+
     React.useEffect(() => {
         const timerId = setInterval(() => {
             timerRef.current -= 1;
-           
+
             if (timerRef.current <= 0) {
                 setCanResendCode(true);
                 clearInterval(timerId);
@@ -34,7 +34,7 @@ export const OTPCodeVerification = ({ navigation }) => {
         };
     }, []);
 
-    
+
     //Listerners for if keyboard is open or not
     React.useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -119,14 +119,14 @@ export const OTPCodeVerification = ({ navigation }) => {
         },
     });
 
-    
+
 
 
     return (
         <KeyboardAwareScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{flexGrow: 1}}
+            contentContainerStyle={{ flexGrow: 1 }}
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
@@ -235,7 +235,7 @@ export const OTPCodeVerification = ({ navigation }) => {
                     ref={OTPInputRef}
                     autoFocus={true}
                     value={OTPInput}
-                
+
                     style={{
                         width: 1,
                         height: 1,
@@ -245,7 +245,7 @@ export const OTPCodeVerification = ({ navigation }) => {
                     onKeyPress={(event) => {
                         if (event.nativeEvent.key == "Backspace" && OTPInput.length == 0)
                             OTPInputRef.current.blur();
-                            
+
                     }}
 
                     onChangeText={(Text) => {
@@ -267,18 +267,18 @@ export const OTPCodeVerification = ({ navigation }) => {
                     }}
                 >
                     <TouchableOpacity
-                        disabled = {!canResendCode}
+                        disabled={!canResendCode}
 
-                        onPress={()=>{
-                            setOTPinput('');                  
+                        onPress={() => {
+                            setOTPinput('');
 
                             timerRef.current = resendTime;
-                            setTime(timerRef.current);                    
-                            setCanResendCode(false);   
+                            setTime(timerRef.current);
+                            setCanResendCode(false);
 
                             timerId = setInterval(() => {
                                 timerRef.current -= 1;
-                               
+
                                 if (timerRef.current <= 0) {
                                     setCanResendCode(true);
                                     clearInterval(timerId);
@@ -290,7 +290,7 @@ export const OTPCodeVerification = ({ navigation }) => {
                                 clearInterval(timerId);
                             };
 
-                            console.log("Resend OTP Code");       
+                            console.log("Resend OTP Code");
                         }}
                     >
                         <Text style={{
