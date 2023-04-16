@@ -5,7 +5,7 @@ import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import auth from '@react-native-firebase/auth';
 
-export const OTPCodeVerification = ({ navigation }) => {
+export const OTPCodeVerification = ({ navigation, route }) => {
 
     var [OTPInput, setOTPinput] = React.useState("");
     const OTPInputRef = React.useRef();
@@ -17,6 +17,15 @@ export const OTPCodeVerification = ({ navigation }) => {
     const [time, setTime] = React.useState(resendTime);
     const timerRef = React.useRef(time);
 
+    const confirm = route.params.confirm
+
+    async function confirmCode() {
+        try {
+            await confirm.confirm(OTP_CODE);
+        } catch (error) {
+            console.log('Invalid code.');
+        }
+    }
 
     React.useEffect(() => {
         const timerId = setInterval(() => {
