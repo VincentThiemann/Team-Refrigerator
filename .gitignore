@@ -68,4 +68,5 @@ yarn.lock
 .env
 .expo
 package-lock.json
+firebase.jss
 
