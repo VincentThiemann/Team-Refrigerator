@@ -17,6 +17,15 @@ export const OTPCodeVerification = ({ OTPInput, setCode, confirmCode }) => {
     const [time, setTime] = React.useState(resendTime);
     const timerRef = React.useRef(time);
 
+    const confirm = route.params.confirm
+
+    async function confirmCode() {
+        try {
+            await confirm.confirm(OTP_CODE);
+        } catch (error) {
+            console.log('Invalid code.');
+        }
+    }
 
     React.useEffect(() => {
         const timerId = setInterval(() => {
