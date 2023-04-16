@@ -5,15 +5,15 @@ import { Button } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import auth from '@react-native-firebase/auth';
 
-export const OTPCodeVerification = ({ navigation, route }) => {
+export const OTPCodeVerification = ({ OTPInput, setCode, confirmCode }) => {
 
-    var [OTPInput, setOTPinput] = React.useState("");
+
     const OTPInputRef = React.useRef();
 
     const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
 
     var [canResendCode, setCanResendCode] = React.useState(false);
-    var resendTime = 15;//Time to resend OTP code
+    var resendTime = 15; //Time to resend OTP code
     const [time, setTime] = React.useState(resendTime);
     const timerRef = React.useRef(time);
 
@@ -138,7 +138,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
             contentContainerStyle={{ flexGrow: 1 }}
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
-                <TouchableOpacity onPress={() => { navigation.goBack() }}
+                {/* <TouchableOpacity onPress={() => { navigation.goBack() }}
                     style={{
                         width: 40,
                         height: 40,
@@ -156,7 +156,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
                             height: "100%"
                         }}
                     ></Image>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <Text style={{
                     position: "relative",
@@ -258,7 +258,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
                     }}
 
                     onChangeText={(Text) => {
-                        setOTPinput(Text);
+                        setCode(Text);
 
                         if (Text.length == 6)
                             OTPInputRef.current.blur();
@@ -279,7 +279,7 @@ export const OTPCodeVerification = ({ navigation, route }) => {
                         disabled={!canResendCode}
 
                         onPress={() => {
-                            setOTPinput('');
+                            setCode('');
 
                             timerRef.current = resendTime;
                             setTime(timerRef.current);
