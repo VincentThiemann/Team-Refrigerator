@@ -101,6 +101,7 @@ export const CreateNewAccount = ({ navigation }) => {
         <KeyboardAwareScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}
@@ -128,7 +129,7 @@ export const CreateNewAccount = ({ navigation }) => {
                     style={{
                         width: 100,
                         height: 100,
-                        marginTop: 49,
+                        marginTop: 14,
                         borderRadius: 900
                     }}
                 />
