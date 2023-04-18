@@ -42,14 +42,16 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 }
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
+    const user = auth().uid;
+
     const handleSignOut = () => {
+
         auth()
-        .signOut()
-        .then(() => {
-            navigation.replace("Authentication");
-            console.log('User signed out!');
-        })
-        .catch(error=>alert(error.message) )
+            .signOut()
+            .then(() => {
+                console.log('User signed out!');
+            })
+            .catch(error => alert(error.message))
     }
 
     return (
@@ -82,7 +84,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         alignItems: 'center',
                         marginTop: SIZES.radius,
                     }}
-                    onPress={() => console.log('Profile')}
+                    onPress={() => console.log(user)}
                 >
                     <Image source={dummyData.myProfile?.profile_images}
                         style={{
@@ -99,7 +101,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         <Text style={{
                             color: COLORS.black,
                             ...FONTS.h3,
-                        }}>{dummyData.myProfile?.name}</Text>
+                        }}>{user?.uid}</Text>
                         <Text style={{
                             color: COLORS.black,
                             ...FONTS.body4,
@@ -170,7 +172,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     marginBottom: SIZES.padding,
                 }}>
                     <CustomDrawerItem label="Log out"
-                        onPress = {handleSignOut}
+                        onPress={handleSignOut}
                         icon={icons.logout} />
                 </View>
             </View>
@@ -180,6 +182,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
 }
 
 const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
+    
 
     const [progress, setProgress] = useState(new Animated.Value(0));
 
