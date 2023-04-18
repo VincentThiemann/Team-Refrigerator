@@ -25,10 +25,13 @@ import { CreateNewAccount } from "./Authentication/CreateNewAccount";
 import { LogInAccount } from "./Authentication/LogInAccount";
 
 //OTPCodeVerification
-import {OTPCodeVerification}  from "./Authentication/OTPCodeVerification";
+import {  OTPCodeVerification }  from "./Authentication/OTPCodeVerification";
 
 //FriensScreen
 import { TransactionHistory } from "./EWallet/TransactionHistory";
+
+import Profile from "./Profile/Profile";
+
 export {
     MainLayout,
     OTPCodeVerification,
@@ -39,5 +42,6 @@ export {
     Favourite,
     Notification,
     Authentication,
-    LogInAccount
+    LogInAccount,
+    Profile
 }

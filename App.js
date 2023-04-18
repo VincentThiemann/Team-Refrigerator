@@ -10,6 +10,7 @@ import Onboarding from './screens/Onboarding/Onboarding.js';
 import HelpCenter from './screens/HelpCenter/HelpCenter.js';
 import FoodDetail from './screens/Food/FoodDetail';
 import CartTab from './screens/Cart/CartTab'
+import { Profile } from './screens'
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { CreateNewAccount } from "./screens/Authentication/CreateNewAccount";
@@ -21,7 +22,8 @@ import rootReducer from './stores/rootReducer';
 import { OTPCodeVerification } from "./screens";
 import { Authentication } from "./screens";
 import auth from "@react-native-firebase/auth";
-import 'expo-dev-client'
+import 'expo-dev-client';
+import {useSelector, useDispatch} from 'react-redux';
 
 const Stack = createStackNavigator();
 
@@ -55,11 +57,6 @@ const App = () => {
     'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
   });
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
   if (!fontsLoaded) {
     return undefined;
   } else {
@@ -86,6 +83,7 @@ const App = () => {
             </>
           ) : (
             <>
+              <Stack.Screen name="Profile" component={Profile} />
               <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
               <Stack.Screen name="Cart" component={CartTab} />
               <Stack.Screen name="HelpCenter" component={HelpCenter} />
