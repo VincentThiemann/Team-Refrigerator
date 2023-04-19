@@ -1,26 +1,20 @@
-import React, { useCallback, useState, useEffect } from "react";
-import 'react-native-gesture-handler'
+import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
 
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
-import Onboarding from './screens/Onboarding/Onboarding.js';
-import HelpCenter from './screens/HelpCenter/HelpCenter.js';
-import FoodDetail from './screens/Food/FoodDetail';
-import CartTab from './screens/Cart/CartTab'
-import { Profile } from './screens'
+import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication } from './screens';
+
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { CreateNewAccount } from "./screens/Authentication/CreateNewAccount";
-import { LogInAccount } from "./screens";
+
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
-import { OTPCodeVerification } from "./screens";
-import { Authentication } from "./screens";
+
 import auth from "@react-native-firebase/auth";
 import 'expo-dev-client';
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,6 +36,7 @@ const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+
   const { isFirstTimeUse } = useSelector(
     state => state?.generalState,
   );
@@ -98,11 +93,9 @@ const App = () => {
             <Stack.Screen name="Authentication" component={Authentication} />
             <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
             <Stack.Screen name="LogInAccount" component={LogInAccount} />
-            <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
           </>
         ) : (
           <>
-          {console.log(isFirstTimeUse)}
             <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
             <Stack.Screen name="Cart" component={CartTab} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />

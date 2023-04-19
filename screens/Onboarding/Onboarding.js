@@ -24,7 +24,7 @@ const slides = [
     }
 ]
 
-export const Onboarding = ({ navigation }) => {
+export const Onboarding = () => {
     const [i, setI] = React.useState(0);
     const [image, setImage] = React.useState(slides[i].image);
     const [subtitle, setSubtitle] = React.useState(slides[i].subtitle);
