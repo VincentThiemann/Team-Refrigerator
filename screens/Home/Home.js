@@ -11,6 +11,9 @@ import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
 import Search from '../Search/Search';
 import { HorizontalFoodCard, VerticalFoodCard } from '../../components';
 import Display from '../../utils/Display';
+import { keys } from '../../apiKeys'
+
+const YELP_API_KEY = keys.YELP_API_KEY;
 
 const Section = ({ title, onPress, children }) => {
     return (
@@ -54,8 +57,6 @@ const Home = () => {
         //handler
         handleChangeCategory(selectedCategoryId, selectedMenuType)
     }, []);
-
-
 
     function handleChangeCategory(categoryId, menuTypeId) {
         //retrieve discount data

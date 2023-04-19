@@ -32,6 +32,14 @@ import { TransactionHistory } from "./EWallet/TransactionHistory";
 
 import Profile from "./Profile/Profile";
 
+import FoodDetail from './Food/FoodDetail';
+
+import Onboarding  from "./Onboarding/Onboarding";
+
+import HelpCenter from "./HelpCenter/HelpCenter"
+
+
+
 export {
     MainLayout,
     OTPCodeVerification,
@@ -43,5 +51,10 @@ export {
     Notification,
     Authentication,
     LogInAccount,
-    Profile
+    Profile,
+    FoodDetail,
+    CreateNewAccount,
+    Onboarding,
+    HelpCenter
+
 }
