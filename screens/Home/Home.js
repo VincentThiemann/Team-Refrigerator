@@ -4,7 +4,8 @@ import {
     Text,
     Image,
     TextInput,
-    FlatList, TouchableOpacity
+    FlatList, 
+    TouchableOpacity
 } from 'react-native';
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
 import Search from '../Search/Search';
