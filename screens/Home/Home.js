@@ -52,6 +52,9 @@ const Home = () => {
     const [recommends, setRecommends] = React.useState([]);
     const [menuList, setMenuList] = React.useState([]);
     const [discounts, setDiscounts] = React.useState([]);
+    const getRestaurants = () => {
+        
+    }
 
     React.useEffect(() => {
         //handler
