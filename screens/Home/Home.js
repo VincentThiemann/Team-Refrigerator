@@ -4,7 +4,7 @@ import {
     Text,
     Image,
     TextInput,
-    FlatList, 
+    FlatList,
     TouchableOpacity
 } from 'react-native';
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
@@ -52,10 +52,13 @@ const Home = () => {
     const [recommends, setRecommends] = React.useState([]);
     const [menuList, setMenuList] = React.useState([]);
     const [discounts, setDiscounts] = React.useState([]);
+    const [restaurantData, setRestaurantData] = useState([]);
 
     React.useEffect(() => {
         //handler
-        handleChangeCategory(selectedCategoryId, selectedMenuType)
+        handleChangeCategory(selectedCategoryId, selectedMenuType);
+        getRestaurantsFromYelp();
+        console.log(restaurantData)
     }, []);
 
     function handleChangeCategory(categoryId, menuTypeId) {
@@ -74,62 +77,78 @@ const Home = () => {
         setDiscounts(selectedDiscount?.list.filter(a => a.categories.includes(categoryId)))
     }
 
+    const getRestaurantsFromYelp = () => {
+        const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=1576 E 115th St, Cleveland, OH 44106&radius=3200&sort_by=distance&limit=20`;
+
+        const apiOptions = {
+            headers: {
+                Authorization: YELP_API_KEY,
+            },
+        };
+
+        return fetch(yelpUrl, apiOptions)
+            .then((res) => res.json())
+            .then((json) =>
+                setRestaurantData(json.businesses)
+            );
+    };
+
     //render
     function renderSearch() {
         return (
-                <View
+            <View
+                style={{
+                    flexDirection: 'row',
+                    height: Display.setHeight(7),
+                    alignItems: 'center',
+                    marginHorizontal: SIZES.padding,
+                    marginVertical: SIZES.radius,
+                    paddingHorizontal: SIZES.radius,
+                    borderRadius: SIZES.radius,
+                    backgroundColor: COLORS.lightGray2,
+                }}
+            >
+                {/* Icon */}
+                <Image
+                    source={icons.search}
                     style={{
-                        flexDirection: 'row',
-                        height: Display.setHeight(7),
-                        alignItems: 'center',
-                        marginHorizontal: SIZES.padding,
-                        marginVertical: SIZES.radius,
-                        paddingHorizontal: SIZES.radius,
-                        borderRadius: SIZES.radius,
-                        backgroundColor: COLORS.lightGray2,
+                        height: 20,
+                        width: 20,
+                        tintColor: COLORS.black,
                     }}
+                />
+
+                {/* Text Input */}
+                <TextInput
+                    style={{
+                        flex: 1,
+                        marginLeft: SIZES.radius,
+                        marginRight: SIZES.radius,
+                        ...FONTS.body3,
+                        textAlign: 'left',
+                        fontStyle: 'italic',
+                        alignSelf: 'center',
+                        borderRadius: SIZES.radius,
+                        textAlignVertical: "top"
+                    }}
+                    placeholder="What are you craving?"
+                    placeholderTextColor={COLORS.black}
+                />
+
+                {/* filter */}
+                <TouchableOpacity
+                    onPress={() => console.log('filter')}
                 >
-                    {/* Icon */}
                     <Image
-                        source={icons.search}
+                        source={icons.filter}
                         style={{
                             height: 20,
                             width: 20,
                             tintColor: COLORS.black,
                         }}
                     />
-
-                    {/* Text Input */}
-                    <TextInput
-                        style={{
-                            flex: 1,
-                            marginLeft: SIZES.radius,
-                            marginRight: SIZES.radius,
-                            ...FONTS.body3,
-                            textAlign: 'left',
-                            fontStyle: 'italic',
-                            alignSelf: 'center',
-                            borderRadius: SIZES.radius,
-                            textAlignVertical: "top"
-                        }}
-                        placeholder="What are you craving?"
-                        placeholderTextColor={COLORS.black}
-                    />
-
-                    {/* filter */}
-                    <TouchableOpacity
-                        onPress={() => console.log('filter')}
-                    >
-                        <Image
-                            source={icons.filter}
-                            style={{
-                                height: 20,
-                                width: 20,
-                                tintColor: COLORS.black,
-                            }}
-                        />
-                    </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
+            </View>
         )
     }
 
