@@ -24,6 +24,7 @@ import { Authentication } from "./screens";
 import auth from "@react-native-firebase/auth";
 import 'expo-dev-client';
 import {useSelector, useDispatch} from 'react-redux';
+import appStart from "./stores/firstLaunch/firstLauchActions"
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,14 @@ const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  const {isFirstTimeUse} = useSelector(
+    state => state?.isFirstTimeUse,
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(appStart());
+  }, []);
 
   // Handle user state changes
   function onAuthStateChanged(user) {
@@ -83,7 +92,6 @@ const App = () => {
             </>
           ) : (
             <>
-              <Stack.Screen name="Profile" component={Profile} />
               <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
               <Stack.Screen name="Cart" component={CartTab} />
               <Stack.Screen name="HelpCenter" component={HelpCenter} />

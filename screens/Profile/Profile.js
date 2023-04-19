@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
@@ -7,12 +7,11 @@ import auth from '@react-native-firebase/auth';
 
 
 
-const Profile = () => {
-    const user = auth().currentUser
+const Profile = ({navigation}) => {
     const createProfile = () => {
         firestore()
             .collection('Users')
-            .doc("test")
+            .doc(auth().currentUser.uid)
             .set({
                 name: 'Ada Lovelace',
                 age: 30,
@@ -29,6 +28,7 @@ const Profile = () => {
             justifyContent: "center"
         }}>
             {createProfile()}
+            <Button title = "Verify" onClick={navigation.navigate("CustomDrawer")}/>
         </View>
     )
 }
