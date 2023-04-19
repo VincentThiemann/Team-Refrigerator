@@ -1,4 +1,4 @@
-import {AuthenicationService, StorageService} from '../../services';
+import {StorageService} from '../../services';
 
 
 const types = {

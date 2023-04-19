@@ -23,24 +23,32 @@ import { OTPCodeVerification } from "./screens";
 import { Authentication } from "./screens";
 import auth from "@react-native-firebase/auth";
 import 'expo-dev-client';
-import {useSelector, useDispatch} from 'react-redux';
-import appStart from "./stores/firstLaunch/firstLauchActions"
+import { useSelector, useDispatch } from 'react-redux';
+import firstLauchActions from "./stores/firstLaunch/firstLauchActions"
 
 const Stack = createStackNavigator();
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
+const AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
 const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-  const {isFirstTimeUse} = useSelector(
-    state => state?.isFirstTimeUse,
+  const { isFirstTimeUse } = useSelector(
+    state => state?.generalState,
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(appStart());
+    dispatch(firstLauchActions.appStart());
   }, []);
 
   // Handle user state changes
@@ -71,38 +79,40 @@ const App = () => {
   } else {
     SplashScreen.hideAsync();
   }
-  
+
   if (initializing) return null;
 
   // import fonts here
 
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false }}
-          initialRouteName="Authentication"
-        >
-          {!user ? (
-            <>
-              <Stack.Screen name="Authentication" component={Authentication} />
-              <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
-              <Stack.Screen name="LogInAccount" component={LogInAccount} />
-              <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
-              <Stack.Screen name="Cart" component={CartTab} />
-              <Stack.Screen name="HelpCenter" component={HelpCenter} />
-              <Stack.Screen name="FoodDetail" component={FoodDetail} />
-            </>
-          )
-          }
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+      >
+        {!user ? (
+          <>
+            {isFirstTimeUse && (
+              <Stack.Screen name="Onboarding" component={Onboarding} />
+            )}
+            <Stack.Screen name="Authentication" component={Authentication} />
+            <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
+            <Stack.Screen name="LogInAccount" component={LogInAccount} />
+            <Stack.Screen name="OTPCodeVerification" component={OTPCodeVerification} />
+          </>
+        ) : (
+          <>
+          {console.log(isFirstTimeUse)}
+            <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
+            <Stack.Screen name="Cart" component={CartTab} />
+            <Stack.Screen name="HelpCenter" component={HelpCenter} />
+            <Stack.Screen name="FoodDetail" component={FoodDetail} />
+          </>
+        )
+        }
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 
-export default App
+export default AppWrapper

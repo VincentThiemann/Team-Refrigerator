@@ -1,14 +1,16 @@
-import * as firstLaunchActionTypes from './firstLauchActions';
+import firstLauchActions from './firstLauchActions';
 
 const initialState = {
   isFirstTimeUse: true,
 };
 
-export default (state = initialState, action) => {
+const firstLaunchReducer = (state = initialState, action) => {
   switch (action.type) {
-    case firstLaunchActionTypes.SET_FIRST_TIME_USE:
+    case firstLauchActions.types.SET_FIRST_TIME_USE:
       return {...state, isFirstTimeUse: action.payload};
     default:
       return state;
   }
 };
+
+export default firstLaunchReducer;
