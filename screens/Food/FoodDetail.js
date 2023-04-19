@@ -9,8 +9,8 @@ import {
     TouchableOpacity,
     TextInput
 } from 'react-native';
-import { FONTS, COLORS, SIZES, icons, images, dummyData, constants } from "../../constants"
-import { Header, Separator, IconLabel } from "../../components";
+import { FONTS, COLORS, SIZES, icons, images, dummyData } from "../../constants"
+import { Header, Separator } from "../../components";
 import Display from '../../utils/Display';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -21,11 +21,10 @@ const setStyle = isActive =>
         ? styles.subMenuButtonText
         : { ...styles.subMenuButtonText, color: COLORS.DEFAULT_GREY };
 
-const FoodDetail = ({navigation}) => {
+const FoodDetail = ({ navigation }) => {
 
     const [food, setFood] = React.useState(dummyData.vegBiryani);
     const [isBookmarked, setIsBookmarked] = React.useState(false);
-    const [qty, setQty] = React.useState(1);
 
     function handleFoodItem(passedFoodItem) {
         let foodItems = dummyData.menu.find(a => a.name == "All");
@@ -37,42 +36,42 @@ const FoodDetail = ({navigation}) => {
             <Header
 
                 containerStyle={{
-
+                   
                     positon: 'absolute',
                     height: 60,
                     top: Display.setHeight(3),
                     marginHorizontal: SIZES.padding,
                     margintop: 40,
                     backgroundColor: 'green'
-
+                   
                 }}
 
                 leftComponent={
-                    <Ionicons name="ios-chevron-back-sharp" size={40} color="black" onPress={() => navigation.navigate("CustomDrawer")} />
+                    <Ionicons name="ios-chevron-back-sharp" size={40} color="black" onPress={() => navigation.navigate("CustomDrawer")}/>
                 }
-            // rightComponent={
-            //     <View>
-            //         <Icon type="material-community"
-            //             name="cart-outline"
-            //             containerStyle={styles.containerStyle}
-            //             onPress={() => console.log("Cart")} />
-            //         <Badge
-            //             value={43}
-            //             containerStyle={{
-            //                 position: 'absolute',
-            //                 top: 5,
-            //                 right: 0,
+                // rightComponent={
+                //     <View>
+                //         <Icon type="material-community"
+                //             name="cart-outline"
+                //             containerStyle={styles.containerStyle}
+                //             onPress={() => console.log("Cart")} />
+                //         <Badge
+                //             value={43}
+                //             containerStyle={{
+                //                 position: 'absolute',
+                //                 top: 5,
+                //                 right: 0,
 
-            //             }}
-            //             badgeStyle={{
-            //                 alignItems: 'center',
-            //                 justifyContent: 'center',
-            //                 backgroundColor: COLORS.red,
-            //             }}
-
-            //         />
-            //     </View>
-            // }
+                //             }}
+                //             badgeStyle={{
+                //                 alignItems: 'center',
+                //                 justifyContent: 'center',
+                //                 backgroundColor: COLORS.red,
+                //             }}
+                            
+                //         />
+                //     </View>
+                // }
             />
 
 
@@ -97,8 +96,8 @@ const FoodDetail = ({navigation}) => {
 
 
             {/* Body */}
-            <ScrollView style={{ flex: 1 }}>
-
+            <ScrollView style={{flex: 1}}>
+                
                 <Separator height={Display.setWidth(100)} />
                 <View style={styles.mainContainer}>
                     <View style={styles.titleHeaderContainer}>
@@ -179,34 +178,28 @@ const FoodDetail = ({navigation}) => {
                             <AntDesign
                                 name="minus"
                                 color={COLORS.DEFAULT_YELLOW}
-                                size={24}
-                                onPress={() => {
-                                    if (qty > 1) {
-                                        setQty(qty - 1)
-                                    }
-                                }}
+                                size={18}
+                                onPress={() => console.log("Remove")}
                             />
-                            <Text style={styles.itemCountText}>{qty}</Text>
+                            <Text style={styles.itemCountText}>0</Text>
                             <AntDesign
                                 name="plus"
                                 color={COLORS.DEFAULT_YELLOW}
-                                size={24}
-                                onPress={() => {
-                                        setQty(qty + 1)
-                                }}
+                                size={18}
+                                onPress={() => console.log("Add")}
                             />
                         </View>
-
+                        
                     </View>
 
                     <View style={
-                        styles.buttonsContainer
+                       styles.buttonsContainer
                     }>
 
                         <TouchableOpacity style={styles.cartButton}
-                            onPress={() => navigation.navigate("Cart")}
+                            onPress={() => console.log('Cart')}
                             activeOpacity={0.8}>
-                            <Text style={styles.priceText}> Add to Basket - $ {food?.price*qty}</Text>
+                            <Text style={styles.priceText}> Add to Basket - $ {food?.price}</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -226,7 +219,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         tintColor: 'transparent',
         borderRadius: 20,
-
+        
     },
     backgroundImage: {
         position: 'absolute',
