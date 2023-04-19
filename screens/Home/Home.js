@@ -77,13 +77,14 @@ const Home = () => {
     //render
     function renderSearch() {
         return (
+            <View style={{ height: Display.setHeight(12), backgroundColor: COLORS.green, borderBottomRightRadius: SIZES.padding, borderBottomLeftRadius: SIZES.padding }}>
                 <View
                     style={{
                         flexDirection: 'row',
                         height: Display.setHeight(7),
                         alignItems: 'center',
                         marginHorizontal: SIZES.padding,
-                        marginVertical: SIZES.radius,
+                        marginVertical: SIZES.base,
                         paddingHorizontal: SIZES.radius,
                         borderRadius: SIZES.radius,
                         backgroundColor: COLORS.lightGray2,
@@ -130,6 +131,7 @@ const Home = () => {
                         />
                     </TouchableOpacity>
                 </View>
+            </View>
         )
     }
 
@@ -186,7 +188,6 @@ const Home = () => {
         return (
             <Section
                 title="Recommended for you"
-                onPress={() => console.log("See All")}
             >
                 {renderMenuTypes()}
             </Section>
@@ -197,7 +198,6 @@ const Home = () => {
         return (
             <Section
                 title="Discount Guaranteed"
-                onPress={() => console.log("See All")}
             >
                 <FlatList
                     data={discounts}
@@ -217,7 +217,6 @@ const Home = () => {
                                 alignItems: "center"
                             }}
                             item={item}
-                            onPress={() => console.log("Vertical Food Card")}
                         />
                     )}
                 />
@@ -280,10 +279,10 @@ const Home = () => {
         <View
             style={{
                 flex: 1,
-                marginTop: Display.setHeight(14),
             }}
         >
-
+            {/* Search */}
+            {renderSearch()}
 
             {/* List */}
             <FlatList
@@ -292,11 +291,8 @@ const Home = () => {
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
                     <View>
-                        {/* Search */}
-                        {renderSearch()}
                         <Section
                             title="Special Offers"
-                            onPress={() => console.log("See All")}
                         >
                             <FlatList
                                 data={dummyData.offers}
@@ -320,7 +316,6 @@ const Home = () => {
                                             width: SIZES.width * 0.85,
                                         }}
                                         item={item}
-                                        onPress={() => console.log("Horiontal Food Card")}
                                     />
                                 )}
                             />
@@ -348,7 +343,6 @@ const Home = () => {
                                 height: 110,
                                 width: 110,
                             }}
-                            onPress={() => console.log("Horizonal Food Card")}
                         />
                     )
                 }}
