@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar, Button, TouchableOpacity, ImageBackground } from 'react-native';
 import { COLORS, SIZES, FONTS, MARGIN } from '../../constants';
 import OnboardingText from '../../components/OnboardingText.js';
+import { StorageService } from '../../services';
+import { useDispatch } from 'react-redux';
+import firstLauchActions from '../../stores/firstLaunch/firstLauchActions';
 
 const slides = [
     {
@@ -21,11 +24,18 @@ const slides = [
     }
 ]
 
-export const Onboarding = ({ navigation }) => {
+export const Onboarding = () => {
     const [i, setI] = React.useState(0);
     const [image, setImage] = React.useState(slides[i].image);
     const [subtitle, setSubtitle] = React.useState(slides[i].subtitle);
     const [name, setName] = React.useState(slides[i].name);
+    const dispatch = useDispatch();
+
+    const navigate = () => {
+        StorageService.setFirstTimeUse().then(() => {
+            dispatch(firstLauchActions.setIsFirstTimeUse());
+        });
+    };
 
     function moveToNextSlide() {
         if (i < 2) {
@@ -34,9 +44,10 @@ export const Onboarding = ({ navigation }) => {
             setImage(nextSlide.image);
             setName(nextSlide.name);
             setSubtitle(nextSlide.subtitle);
-        }else
-            navigation.navigate("Authentication") 
-        
+        } else {
+            navigate();
+        }
+
 
     }
 
@@ -47,7 +58,11 @@ export const Onboarding = ({ navigation }) => {
 
                 <OnboardingText name={name} subtitle={subtitle} />
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={styles.button} onPress={() => { moveToNextSlide() }}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            moveToNextSlide()
+                        }}>
                         <Text style={styles.text}>Continue</Text>
                     </TouchableOpacity>
                 </View>

@@ -25,15 +25,36 @@ import { CreateNewAccount } from "./Authentication/CreateNewAccount";
 import { LogInAccount } from "./Authentication/LogInAccount";
 
 //OTPCodeVerification
-import {OTPCodeVerification}  from "./Authentication/OTPCodeVerification";
+import {  OTPCodeVerification }  from "./Authentication/OTPCodeVerification";
+
+//FriensScreen
+import { TransactionHistory } from "./EWallet/TransactionHistory";
+
+import Profile from "./Profile/Profile";
+
+import FoodDetail from './Food/FoodDetail';
+
+import Onboarding  from "./Onboarding/Onboarding";
+
+import HelpCenter from "./HelpCenter/HelpCenter"
+
+
+
 export {
     MainLayout,
     OTPCodeVerification,
+    TransactionHistory,
     Home,
     Search,
     CartTab,
     Favourite,
     Notification,
     Authentication,
-    LogInAccount
+    LogInAccount,
+    Profile,
+    FoodDetail,
+    CreateNewAccount,
+    Onboarding,
+    HelpCenter
+
 }
