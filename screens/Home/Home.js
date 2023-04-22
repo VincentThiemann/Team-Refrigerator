@@ -5,13 +5,18 @@ import {
     Image,
     TextInput,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    StyleSheet,
+    StatusBar
 } from 'react-native';
+import { Separator, BackgroundCurvedView } from "../../components"
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
-import Search from '../Search/Search';
 import { HorizontalFoodCard, VerticalFoodCard } from '../../components';
 import Display from '../../utils/Display';
 import { keys } from '../../apiKeys'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Feather from '@expo/vector-icons/Feather';
 
 const YELP_API_KEY = keys.YELP_API_KEY;
 
@@ -47,50 +52,66 @@ const Section = ({ title, onPress, children }) => {
 }
 
 const Home = () => {
-    const [selectedCategoryId, setSelectedCategoryId] = React.useState(1);
+    const [selectedCategory, setSelectedCategory] = React.useState("");
     const [selectedMenuType, setSelectedMenuType] = React.useState(1);
     const [recommends, setRecommends] = React.useState([]);
-    const [menuList, setMenuList] = React.useState([]);
     const [discounts, setDiscounts] = React.useState([]);
-    const [restaurantData, setRestaurantData] = useState([]);
+    const [restaurantData, setRestaurantData] = React.useState([]);
+    const [categories, setCategories] = React.useState([]);
 
     React.useEffect(() => {
         //handler
-        handleChangeCategory(selectedCategoryId, selectedMenuType);
         getRestaurantsFromYelp();
-        console.log(restaurantData)
+
     }, []);
 
-    function handleChangeCategory(categoryId, menuTypeId) {
-        //retrieve discount data
-        let selectedDiscount = dummyData.menu.find(a => a.name == "Discount")
-        //retrieve recommened data
-        let selectedRecommend = dummyData.menu.find(a => a.name == "Recommended")
-        //find menu by menutypeid
-        let selectedMenu = dummyData.menu.find(a => a.id == menuTypeId)
 
-        //set recommened data
-        setRecommends(selectedRecommend?.list.filter(a => a.categories.includes(categoryId)))
-        //set the menu based on the categoryId
-        setMenuList(selectedMenu?.list.filter(a => a.categories.includes(categoryId)))
-        //set recommened data
-        setDiscounts(selectedDiscount?.list.filter(a => a.categories.includes(categoryId)))
+
+    function getCategoryFromRestaurant(restaurantData) {
+        setCategories(restaurantData.map(obj => obj.categories).flat());
     }
 
-    const getRestaurantsFromYelp = () => {
-        const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=1576 E 115th St, Cleveland, OH 44106&radius=3200&sort_by=distance&limit=20`;
+    function handleChangeCategory(category) {
+        //retrieve discount data
+        setDiscounts(dummyData.menu.find(a => a.name == "Discount").list)
+        //retrieve recommened data
+        // let selectedRecommend = restaurantData.find(a => a.rating >= 4.0)
+        //find menu by menutypeid
+        if (category != undefined) {
+            let selectedMenu = restaurantData.filter(a => a.categories.includes(category))
+            setRestaurantData(selectedMenu)
+        }
+        //set recommened data
+        // setRecommends(selectedRecommend?.list.filter(a => a.categories.includes(categoryId)))
+        // setRecommends(selectedRecommend)
+        //set the menu based on the categoryId
+        //set recommened data
+        // setDiscounts(selectedDiscount?.list.filter(a => a.categories.includes(categoryId)))
+    }
 
-        const apiOptions = {
+
+    const getRestaurantsFromYelp = async () => {
+        const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=1576 E 115th St, Cleveland, OH 44106&radius=32000&limit=5&sort_by=distance`;
+
+        const options = {
+            method: 'GET',
             headers: {
-                Authorization: YELP_API_KEY,
-            },
+                accept: 'application/json',
+                Authorization: `Bearer ${YELP_API_KEY}`
+            }
         };
 
-        return fetch(yelpUrl, apiOptions)
-            .then((res) => res.json())
-            .then((json) =>
-                setRestaurantData(json.businesses)
-            );
+        const res = await fetch(yelpUrl, options)
+            .then(response => response.json())
+            .then(json => {
+                setRestaurantData(
+                    json.businesses)
+                getCategoryFromRestaurant(restaurantData)
+
+
+            }
+            )
+            .catch(err => console.error(err));
     };
 
     //render
@@ -137,7 +158,7 @@ const Home = () => {
 
                 {/* filter */}
                 <TouchableOpacity
-                    onPress={() => console.log('filter')}
+                    onPress={() => console.log(categories)}
                 >
                     <Image
                         source={icons.filter}
@@ -156,8 +177,8 @@ const Home = () => {
         return (
             <FlatList
                 horizontal
-                data={dummyData.menu}
-                keyExtractor={(item) => `${item.id}`}
+                data={categories}
+                keyExtractor={(item) => `${item.alias}`}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                     marginTop: 0,
@@ -170,16 +191,17 @@ const Home = () => {
                             height: 42,
                             marginTop: SIZES.padding,
                             marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
-                            marginRight: index == dummyData.menu.length - 1 ? SIZES.padding : 0,
-                            backgroundColor: selectedMenuType == item.id ? COLORS.green : COLORS.white,
+                            marginRight: index == categories.length - 1 ? SIZES.padding : 0,
+                            backgroundColor: selectedMenuType != item.alias ? COLORS.green : COLORS.white,
                             padding: 10,
                             borderRadius: SIZES.padding,
                             borderWidth: 1,
                             borderColor: COLORS.green
                         }}
                         onPress={() => {
-                            setSelectedMenuType(item.id)
-                            handleChangeCategory(selectedCategoryId, item.id)
+                            setSelectedMenuType(item.alias)
+                            console.log(selectedMenuType)
+                            handleChangeCategory(selectedCategory)
                         }
 
                         }
@@ -247,8 +269,8 @@ const Home = () => {
     function renderFoodCategories() {
         return (
             <FlatList
-                data={dummyData.categories}
-                keyExtractor={(item) => `${item.id}`}
+                data={categories}
+                keyExtractor={(item) => `${item.alias}`}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => (
@@ -258,14 +280,14 @@ const Home = () => {
                             height: 55,
                             marginTop: SIZES.padding,
                             marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
-                            marginRight: index == dummyData.categories.length - 1 ? SIZES.padding : 0,
+                            marginRight: index == categories.length - 1 ? SIZES.padding : 0,
                             paddingHorizontal: 0,
                             borderRadius: SIZES.radius,
-                            backgroundColor: selectedCategoryId == item.id ? COLORS.green : COLORS.white,
+                            backgroundColor: selectedCategory == item.alias ? COLORS.white : COLORS.green,
                         }}
                         onPress={() => {
-                            setSelectedCategoryId(item.id)
-                            handleChangeCategory(item.id, selectedMenuType)
+                            setSelectedCategory(item.alias)
+                            handleChangeCategory(item.alias, selectedMenuType)
                         }}
                     >
                         <Image
@@ -280,11 +302,11 @@ const Home = () => {
                             style={{
                                 alignSelf: 'center',
                                 marginRight: SIZES.base,
-                                color: selectedCategoryId == item.id ? COLORS.white : COLORS.black,
+                                color: selectedCategory == item.alias ? COLORS.black : COLORS.white,
                                 ...FONTS.h3,
                             }}
                         >
-                            {item.name}
+                            {item.title}
                         </Text>
 
                     </TouchableOpacity>
@@ -296,88 +318,216 @@ const Home = () => {
     }
 
     return (
-        <View
-            style={{
-                flex: 1,
-                marginTop: Display.setHeight(14),
-            }}
-        >
+        // <View
+        //     style={{
+        //         flex: 1,
+        //         marginTop: Display.setHeight(14),
+        //     }}
+        // >
 
 
-            {/* List */}
-            <FlatList
-                data={menuList}
-                keyExtractor={(item) => `${item.id}`}
-                showsVerticalScrollIndicator={false}
-                ListHeaderComponent={
-                    <View>
-                        {/* Search */}
-                        {renderSearch()}
-                        <Section
-                            title="Special Offers"
-                            onPress={() => console.log("See All")}
-                        >
-                            <FlatList
-                                data={dummyData.offers}
-                                keyExtractor={(item) => `${item.id}`}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                renderItem={({ item, index }) => (
-                                    <HorizontalFoodCard
-                                        containerStyle={{
-                                            height: 180,
-                                            width: SIZES.width * 0.85,
-                                            marginLeft: index == 0 ? SIZES.padding : 18,
-                                            marginRight: index ==
-                                                dummyData.offers.length - 1 ? SIZES.padding : 0,
-                                            paddingRight: SIZES.radius,
-                                            alignItems: "center",
-                                            marginTop: 20,
-                                        }}
-                                        imageStyle={{
-                                            height: 180,
-                                            width: SIZES.width * 0.85,
-                                        }}
-                                        item={item}
-                                        onPress={() => console.log("Horiontal Food Card")}
-                                    />
-                                )}
-                            />
-                        </Section>
+        //     {/* List */}
+        //     <FlatList
+        //         data={restaurantData}
+        //         keyExtractor={(item) => `${item.id}`}
+        //         showsVerticalScrollIndicator={false}
+        //         ListHeaderComponent={
+        //             <View>
+        //                 {/* Search */}
+        //                 {renderSearch()}
 
-                        {renderFoodCategories()}
-                        {renderDiscountSection()}
-                        {renderRecommendedSection()}
 
-                    </View>
-                }
+        //                 {renderFoodCategories()}
 
-                renderItem={({ item, index }) => {
-                    return (
-                        <HorizontalFoodCard
-                            item={item}
-                            containerStyle={{
-                                height: 130,
-                                alignItems: 'center',
-                                marginHorizontal: SIZES.padding,
-                                marginBottom: SIZES.radius,
-                            }}
-                            imageStyle={{
-                                marginTop: 20,
-                                height: 110,
-                                width: 110,
-                            }}
-                            onPress={() => console.log("Horizonal Food Card")}
-                        />
-                    )
-                }}
+        //                 {/* {renderRecommendedSection()} */}
 
-                ListFooterComponent={
-                    <View style={{ height: 200 }} />
-                }
-            />
+
+
+        //             </View>
+        //         }
+
+        //         renderItem={({ item, index }) => {
+        //             return (
+        //                 <HorizontalFoodCard
+        //                     item={item}
+        //                     containerStyle={{
+        //                         height: 130,
+        //                         alignItems: 'center',
+        //                         marginHorizontal: SIZES.padding,
+        //                         marginBottom: SIZES.radius,
+        //                     }}
+        //                     imageStyle={{
+        //                         marginVertical: 10,
+        //                         marginLeft: 5,
+        //                         borderRadius: SIZES.radius,
+        //                         height: 110,
+        //                         width: 110,
+        //                     }}
+        //                     onPress={() => console.log("Horizonal Food Card")}
+        //                 />
+        //             )
+        //         }}
+
+        //         ListFooterComponent={
+        //             <>
+        //                 {renderDiscountSection()}
+        //                 <Section
+        //                     title="Special Offers"
+        //                     onPress={() => console.log("See All")}
+        //                 >
+        //                     <FlatList
+        //                         data={dummyData.offers}
+        //                         keyExtractor={(item) => `${item.id}`}
+        //                         horizontal
+        //                         showsHorizontalScrollIndicator={false}
+        //                         renderItem={({ item, index }) => (
+        //                             <HorizontalFoodCard
+        //                                 containerStyle={{
+        //                                     height: 180,
+        //                                     width: SIZES.width * 0.85,
+        //                                     marginLeft: index == 0 ? SIZES.padding : 18,
+        //                                     marginRight: index ==
+        //                                         dummyData.offers.length - 1 ? SIZES.padding : 0,
+        //                                     paddingRight: SIZES.radius,
+        //                                     alignItems: "center",
+        //                                     marginTop: 20,
+        //                                 }}
+        //                                 imageStyle={{
+        //                                     height: 180,
+        //                                     width: SIZES.width * 0.85,
+        //                                 }}
+        //                                 item={item}
+        //                                 onPress={() => console.log("Horiontal Food Card")}
+        //                             />
+        //                         )}
+        //                     />
+        //                 </Section>
+        //                 <View style={{ height: 200 }} />
+        //             </>
+        //         }
+        //     />
+        // </View>
+
+        <View style={{
+            flex: 1,
+            marginTop: Display.setHeight(10)
+        }}>
+            {/* <StatusBar
+                barStyle="default"
+                backgroundColor={COLORS.green}
+                translucent
+            /> */}
+            <Separator height={StatusBar.currentHeight} />
+            <BackgroundCurvedView pos = {2000} />
+            {renderSearch()}
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.SECONDARY_WHITE,
+    },
+    headerContainer: {
+        justifyContent: 'space-evenly',
+    },
+    locationContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+        marginHorizontal: 20,
+    },
+    locationText: {
+        color: COLORS.DEFAULT_WHITE,
+        marginLeft: 5,
+        fontSize: 13,
+        lineHeight: 13 * 1.4,
+        fontFamily: FONTS.POPPINS_MEDIUM,
+    },
+    selectedLocationText: {
+        color: COLORS.DEFAULT_YELLOW,
+        marginLeft: 5,
+        fontSize: 14,
+        lineHeight: 14 * 1.4,
+        fontFamily: FONTS.POPPINS_MEDIUM,
+    },
+    searchContainer: {
+        backgroundColor: COLORS.DEFAULT_WHITE,
+        height: 45,
+        borderRadius: 8,
+        marginHorizontal: 20,
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    searchSection: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 10,
+    },
+    searchText: {
+        color: COLORS.DEFAULT_GREY,
+        fontSize: 16,
+        lineHeight: 16 * 1.4,
+        fontFamily: FONTS.POPPINS_MEDIUM,
+        marginLeft: 10,
+    },
+    categoriesContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginTop: 20,
+    },
+    listContainer: {
+        paddingVertical: 5,
+        zIndex: -5,
+    },
+    horizontalListContainer: {
+        marginTop: 30,
+    },
+    listHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal: 20,
+        marginBottom: 5,
+    },
+    listHeaderTitle: {
+        color: COLORS.DEFAULT_BLACK,
+        fontSize: 16,
+        lineHeight: 16 * 1.4,
+        fontFamily: FONTS.POPPINS_MEDIUM,
+    },
+    listHeaderSubtitle: {
+        color: COLORS.DEFAULT_YELLOW,
+        fontSize: 13,
+        lineHeight: 13 * 1.4,
+        fontFamily: FONTS.POPPINS_MEDIUM,
+    },
+    sortListContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        backgroundColor: COLORS.DEFAULT_WHITE,
+        marginTop: 8,
+        elevation: 1,
+    },
+    sortListItem: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.DEFAULT_YELLOW,
+        height: 40,
+    },
+    sortListItemText: {
+        color: COLORS.DEFAULT_BLACK,
+        fontSize: 13,
+        lineHeight: 13 * 1.4,
+        fontFamily: FONTS.POPPINS_SEMI_BOLD,
+    },
+});
+
 
 export default Home;

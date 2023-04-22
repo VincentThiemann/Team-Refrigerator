@@ -9,13 +9,14 @@ import {
     FlatList,
     StatusBar
 } from 'react-native';
+import { BackgroundCurvedView } from "../components"
 import { EvilIcons } from '@expo/vector-icons';
 import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions';
-import { Home, Search, CartTab, Notification, Favourite, TransactionHistory} from './'
+import { Home, Search, CartTab, Notification, Favourite, TransactionHistory } from './'
 import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants';
 import { Header } from '../components';
 import { auth } from "../firebase"
@@ -225,7 +226,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
         else {
             notiTabFlex.value = withTiming(1, { duration: 500 })
             notiTabColor.value = withTiming(COLORS.white, { duration: 500 })
-        } 
+        }
 
     }, [selectedTab])
 
@@ -249,13 +250,17 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             <StatusBar barStyle="light-content"
                 backgroundColor="transparent"
                 translucent />
+            {toggleLocation &&
+                <BackgroundCurvedView  pos = {1600}/>
+            }
+            
             {/* Header */}
             <Header
                 containerStyle={{
                     position: "absolute",
                     zIndex: 1,
-                    width: Display.setWidth(100),
-                    height: !toggleLocation ? Display.setHeight(14) : Display.setHeight(70),
+                    width: "100%",
+                    height: Display.setHeight(14),
                     paddingHorizontal: SIZES.padding,
                     paddingTop: 40,
                     backgroundColor: COLORS.green,
@@ -304,35 +309,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
 
                         </TouchableOpacity>
 
-                        {toggleLocation &&
-                            <GooglePlacesAutocomplete
-                                placeholder='Search'
-                                styles={{
-                                    textInput: {
-                                        flex: 1,
-                                        ...FONTS.body3,
-                                        textAlign: 'left',
-                                        fontStyle: 'italic',
-                                        alignSelf: 'center',
-                                        textAlignVertical: "top"
 
-
-                                    },
-                                    textInputContainer: {
-                                        flexDirection: 'row',
-
-                                        alignItems: 'center',
-
-                                        paddingHorizontal: SIZES.radius,
-                                        borderRadius: SIZES.radius,
-                                        height: Display.setHeight(7),
-                                        width: Display.setWidth(70),
-                                        marginHorizontal: SIZES.padding,
-                                        marginVertical: SIZES.radius,
-
-                                    }
-                                }} />
-                        }
 
                     </View>
                 }
@@ -340,7 +317,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 rightComponent={
                     <View style={{ flexDirection: "row" }}>
 
-                        {/* <TouchableOpacity
+                        <TouchableOpacity
                             style={{
                                 width: 40,
                                 height: 40,
@@ -354,8 +331,8 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                     tintColor: COLORS.white
                                 }}
                             />
-                        </TouchableOpacity> */}
-                        
+                        </TouchableOpacity>
+
                         <TouchableOpacity
                             style={{
                                 width: 40,
@@ -364,6 +341,24 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                 justifyContent: 'center',
                             }}
                             onPress={() => { setSelectedTab(constants.screens.notification) }}>
+                            <View style={{
+                                borderRadius: 32,
+                                backgroundColor: COLORS.DEFAULT_YELLOW,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: 16,
+                                width: 16,
+                                position: 'absolute',
+                                right: 0,
+                                top: 0,
+                            }}>
+                                <Text style={{
+                                    color: COLORS.DEFAULT_WHITE,
+                                    fontSize: 10,
+                                    lineHeight: 10 * 1.4,
+                                    fontFamily: FONTS.POPPINS_BOLD,
+                                }}>12</Text>
+                            </View>
                             <Image
                                 source={icons.notification}
                                 style={{

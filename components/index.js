@@ -8,6 +8,7 @@ import HorizontalFoodCard from './HorizontalFoodCard';
 import VerticalFoodCard from './VerticalFoodCard';
 import CustomTabBar from './CustomTabBar';
 import IconButton from './IconButton';
+import BackgroundCurvedView from './BackgroundCurvedView';
 
 export {
   WelcomeCard,
@@ -20,4 +21,5 @@ export {
   CustomTabBar,
   Header,
   IconButton,
+  BackgroundCurvedView
 };
