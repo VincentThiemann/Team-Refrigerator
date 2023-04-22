@@ -129,7 +129,7 @@ export const OTPCodeVerification = ({ OTPInput, setCode, confirmCode }) => {
             contentContainerStyle={{ flexGrow: 1 }}
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', padding: 30, backgroundColor: "white" }}>
-                {/* <TouchableOpacity onPress={() => { navigation.goBack() }}
+                {<TouchableOpacity onPress={() => { navigation.goBack() }}
                     style={{
                         width: 40,
                         height: 40,
@@ -147,7 +147,7 @@ export const OTPCodeVerification = ({ OTPInput, setCode, confirmCode }) => {
                             height: "100%"
                         }}
                     ></Image>
-                </TouchableOpacity> */}
+                </TouchableOpacity>}
 
                 <Text style={{
                     position: "relative",

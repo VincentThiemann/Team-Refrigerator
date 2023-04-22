@@ -15,7 +15,7 @@ export const LogInAccount = ({ navigation, signIn }) => {
     const [pressed1, setPressed1] = React.useState(false);
     const [pressed2, setPressed2] = React.useState(false);
     const [pressed3, setPressed3] = React.useState(false);
-    const [phoneNumber, setPhoneNumber] = React.useState("+12163360563");
+    const [phoneNumber, setPhoneNumber] = React.useState("");
     const [result, setResult] = React.useState("");
 
     // If null, no SMS has been sent
