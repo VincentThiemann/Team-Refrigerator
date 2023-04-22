@@ -9,23 +9,20 @@ import {
     FlatList,
     StatusBar
 } from 'react-native';
+import { BackgroundCurvedView } from "../components"
 import { EvilIcons } from '@expo/vector-icons';
-
 import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions';
-
-import { Home, Search, CartTab, Notification, Favourite } from './'
-
+import { Home, Search, CartTab, Notification, Favourite, TransactionHistory } from './'
 import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants';
-
 import { Header } from '../components';
-
 import { auth } from "../firebase"
 import Display from '../utils/Display';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { TextInputComponent } from 'react-native';
 
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
@@ -96,6 +93,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
     const favTabColor = useSharedValue(COLORS.white);
     const notiTabFlex = useSharedValue(1);
     const notiTabColor = useSharedValue(COLORS.white);
+    const [toggleLocation, setToggleLocation] = React.useState(false);
 
 
     // reanimated styles
@@ -230,7 +228,6 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             notiTabColor.value = withTiming(COLORS.white, { duration: 500 })
         }
 
-
     }, [selectedTab])
 
     const handleSignOut = () => {
@@ -253,14 +250,22 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             <StatusBar barStyle="light-content"
                 backgroundColor="transparent"
                 translucent />
+            {toggleLocation &&
+                <BackgroundCurvedView  pos = {1600}/>
+            }
+            
             {/* Header */}
             <Header
                 containerStyle={{
+                    position: "absolute",
+                    zIndex: 1,
+                    width: "100%",
                     height: Display.setHeight(14),
                     paddingHorizontal: SIZES.padding,
                     paddingTop: 40,
-                    alignItems: "center",
                     backgroundColor: COLORS.green,
+                    borderBottomRightRadius: SIZES.radius,
+                    borderBottomLeftRadius: SIZES.radius,
                 }}
                 //title={selectedTab.toUpperCase()} //to upper case later
                 leftComponent={
@@ -281,12 +286,13 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                             </Text>
                         </View>
 
-                        <TouchableOpacity style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: SIZES.base,
-
-                        }}>
+                        <TouchableOpacity
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                marginTop: SIZES.base,
+                            }}
+                            onPress={() => setToggleLocation(!toggleLocation)}>
                             <Text style={{ ...FONTS.h3 }}>
                                 {dummyData?.myProfile?.address}
                             </Text>
@@ -303,26 +309,85 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
 
                         </TouchableOpacity>
 
+
+
                     </View>
                 }
 
                 rightComponent={
-                    <TouchableOpacity
-                        style={{
-                            width: 40,
-                            height: 40,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                        onPress={() => { navigation.openDrawer() }}>
-                        <Image
-                            source={icons.menu}
-                            style={{
-                                tintColor: COLORS.white
-                            }}
-                        />
-                    </TouchableOpacity>
+                    <View style={{ flexDirection: "row" }}>
 
+                        <TouchableOpacity
+                            style={{
+                                width: 40,
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                            onPress={() => { navigation.openDrawer() }}>
+                            <Image
+                                source={icons.menu}
+                                style={{
+                                    tintColor: COLORS.white
+                                }}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={{
+                                width: 40,
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                            onPress={() => { setSelectedTab(constants.screens.notification) }}>
+                            <View style={{
+                                borderRadius: 32,
+                                backgroundColor: COLORS.DEFAULT_YELLOW,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: 16,
+                                width: 16,
+                                position: 'absolute',
+                                right: 0,
+                                top: 0,
+                            }}>
+                                <Text style={{
+                                    color: COLORS.DEFAULT_WHITE,
+                                    fontSize: 10,
+                                    lineHeight: 10 * 1.4,
+                                    fontFamily: FONTS.POPPINS_BOLD,
+                                }}>12</Text>
+                            </View>
+                            <Image
+                                source={icons.notification}
+                                style={{
+                                    height: 20,
+                                    width: 20,
+                                    tintColor: COLORS.white
+                                }}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={{
+                                width: 40,
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                            onPress={() => { setSelectedTab(constants.screens.cart) }}>
+                            <Image
+                                source={icons.cart}
+                                style={{
+                                    height: 20,
+                                    width: 20,
+                                    tintColor: COLORS.white,
+
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 }
             />
 
@@ -350,12 +415,12 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                     width: SIZES.width,
                                 }}
                             >
-                                {item.label == constants.screens.home && <Home />}
-                                {item.label == constants.screens.search && <Search />}
-                                {item.label == constants.screens.cart && <CartTab />}
-                                {item.label == constants.screens.favourite && <Favourite />}
-                                {item.label == constants.screens.notification && <Notification />}
-
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.home && <Home />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.search && <Search />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.cart && <CartTab />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.favourite && <Favourite />}
+                                {selectedTab != constants.screens.my_wallet && item.label == constants.screens.notification && <Notification />}
+                                {selectedTab == constants.screens.my_wallet && <TransactionHistory />}
 
                             </View>
                         )

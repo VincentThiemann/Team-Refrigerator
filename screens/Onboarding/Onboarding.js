@@ -115,26 +115,25 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#F5FCFF'
     },
     text: {
         textAlign: 'center',
-        fontSize: SIZES.h2,
+        fontSize: SIZES.h1,
         color: COLORS.black,
-        fontFamily: FONTS.POPPINS_BOLD,
     },
     button: {
-        height: 60,
+        height: '40%',
         width: '80%',
         paddingLeft: SIZES.radius,
         borderRadius: 50,
-        backgroundColor: COLORS.green,
+        backgroundColor: 'cyan',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,
     },
     image: {
         width: '100%',
-        height: '100%',
+        height: '100%'
     }
 })

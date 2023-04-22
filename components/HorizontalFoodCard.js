@@ -21,10 +21,10 @@ const HorizontalFoodCard = ({ containerStyle, imageStyle, item, onPress }) => {
                 ...containerStyle
             }}
             onPress={onPress}>
-            <Image source={item.image} style={imageStyle} />
-            <View style={{ flex: 1 }}>
+            <Image source={{uri: item.image_url}} style={imageStyle} />
+            <View style={{ flex: 1, marginLeft: 20 }}>
                 <Text style={{ ...FONTS.h3, fontSize: 17 }}>{item.name}</Text>
-                <Text style={{ color: COLORS.darkGray, ...FONTS.body4 }}>{item.description}</Text>
+                <Text style={{ color: COLORS.darkGray, ...FONTS.body4 }}>{console.log(item.categories)}</Text>
             </View>
 
             {/* Favorite */}

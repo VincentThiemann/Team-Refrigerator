@@ -1,6 +1,5 @@
 import CustomDrawer from "./CustomDrawer.js";
-import Tab from "./Tab.js"
 
-const navigations = { CustomDrawer, Tab }; 
+const navigations = { CustomDrawer }; 
 
 export default navigations

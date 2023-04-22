@@ -68,4 +68,6 @@ yarn.lock
 .env
 .expo/
 package-lock.json
+
+.expo/devices.json
 apiKeys.js

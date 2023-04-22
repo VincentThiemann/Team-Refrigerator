@@ -14,7 +14,7 @@ export const firebaseConfig = {
     authDomain:  keys.FIREBASE_AUTH_DOMAIN,
     projectId:  keys.FIREBASE_PROJECT_ID,
     storageBucket:  keys.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: keys.FIREBASE_MESSAGER_SENDER_ID,
+    messagingSenderId: keys.FIREBASE_MESSENGER_SENDER_ID,
     appId: keys.FIREBASE_APP_ID,
 };
 
