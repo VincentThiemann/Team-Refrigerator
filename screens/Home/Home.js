@@ -7,18 +7,20 @@ import {
     FlatList,
     TouchableOpacity,
     StyleSheet,
-    StatusBar
+    StatusBar,
+    ScrollView
 } from 'react-native';
-import { Separator, BackgroundCurvedView } from "../../components"
+import { Separator, BackgroundCurvedView, CategoryMenuItem, RestaurantCard } from "../../components"
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
 import { HorizontalFoodCard, VerticalFoodCard } from '../../components';
 import Display from '../../utils/Display';
-import { keys } from '../../apiKeys'
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Feather from '@expo/vector-icons/Feather';
+import { keys } from '../../apiKeys';
+import { Mock } from "../../constants";
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const YELP_API_KEY = keys.YELP_API_KEY;
+
 
 const Section = ({ title, onPress, children }) => {
     return (
@@ -28,7 +30,7 @@ const Section = ({ title, onPress, children }) => {
                 style={{
                     flexDirection: 'row',
                     marginHorizontal: SIZES.padding,
-                    marginTop: 30,
+
                 }}
             >
                 <Text
@@ -58,6 +60,10 @@ const Home = () => {
     const [discounts, setDiscounts] = React.useState([]);
     const [restaurantData, setRestaurantData] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
+    const [activeCategory, setActiveCategory] = React.useState();
+    const [url, setUrl] = React.useState();
+    const reference = storage().ref('black-t-shirt-sm.png');
+
 
     React.useEffect(() => {
         //handler
@@ -101,17 +107,18 @@ const Home = () => {
             }
         };
 
-        const res = await fetch(yelpUrl, options)
-            .then(response => response.json())
-            .then(json => {
-                setRestaurantData(
-                    json.businesses)
-                getCategoryFromRestaurant(restaurantData)
+        const restaurant = await firestore().collection('Restaurants').get()
+            .then((res) => { setRestaurantData(res.docs.map(doc => doc.data())) });
 
-
-            }
-            )
-            .catch(err => console.error(err));
+        // const res = await fetch(yelpUrl, options)
+        //     .then(response => response.json())
+        //     .then(json => {
+        //         setRestaurantData(
+        //             json.businesses)
+        //         getCategoryFromRestaurant(restaurantData)
+        //     }
+        //     )
+        //     .catch(err => console.error(err));
     };
 
     //render
@@ -158,7 +165,7 @@ const Home = () => {
 
                 {/* filter */}
                 <TouchableOpacity
-                    onPress={() => console.log(categories)}
+                    onPress={() => console.log("Horizontal")}
                 >
                     <Image
                         source={icons.filter}
@@ -412,14 +419,45 @@ const Home = () => {
             flex: 1,
             marginTop: Display.setHeight(10)
         }}>
-            {/* <StatusBar
-                barStyle="default"
-                backgroundColor={COLORS.green}
-                translucent
-            /> */}
             <Separator height={StatusBar.currentHeight} />
-            <BackgroundCurvedView pos = {2000} />
+            <BackgroundCurvedView pos={2000} />
             {renderSearch()}
+            <View style={styles.categoriesContainer}>
+                {Mock.CATEGORIES.map(({ name, logo }) => (
+                    <CategoryMenuItem
+                        name={name}
+                        logo={logo}
+                        key={name}
+                        activeCategory={activeCategory}
+                        setActiveCategory={setActiveCategory} />
+                ))}
+            </View>
+            <Separator height={Display.setHeight(7)} />
+            <ScrollView style={styles.listContainer}>
+                <Section title="Top Rated" />
+                <View>
+                    {/* List */}
+                    <FlatList
+                        data={restaurantData}
+                        keyExtractor={(item) => `${item.id}`}
+                        showsVerticalScrollIndicator={false}
+
+                        renderItem={({ item }) => {
+                            <RestaurantCard {...item} />
+                            console.log(item)
+                        }
+
+
+                        }
+
+                        ListFooterComponent={
+                            <View style={{ height: 200 }} />
+                        }
+                    />
+                </View>
+            </ScrollView>
+
+
         </View>
     )
 }
