@@ -17,7 +17,6 @@ import Display from '../../utils/Display';
 import { keys } from '../../apiKeys';
 import { Mock } from "../../constants";
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 
 const YELP_API_KEY = keys.YELP_API_KEY;
 
@@ -30,7 +29,7 @@ const Section = ({ title, onPress, children }) => {
                 style={{
                     flexDirection: 'row',
                     marginHorizontal: SIZES.padding,
-
+                    marginBottom: 12
                 }}
             >
                 <Text
@@ -61,9 +60,6 @@ const Home = () => {
     const [restaurantData, setRestaurantData] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [activeCategory, setActiveCategory] = React.useState();
-    const [url, setUrl] = React.useState();
-    const reference = storage().ref('black-t-shirt-sm.png');
-
 
     React.useEffect(() => {
         //handler
@@ -108,7 +104,10 @@ const Home = () => {
         };
 
         const restaurant = await firestore().collection('Restaurants').get()
-            .then((res) => { setRestaurantData(res.docs.map(doc => doc.data())) });
+            .then((res) => {
+                setRestaurantData(res.docs.map(doc => doc.data()))
+                console.log(restaurantData);
+            });
 
         // const res = await fetch(yelpUrl, options)
         //     .then(response => response.json())
@@ -417,7 +416,7 @@ const Home = () => {
 
         <View style={{
             flex: 1,
-            marginTop: Display.setHeight(10)
+            marginTop: Display.setHeight(10),
         }}>
             <Separator height={StatusBar.currentHeight} />
             <BackgroundCurvedView pos={2000} />
@@ -429,29 +428,30 @@ const Home = () => {
                         logo={logo}
                         key={name}
                         activeCategory={activeCategory}
-                        setActiveCategory={setActiveCategory} />
+                        setActiveCategory={setActiveCategory}
+                    />
                 ))}
             </View>
-            <Separator height={Display.setHeight(7)} />
+            <Separator height={Display.setHeight(3.5)} />
             <ScrollView style={styles.listContainer}>
-                <Section title="Top Rated" />
+
                 <View>
                     {/* List */}
                     <FlatList
                         data={restaurantData}
                         keyExtractor={(item) => `${item.id}`}
                         showsVerticalScrollIndicator={false}
-
-                        renderItem={({ item }) => {
+                        horizontal
+                        renderItem={({ item, index }) =>
                             <RestaurantCard {...item} />
-                            console.log(item)
                         }
-
-
+                        ListHeaderComponent={
+                            <View style={{paddingTop: 32}}>
+                                <Section title="Top Rated" />
+                            </View>
                         }
-
                         ListFooterComponent={
-                            <View style={{ height: 200 }} />
+                            <View style={{ height: 100 }} />
                         }
                     />
                 </View>

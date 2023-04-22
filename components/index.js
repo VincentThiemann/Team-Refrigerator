@@ -11,6 +11,7 @@ import IconButton from './IconButton';
 import BackgroundCurvedView from './BackgroundCurvedView';
 import RestaurantCard from './RestaurantCard';
 import RestaurantMediumCard from './RestaurantMediumCard';
+import ProgressiveImage from './ProgressiveImage';
 
 export {
   WelcomeCard,
@@ -25,5 +26,6 @@ export {
   IconButton,
   BackgroundCurvedView,
   RestaurantCard,
-  RestaurantMediumCard
+  RestaurantMediumCard,
+  ProgressiveImage
 };
