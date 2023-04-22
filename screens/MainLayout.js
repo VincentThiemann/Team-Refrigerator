@@ -239,6 +239,12 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             .catch(error => alert(error.message))
     }
 
+    const getHeaderHeight = () => {
+        if(toggleLocation) return 1600;
+        if(selectedTab == constants.screens.home) return 2000;
+        else return 2090;
+    }
+    
     return (
         <Animated.View
             style={{
@@ -250,9 +256,8 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             <StatusBar barStyle="light-content"
                 backgroundColor="transparent"
                 translucent />
-            {toggleLocation &&
-                <BackgroundCurvedView  pos = {1600}/>
-            }
+            <BackgroundCurvedView  pos = {getHeaderHeight()}
+            />
             
             {/* Header */}
             <Header
