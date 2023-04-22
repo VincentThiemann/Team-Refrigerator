@@ -71,3 +71,4 @@ package-lock.json
 
 .expo/devices.json
 apiKeys.js
+firebase.js
