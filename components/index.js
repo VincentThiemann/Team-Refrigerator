@@ -9,6 +9,9 @@ import VerticalFoodCard from './VerticalFoodCard';
 import CustomTabBar from './CustomTabBar';
 import IconButton from './IconButton';
 import BackgroundCurvedView from './BackgroundCurvedView';
+import RestaurantCard from './RestaurantCard';
+import RestaurantMediumCard from './RestaurantMediumCard';
+import ProgressiveImage from './ProgressiveImage';
 
 export {
   WelcomeCard,
@@ -21,5 +24,8 @@ export {
   CustomTabBar,
   Header,
   IconButton,
-  BackgroundCurvedView
+  BackgroundCurvedView,
+  RestaurantCard,
+  RestaurantMediumCard,
+  ProgressiveImage
 };
