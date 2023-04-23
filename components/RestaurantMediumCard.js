@@ -3,15 +3,28 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {COLORS, FONTS, images} from '../constants';
 import Display from '../utils/Display';
+import storage from '@react-native-firebase/storage';
 
 const RestaurantMediumCard = ({name, images: {logo}, time, distance, tags}) => {
+  const [url, setUrl] = React.useState();
+
+  React.useEffect(() => {
+    const func = async () => {
+      const reference = storage().ref(`images/logo/${logo}.png`);
+      await reference.getDownloadURL().then((x) => {
+        setUrl(x);
+      }) 
+    }
+    if (url == undefined) { func() };
+  }, []);
+
   return (
     <View style={styles.container}>
       <View>
-        {/* <Image
-          source={{uri: StaticImageService.getLogo(logo)}}
+        <Image
+          source={{uri: url}}
           style={styles.posterStyle}
-        /> */}
+        />
       </View>
       <View style={styles.labelContainer}>
         <View style={styles.titleContainer}>
@@ -80,14 +93,14 @@ const styles = StyleSheet.create({
   },
   titleText: {
     FontSize: 14,
-    lineHeight: 14 * 1.4,
+    lineHeight: 14 * 2,
     fontFamily: FONTS.POPPINS_BOLD,
     color: COLORS.DEFAULT_BLACK,
     marginBottom: 5,
   },
   tagsText: {
     FontSize: 11,
-    lineHeight: 11 * 1.4,
+    lineHeight: 11 * 2,
     fontFamily: FONTS.POPPINS_MEDIUM,
     color: COLORS.DEFAULT_GREY,
     marginBottom: 7,
@@ -95,7 +108,7 @@ const styles = StyleSheet.create({
   deliveryDetailsText: {
     marginLeft: 3,
     FontSize: 12,
-    lineHeight: 12 * 1.4,
+    lineHeight: 12 * 2,
     fontFamily: FONTS.POPPINS_SEMI_BOLD,
     color: COLORS.DEFAULT_BLACK,
   },
@@ -110,13 +123,13 @@ const styles = StyleSheet.create({
   ratingText: {
     marginLeft: 5,
     FontSize: 10,
-    lineHeight: 10 * 1.4,
+    lineHeight: 10 * 2,
     fontFamily: FONTS.POPPINS_BOLD,
     color: COLORS.DEFAULT_BLACK,
   },
   reviewsText: {
     FontSize: 10,
-    lineHeight: 10 * 1.4,
+    lineHeight: 10 * 2,
     fontFamily: FONTS.POPPINS_MEDIUM,
     color: COLORS.DEFAULT_BLACK,
   },

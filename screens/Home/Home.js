@@ -10,20 +10,22 @@ import {
     StatusBar,
     ScrollView
 } from 'react-native';
-import { Separator, BackgroundCurvedView, CategoryMenuItem, RestaurantCard } from "../../components"
+import { Separator, BackgroundCurvedView, CategoryMenuItem, RestaurantCard, RestaurantMediumCard } from "../../components"
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
 import { HorizontalFoodCard, VerticalFoodCard } from '../../components';
 import Display from '../../utils/Display';
 import { keys } from '../../apiKeys';
 import { Mock } from "../../constants";
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 
 const YELP_API_KEY = keys.YELP_API_KEY;
 
 const sortStyle = isActive =>
-  isActive
-    ? styles.sortListItem
-    : {...styles.sortListItem, borderBottomColor: COLORS.DEFAULT_WHITE};
+    isActive
+        ? styles.sortListItem
+        : { ...styles.sortListItem, borderBottomColor: COLORS.DEFAULT_WHITE };
+
 
 
 const Section = ({ title, onPress, children }) => {
@@ -66,6 +68,7 @@ const Home = () => {
     const [categories, setCategories] = React.useState([]);
     const [activeCategory, setActiveCategory] = React.useState();
     const [activeSortItem, setActiveSortItem] = React.useState('recent');
+    const navigation = useNavigation();
 
     React.useEffect(() => {
         //handler
@@ -440,25 +443,28 @@ const Home = () => {
             </View>
             <Separator height={Display.setHeight(3.5)} />
             <ScrollView style={styles.listContainer}>
-                {/* List */}
-                <FlatList
-                    horizontal
-                    data={restaurantData}
-                    keyExtractor={item => item?.id}
-                    showsHorizontalScrollIndicator={false}
-                    ListHeaderComponent={
-                        <View style={{ paddingTop: 32 }}>
-                            <Section title="Top Rated" />
-                        </View>
-                    }
-                    ListFooterComponent={
-                        <View style={{ height: 100 }} />
-                    }
 
-                    renderItem={({ item, index }) =>
-                        <RestaurantCard {...item} />
-                    }
-                />
+                <View>
+                    {/* List */}
+                    <FlatList
+                        data={restaurantData}
+                        keyExtractor={(item, index) => item.id.toString()}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) =>
+                            <RestaurantCard {...item}
+                                navigate={restaurantId =>
+                                    navigation.navigate('Restaurant', { restaurantId })}
+                            />
+                        }
+                        ListHeaderComponent={
+                            <View style={{ paddingTop: 32 }}>
+                                <Section title="Top Rated" />
+                            </View>
+                        }
+
+                    />
+                </View>
                 <View style={styles.sortListContainer}>
                     <TouchableOpacity
                         style={sortStyle(activeSortItem === 'recent')}
@@ -491,11 +497,11 @@ const Home = () => {
                         <Text style={styles.sortListItemText}>Trending</Text>
                     </TouchableOpacity>
                 </View>
-                {/* {restaurantData?.map(item => (
+                {restaurantData?.map(item => (
                     <RestaurantMediumCard {...item} key={item?.id} />
-                ))} */}
-                <Separator height={Display.setHeight(5)} />
+                ))}
 
+                <Separator height={Display.setHeight(15)} />
 
             </ScrollView>
 

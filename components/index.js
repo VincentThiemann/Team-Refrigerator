@@ -12,6 +12,7 @@ import BackgroundCurvedView from './BackgroundCurvedView';
 import RestaurantCard from './RestaurantCard';
 import RestaurantMediumCard from './RestaurantMediumCard';
 import ProgressiveImage from './ProgressiveImage';
+import FoodCard from "./FoodCard";
 
 export {
   WelcomeCard,
@@ -27,5 +28,6 @@ export {
   BackgroundCurvedView,
   RestaurantCard,
   RestaurantMediumCard,
-  ProgressiveImage
+  ProgressiveImage,
+  FoodCard,
 };

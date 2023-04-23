@@ -5,7 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
-import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Search } from './screens';
+
+import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant } from './screens';
+
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -97,11 +99,11 @@ const App = () => {
           </>
         ) : (
           <>
-            {/* <Stack.Screen name="Search" component={Search} /> */}
             <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
             <Stack.Screen name="Cart" component={CartTab} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
-            <Stack.Screen name="FoodDetail" component={FoodDetail} />
+            <Stack.Screen name="Food" component={FoodDetail} />
+            <Stack.Screen name="Restaurant" component={Restaurant} />
           </>
         )
         }
