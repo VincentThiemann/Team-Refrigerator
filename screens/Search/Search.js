@@ -20,7 +20,9 @@ import Display from '../../utils/Display.js';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Separator from '../../components/Separator.js';
+import { keys } from "../../apiKeys.js";
 
+const GOOGLE_PLACES_API_KEY = keys.GOOGLE_PLACES_API_KEY;
 const Search = () => {
     const navigation = useNavigation();
     return (
@@ -29,7 +31,7 @@ const Search = () => {
                 <View style={{ flex: 1 }}>
                         <Separator height={Display.setHeight(14)}/>
                         <GooglePlacesAutocomplete
-                            query={{ key: "AIzaSyCN0cSCl0WQatiQVrqjJVGlEXCL5JuoWDg" }}
+                            query={{ key: GOOGLE_PLACES_API_KEY }}
                             onPress={(data, details = null) => {
                                 console.log(data.description);
                             }}
