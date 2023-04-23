@@ -502,6 +502,7 @@ const Home = () => {
                 ))}
 
                 <Separator height={Display.setHeight(15)} />
+
             </ScrollView>
 
 
