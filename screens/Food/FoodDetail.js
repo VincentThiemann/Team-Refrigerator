@@ -15,17 +15,33 @@ import Display from '../../utils/Display';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+//import {CartAction} from '../actions';
 
 const setStyle = isActive =>
     isActive
         ? styles.subMenuButtonText
         : { ...styles.subMenuButtonText, color: COLORS.DEFAULT_GREY };
 
-const FoodDetail = ({navigation}) => {
 
-    const [food, setFood] = React.useState(dummyData.vegBiryani);
-    const [isBookmarked, setIsBookmarked] = React.useState(false);
+const FoodDetail = ({
+    navigation,
+    route: {
+        params: { foodId },
+    }, }) => {
+
+    const [food, setFood] = useState(null);
+    const [selectedSubMenu, setSelectedSubMenu] = useState('Details');
+
+    //const [isBookmarked, setIsBookmarked] = React.useState(false);
     const [qty, setQty] = React.useState(1);
+
+    const dispatch = useDispatch();
+    const itemCount = useSelector(
+        state =>
+            state?.cartState?.cart?.cartItems?.find(item => item?.foodId === foodId)
+                ?.count,
+    );
 
     function handleFoodItem(passedFoodItem) {
         let foodItems = dummyData.menu.find(a => a.name == "All");
@@ -192,7 +208,7 @@ const FoodDetail = ({navigation}) => {
                                 color={COLORS.DEFAULT_YELLOW}
                                 size={24}
                                 onPress={() => {
-                                        setQty(qty + 1)
+                                    setQty(qty + 1)
                                 }}
                             />
                         </View>
@@ -206,7 +222,7 @@ const FoodDetail = ({navigation}) => {
                         <TouchableOpacity style={styles.cartButton}
                             onPress={() => navigation.navigate("Cart")}
                             activeOpacity={0.8}>
-                            <Text style={styles.priceText}> Add to Basket - $ {food?.price*qty}</Text>
+                            <Text style={styles.priceText}> Add to Basket - $ {food?.price * qty}</Text>
                         </TouchableOpacity>
                     </View>
 

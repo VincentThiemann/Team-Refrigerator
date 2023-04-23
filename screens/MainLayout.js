@@ -240,8 +240,9 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
     }
 
     const getHeaderHeight = () => {
-        if(toggleLocation) return 1600;
+        
         if(selectedTab == constants.screens.home) return 2000;
+        else if(toggleLocation) return 1600;
         else return 2090;
     }
     
