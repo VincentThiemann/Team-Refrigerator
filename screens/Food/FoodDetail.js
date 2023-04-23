@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -9,14 +9,16 @@ import {
     TouchableOpacity,
     TextInput
 } from 'react-native';
-import { FONTS, COLORS, SIZES, icons, images, dummyData, constants } from "../../constants"
-import { Header, Separator, IconLabel } from "../../components";
+import { ApiContants, FONTS, COLORS, SIZES, icons, images, dummyData } from "../../constants";
+import { Header, Separator, ProgressiveImage } from "../../components";
 import Display from '../../utils/Display';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 //import {CartAction} from '../actions';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const setStyle = isActive =>
     isActive
@@ -29,7 +31,8 @@ const FoodDetail = ({
     route: {
         params: { foodId },
     }, }) => {
-
+    const [urlSD, setUrlSD] = React.useState();
+    const [urlHD, setUrlHD] = React.useState();
     const [food, setFood] = useState(null);
     const [selectedSubMenu, setSelectedSubMenu] = useState('Details');
 
@@ -43,6 +46,34 @@ const FoodDetail = ({
                 ?.count,
     );
 
+    React.useEffect(() => {
+        const func = async () => {
+            let name = "";
+            await firestore()
+                .collection('Foods')
+                // Filter results
+                .doc(foodId)
+                .get()
+                .then((response) => {
+                    setFood(response?.data());
+                    name = response?.data().image;
+                    console.log(name);
+                });
+
+            const referenceSD = storage().ref(`images/gallery/square/sd/${name}.png`);
+            await referenceSD.getDownloadURL().then((x) => {
+                setUrlSD(x);
+            })
+            const referenceHD = storage().ref(`images/gallery/square/hd/${name}.png`);
+            await referenceHD.getDownloadURL().then((x) => {
+                setUrlHD(x);
+            })
+
+        }
+        if (urlSD == undefined) { func() };
+    }, []);
+
+
     function handleFoodItem(passedFoodItem) {
         let foodItems = dummyData.menu.find(a => a.name == "All");
         setFood(foodItems?.list.find(a => a.name == passedFoodItem));
@@ -53,13 +84,11 @@ const FoodDetail = ({
             <Header
 
                 containerStyle={{
-
                     positon: 'absolute',
                     height: 60,
                     top: Display.setHeight(3),
                     marginHorizontal: SIZES.padding,
                     margintop: 40,
-                    backgroundColor: 'green'
 
                 }}
 
@@ -104,10 +133,13 @@ const FoodDetail = ({
         >
             <StatusBar barStyle="default" translucent backgroundColor="transparent" />
 
-            <Image
-                source={food?.image}
+
+            <ProgressiveImage
+                thumbnailSource={{ uri: urlSD }}
+                source={{ uri: urlHD }}
                 style={styles.backgroundImage}
             />
+
             {/* Header */}
             {renderHeader()}
 
@@ -115,7 +147,7 @@ const FoodDetail = ({
             {/* Body */}
             <ScrollView style={{ flex: 1 }}>
 
-                <Separator height={Display.setWidth(100)} />
+                <Separator height={Display.setWidth(80)} />
                 <View style={styles.mainContainer}>
                     <View style={styles.titleHeaderContainer}>
                         <Text style={styles.titleText}>{food?.name}</Text>

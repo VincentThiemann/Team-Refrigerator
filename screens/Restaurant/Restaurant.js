@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { CategoryListItem, FoodCard, Separator } from '../../components';
+import { CategoryListItem, FoodCard, Separator, ProgressiveImage } from '../../components';
 import { ApiContants, COLORS, FONTS, images } from '../../constants';
 import Display from '../../utils/Display';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -63,7 +63,8 @@ const Restaurant = ({
     params: { restaurantId },
   },
 }) => {
-  const [url, setUrl] = React.useState();
+  const [urlSD, setUrlSD] = React.useState();
+  const [urlHD, setUrlHD] = React.useState();
   const [restaurant, setRestaurant] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [foods, setFoods] = useState([]);
@@ -87,16 +88,20 @@ const Restaurant = ({
         .then((response) => {
           setRestaurant(response?.data())
           setSelectedCategory(response?.data().categories[0]);
-          name = response?.data().images.logo;
+          name = response?.data().images.cover;
           console.log(response?.data().categories[0])
         });
 
-      const reference = storage().ref(`images/logo/${name}.png`);
-      await reference.getDownloadURL().then((x) => {
-        setUrl(x);
+      const referenceSD = storage().ref(`images/gallery/square/sd/${name}.png`);
+      await referenceSD.getDownloadURL().then((x) => {
+        setUrlSD(x);
+      })
+      const referenceHD = storage().ref(`images/gallery/square/hd/${name}.png`);
+      await referenceHD.getDownloadURL().then((x) => {
+        setUrlHD(x);
       })
     }
-    if (url == undefined) { func() };
+    if (urlSD == undefined) { func() };
   }, []);
 
   const dispatch = useDispatch();
@@ -115,12 +120,12 @@ const Restaurant = ({
     <View style={styles.container}>
       <StatusBar barStyle="default" translucent backgroundColor="transparent" />
       <>
-        <Image
-          source={{
-            uri: url,
-          }}
+      <ProgressiveImage
+          thumbnailSource={{ uri: urlSD }}
+          source={{ uri: urlHD }}
           style={styles.backgroundImage}
         />
+
         <ScrollView>
           <Separator height={Display.setHeight(35)} />
           <View style={styles.mainContainer}>

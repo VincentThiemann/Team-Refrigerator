@@ -101,7 +101,7 @@ const App = () => {
             <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
             <Stack.Screen name="Cart" component={CartTab} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
-            <Stack.Screen name="FoodDetail" component={FoodDetail} />
+            <Stack.Screen name="Food" component={FoodDetail} />
             <Stack.Screen name="Restaurant" component={Restaurant} />
           </>
         )
