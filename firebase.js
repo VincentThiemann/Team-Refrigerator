@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { 
+import {
     keys
 } from "./apiKeys"
 
@@ -11,13 +11,12 @@ import {
 // Your web app's Firebase configuration
 export const firebaseConfig = {
 
-    apiKey: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    authDomain:  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    projectId:  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    storageBucket:  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    messagingSenderId: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    appId: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-
+    apiKey: keys.FIREBASE_API_KEY,
+    authDomain: keys.FIREBASE_AUTH_DOMAIN,
+    projectId: keys.FIREBASE_PROJECT_ID,
+    storageBucket: keys.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: keys.FIREBASE_MESSENGER_SENDER_ID,
+    appId: keys.FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

@@ -21,8 +21,6 @@ import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants'
 import { Header } from '../components';
 import { auth } from "../firebase"
 import Display from '../utils/Display';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { TextInputComponent } from 'react-native';
 
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
@@ -241,8 +239,8 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
 
     const getHeaderHeight = () => {
         if(toggleLocation) return 1600;
-        if(selectedTab == constants.screens.home) return 2000;
-        else return 2090;
+        else if(selectedTab == constants.screens.home) return 2000;
+        else return 2030;
     }
     
     return (
