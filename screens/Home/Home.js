@@ -20,6 +20,11 @@ import firestore from '@react-native-firebase/firestore';
 
 const YELP_API_KEY = keys.YELP_API_KEY;
 
+const sortStyle = isActive =>
+  isActive
+    ? styles.sortListItem
+    : {...styles.sortListItem, borderBottomColor: COLORS.DEFAULT_WHITE};
+
 
 const Section = ({ title, onPress, children }) => {
     return (
@@ -60,6 +65,7 @@ const Home = () => {
     const [restaurantData, setRestaurantData] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [activeCategory, setActiveCategory] = React.useState();
+    const [activeSortItem, setActiveSortItem] = React.useState('recent');
 
     React.useEffect(() => {
         //handler
@@ -434,27 +440,63 @@ const Home = () => {
             </View>
             <Separator height={Display.setHeight(3.5)} />
             <ScrollView style={styles.listContainer}>
+                {/* List */}
+                <FlatList
+                    horizontal
+                    data={restaurantData}
+                    keyExtractor={item => item?.id}
+                    showsHorizontalScrollIndicator={false}
+                    ListHeaderComponent={
+                        <View style={{ paddingTop: 32 }}>
+                            <Section title="Top Rated" />
+                        </View>
+                    }
+                    ListFooterComponent={
+                        <View style={{ height: 100 }} />
+                    }
 
-                <View>
-                    {/* List */}
-                    <FlatList
-                        data={restaurantData}
-                        keyExtractor={(item) => `${item.id}`}
-                        showsVerticalScrollIndicator={false}
-                        horizontal
-                        renderItem={({ item, index }) =>
-                            <RestaurantCard {...item} />
-                        }
-                        ListHeaderComponent={
-                            <View style={{paddingTop: 32}}>
-                                <Section title="Top Rated" />
-                            </View>
-                        }
-                        ListFooterComponent={
-                            <View style={{ height: 100 }} />
-                        }
-                    />
+                    renderItem={({ item, index }) =>
+                        <RestaurantCard {...item} />
+                    }
+                />
+                <View style={styles.sortListContainer}>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'recent')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('recent')}>
+                        <Text style={styles.sortListItemText}>Recent</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'favorite')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('favorite')}>
+                        <Text style={styles.sortListItemText}>Favorite</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'rating')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('rating')}>
+                        <Text style={styles.sortListItemText}>Rating</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'popular')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('popular')}>
+                        <Text style={styles.sortListItemText}>Popular</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'trending')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('trending')}>
+                        <Text style={styles.sortListItemText}>Trending</Text>
+                    </TouchableOpacity>
                 </View>
+                {/* {restaurantData?.map(item => (
+                    <RestaurantMediumCard {...item} key={item?.id} />
+                ))} */}
+                <Separator height={Display.setHeight(5)} />
+
+
             </ScrollView>
 
 
