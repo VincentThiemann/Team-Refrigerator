@@ -69,3 +69,5 @@ yarn.lock
 .expo/
 package-lock.json
 
+package-lock.json
+yarn.lock
