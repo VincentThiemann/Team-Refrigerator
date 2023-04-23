@@ -405,6 +405,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                     horizontal
                     scrollEnabled={false}
                     pagingEnabled
+                    keyboardShouldPersistTaps={'handled'}
                     snapToAlignment="center"
                     snapToInterval={SIZES.width}
                     showsHorizontalScrollIndicator={false}

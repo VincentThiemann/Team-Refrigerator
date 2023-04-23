@@ -17,6 +17,9 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native';
 import Display from '../../utils/Display.js';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Separator from '../../components/Separator.js';
 
 const Search = () => {
     const navigation = useNavigation();
@@ -24,33 +27,62 @@ const Search = () => {
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ flex: 1 }}>
-                    <View style={{ flex: 2, justifyContent: 'center' }}>
-                        <View style={{ marginVertical: 10 }} />
-                        <LocationInput type={"ADDRESS DETAIL"} placeholder={"Type address detail here..."} />
-                    </View>
+                        <Separator height={Display.setHeight(14)}/>
+                        <GooglePlacesAutocomplete
+                            query={{ key: "AIzaSyCN0cSCl0WQatiQVrqjJVGlEXCL5JuoWDg" }}
+                            onPress={(data, details = null) => {
+                                console.log(data.description);
+                            }}
+                            onFail={error => console.log(error)}
+                            onNotFound={() => console.log('no results')}
+                            placeholder="Search "
+                            styles={{
+                                textInput: {
+                                    backgroundColor: COLORS.lightGray1,
+                                    borderRadius: 20,
+                                    fontWeight: "700",
+                                    marginTop: 7,
+                                },
+                                textInputContainer: {
+                                    backgroundColor:  COLORS.lightGray1,
+                                    borderRadius: 50,
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    marginRight: 10,
+                                },
+                            }}
+                            renderLeftButton={() => (
+                                <View style={{ marginLeft: 10 }}>
+                                    <Ionicons name="location-sharp" size={24} />
+                                </View>
+                            )}
+                            renderRightButton={() => (
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        marginRight: 8,
+                                        backgroundColor: "white",
+                                        padding: 9,
+                                        borderRadius: 30,
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <AntDesign
+                                        name="clockcircle"
+                                        size={11}
+                                        style={{ marginRight: 6 }}
+                                    />
+                                    <Text>Search</Text>
+                                </View>
+                            )}
+                        />
+
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     )
 }
 
-export const LocationInput = ({ type, content }) => {
-    return (
-        <View>
-            <Text style={styles.text}>{type}</Text>
-            <View style={{ marginVertical: 5 }} />
-            <GooglePlacesAutocomplete 
-            placeholder={content} 
-            styles={{textInput: styles.input}}
-            query={{
-                key: 'AIzaSyA-ZUiliFrdS5B5oU2Z_jKwtjhTaU8JoVA',
-                language: 'en',
-            }}
-            
-            />
-        </View>
-    )
-}
 
 const styles = StyleSheet.create({
     container: {
