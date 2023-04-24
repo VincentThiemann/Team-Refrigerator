@@ -42,6 +42,7 @@ const App = () => {
   const { isFirstTimeUse } = useSelector(
     state => state?.generalState,
   );
+  
   const dispatch = useDispatch();
 
   useEffect(() => {

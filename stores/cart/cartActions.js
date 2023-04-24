@@ -1,4 +1,41 @@
-import {CartService} from '../services';
+import firestore from '@react-native-firebase/firestore';
+
+const user = firebase.auth().currentUser;
+
+const cartCollection = firestore().collection('Carts').where( username , '==' , user.uid );
+import { getFirestore, collection, doc, updateDoc, setDoc, getDoc } from "firebase/firestore";
+
+
+try {
+  const cartsCollection = collection(firestore, "carts");
+  const cartDocRef = doc(cartsCollection, `\${username}_\${foodId}`);
+
+  const cartDoc = await getDoc(cartDocRef);
+  let updatedCart;
+
+  if (cartDoc.exists()) {
+    updatedCart = await updateDoc(cartDocRef, {
+      count: cartDoc.data().count + 1,
+    });
+  } else {
+    updatedCart = await setDoc(cartDocRef, {
+      foodId,
+      username,
+      count: 1,
+    });
+  }
+
+  if (updatedCart) {
+    let cartResponse = await getCartItems({ username });
+    return {
+      status: true,
+      message: "Item Added to Cart Successfully",
+      data: cartResponse?.data,
+    };
+  }
+} catch (error) {
+  console.error("Error updating cart:", error);
+}
 
 const types = {
   GET_CART_ITEMS: 'GET_CART_ITEMS',
