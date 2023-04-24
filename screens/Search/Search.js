@@ -37,7 +37,7 @@ const Search = () => {
             // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ flex: 2 }}>
                     <Separator height={Display.setHeight(22)} />
-
+                    <View style={{marginVertical: 10}} />
                     {/* Google Text Input */}
                     <GooglePlacesAutocomplete
                         query={{ key: GOOGLE_PLACES_API_KEY }}
@@ -45,7 +45,9 @@ const Search = () => {
                         // Set initial region as the text input region
                         onPress={(data, details) => {
                             const { lat, lng } = details.geometry.location;
-                            dispatch(setLocation(lat, lng));
+                            const addressName = details.formatted_address;
+                            dispatch(setLocation(addressName));
+
                             setInitialRegion({
                                 latitude: lat,
                                 longitude: lng,
@@ -114,7 +116,7 @@ const Search = () => {
                     />
 
                     {/* Show map */}
-                    <View style={{flex: 3, justifyContent: 'flex-end', marginBottom: 100, alignItems: 'center'}}>
+                    <View style={{flex: 4, justifyContent: 'center', marginBottom: 100, alignItems: 'center'}}>
                         <MapView style={styles.map} initialRegion={initialRegion}>
                             {markerCoords && <Marker coordinate={markerCoords} />}
                         </MapView>
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
     },
     map: {
         width: '100%',
-        height: '80%',
+        height: '90%',
     }
 })
 

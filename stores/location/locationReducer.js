@@ -1,21 +1,22 @@
 const initialState = {
-  latitude: null,
-  longitude: null,
+
+  addressName: null,
 };
 
 export default locationReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_LOCATION':
       return {
-        latitude: action.payload.latitude,
-        longitude: action.payload.longitude,
+        addressName: action.payload.addressName,
       };
     default:
       return state;
   }
 };
 
-const setLocation = (latitude, longitude) => ({
+export const setLocation = ( addressName ) => ({
     type: 'SET_LOCATION',
-    payload: { latitude, longitude },
+    payload: { addressName },
   });
+
+ 
