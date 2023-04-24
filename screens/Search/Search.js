@@ -22,17 +22,20 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Separator from '../../components/Separator.js';
 import { keys } from "../../apiKeys.js";
 import MapView, { Marker } from 'react-native-maps';
+import { useDispatch } from 'react-redux';
+import { setLocation } from '../../stores/location/locationReducer.js';
 
 
 const GOOGLE_PLACES_API_KEY = keys.GOOGLE_PLACES_API_KEY;
 const Search = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [initialRegion, setInitialRegion] = useState(null);
     const [markerCoords, setMarkerCoords] = useState(null);
     return (
-        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={{ flex: 1 }}>
+        // <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={{ flex: 2 }}>
                     <Separator height={Display.setHeight(22)} />
 
                     {/* Google Text Input */}
@@ -42,6 +45,7 @@ const Search = () => {
                         // Set initial region as the text input region
                         onPress={(data, details) => {
                             const { lat, lng } = details.geometry.location;
+                            dispatch(setLocation(lat, lng));
                             setInitialRegion({
                                 latitude: lat,
                                 longitude: lng,
@@ -54,9 +58,9 @@ const Search = () => {
 
                         // Show sad emoji if location not found
                         onNotFound={() => console.log("No Result")}
-                        listEmptyComponent={() => (
-                            <NotFound />
-                        )}
+                        // listEmptyComponent={() => (
+                        //     <NotFound />
+                        // )}
                         placeholder="Search "
 
                         // Styles for text input
@@ -108,15 +112,16 @@ const Search = () => {
                             </View>
                         )}
                     />
+
                     {/* Show map */}
-                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flex: 3, justifyContent: 'flex-end', marginBottom: 100, alignItems: 'center'}}>
                         <MapView style={styles.map} initialRegion={initialRegion}>
                             {markerCoords && <Marker coordinate={markerCoords} />}
                         </MapView>
                     </View>
                 </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+            // </TouchableWithoutFeedback>
+        // </KeyboardAvoidingView>
     )
 }
 
@@ -179,8 +184,8 @@ const styles = StyleSheet.create({
         borderRadius: SIZES.padding,
     },
     map: {
-        width: '80%',
-        height: '60%',
+        width: '100%',
+        height: '80%',
     }
 })
 
