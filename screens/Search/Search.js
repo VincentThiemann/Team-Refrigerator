@@ -21,7 +21,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Separator from '../../components/Separator.js';
 import { keys } from "../../apiKeys.js";
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 
 const GOOGLE_PLACES_API_KEY = keys.GOOGLE_PLACES_API_KEY;
@@ -110,7 +110,7 @@ const Search = () => {
                     />
                     {/* Show map */}
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <MapView style={styles.map} initialRegion={initialRegion}>
+                        <MapView provider={PROVIDER_GOOGLE} style={styles.map} initialRegion={initialRegion}>
                             {markerCoords && <Marker coordinate={markerCoords} />}
                         </MapView>
                     </View>
