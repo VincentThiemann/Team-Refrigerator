@@ -30,93 +30,95 @@ const Search = () => {
     const [initialRegion, setInitialRegion] = useState(null);
     const [markerCoords, setMarkerCoords] = useState(null);
     return (
-        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={{ flex: 1 }}>
-                    <Separator height={Display.setHeight(22)} />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{ flex: 1 }}>
+                <Separator height={Display.setHeight(22)} />
 
-                    {/* Google Text Input */}
-                    <GooglePlacesAutocomplete
-                        query={{ key: GOOGLE_PLACES_API_KEY }}
-                        fetchDetails={true}
-                        // Set initial region as the text input region
-                        onPress={(data, details) => {
-                            const { lat, lng } = details.geometry.location;
-                            setInitialRegion({
-                                latitude: lat,
-                                longitude: lng,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            });
-                            setMarkerCoords({ latitude: lat, longitude: lng });
-                        }}
-                        onFail={error => console.log(error)}
+                {/* Google Text Input */}
+                <GooglePlacesAutocomplete
+                    query={{ key: GOOGLE_PLACES_API_KEY }}
+                    fetchDetails={true}
+                    // Set initial region as the text input region
+                    onPress={(data, details) => {
+                        const { lat, lng } = details.geometry.location;
+                        setInitialRegion({
+                            latitude: lat,
+                            longitude: lng,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        });
+                        setMarkerCoords({ latitude: lat, longitude: lng });
+                    }}
+                    onFail={error => console.log(error)}
 
-                        // Show sad emoji if location not found
-                        onNotFound={() => console.log("No Result")}
-                        listEmptyComponent={() => (
-                            <NotFound />
-                        )}
-                        placeholder="Search "
+                    // Show sad emoji if location not found
+                    onNotFound={() => console.log("No Result")}
+                    listEmptyComponent={() => (
+                        <NotFound />
+                    )}
+                    placeholder="Search "
 
-                        // Styles for text input
-                        styles={{
-                            container: {
-                                flex: 1,
-                                marginHorizontal: 15,
-                            },
-                            textInput: {
-                                backgroundColor: COLORS.lightGray1,
-                                borderRadius: 20,
-                                fontWeight: "700",
-                                marginTop: 7,
-                            },
-                            textInputContainer: {
-                                backgroundColor: COLORS.lightGray1,
-                                borderRadius: 25,
+                    // Styles for text input
+                    styles={{
+                        container: {
+                            flex: 1,
+                            marginHorizontal: 15,
+                        },
+                        textInput: {
+                            backgroundColor: COLORS.lightGray1,
+                            borderRadius: 20,
+                            fontWeight: "700",
+                            marginTop: 7,
+                        },
+                        textInputContainer: {
+                            backgroundColor: COLORS.lightGray1,
+                            borderRadius: 25,
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginRight: 10,
+
+                        },
+                    }}
+
+                    // Location mark
+                    renderLeftButton={() => (
+                        <View style={{ marginLeft: 10 }}>
+                            <Ionicons name="location-sharp" size={24} />
+                        </View>
+                    )}
+                    // Clock & search mark
+                    renderRightButton={() => (
+                        <View
+                            style={{
                                 flexDirection: "row",
+                                marginRight: 8,
+                                backgroundColor: "white",
+                                padding: 9,
+                                borderRadius: 15,
                                 alignItems: "center",
-                                marginRight: 10,
+                            }}
+                        >
+                            <AntDesign
+                                name="clockcircle"
+                                size={11}
+                                style={{ marginRight: 6 }}
+                            />
+                            <Text>Search</Text>
+                        </View>
+                    )}
+                />
+                {/* Show map */}
 
-                            },
-                        }}
-
-                        // Location mark
-                        renderLeftButton={() => (
-                            <View style={{ marginLeft: 10 }}>
-                                <Ionicons name="location-sharp" size={24} />
-                            </View>
-                        )}
-                        // Clock & search mark
-                        renderRightButton={() => (
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    marginRight: 8,
-                                    backgroundColor: "white",
-                                    padding: 9,
-                                    borderRadius: 15,
-                                    alignItems: "center",
-                                }}
-                            >
-                                <AntDesign
-                                    name="clockcircle"
-                                    size={11}
-                                    style={{ marginRight: 6 }}
-                                />
-                                <Text>Search</Text>
-                            </View>
-                        )}
-                    />
-                    {/* Show map */}
-                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <MapView provider={PROVIDER_GOOGLE} style={styles.map} initialRegion={initialRegion}>
-                            {markerCoords && <Marker coordinate={markerCoords} />}
-                        </MapView>
-                    </View>
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    style={styles.map}
+                >
+                    {/* // initialRegion={initialRegion}
+                            // {markerCoords && <Marker coordinate={markerCoords} />} */}
+                </MapView>
+                 <View style={{ height: 100 }}/>               
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
         borderRadius: SIZES.padding,
     },
     map: {
-        width: '80%',
+        width: '100%',
         height: '60%',
     }
 })
