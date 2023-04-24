@@ -181,8 +181,8 @@ const styles = StyleSheet.create({
         borderRadius: SIZES.padding,
     },
     map: {
-        width: '100%',
-        height: '60%',
+        width: '40%',
+        height: '40%',
     }
 })
 
