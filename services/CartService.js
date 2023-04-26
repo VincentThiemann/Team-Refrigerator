@@ -1,3 +1,4 @@
+
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth";
 
@@ -18,12 +19,11 @@ const getCartItems = async () => {
     let itemsTotal = 0;
     let discount = 0;
 
-    const foodDocsPromises = cartItems.map(cartItem => firestore.collection("Foods").doc(cartItem.foodId).get());
-    const querySnaps = await Promise.all(foodDocsPromises);
-
-    querySnaps.forEach(querySnap => {
+    for (const cartItem of cartItems) {
+      const foodDoc = firestore.collection("Foods");
+      const querySnap = await foodDoc.doc(cartItem.foodId).get();
       console.log(querySnap.data());
-    });
+    }
 
     //   
     //   const foodData = foodDoc.data();
