@@ -19,8 +19,8 @@ import { setSelectedTab } from '../stores/tabs/tabActions';
 import { Home, Search, CartTab, Notification, Favourite, TransactionHistory } from './'
 import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants';
 import { Header } from '../components';
-import { auth } from "../firebase"
 import Display from '../utils/Display';
+import auth from '@react-native-firebase/auth';
 
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
@@ -229,7 +229,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
     }, [selectedTab])
 
     const handleSignOut = () => {
-        auth
+        auth()
             .signOut()
             .then(() => {
                 navigation.replace("Authentication")

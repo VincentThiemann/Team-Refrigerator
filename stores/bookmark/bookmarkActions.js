@@ -1,4 +1,4 @@
-import {BookmarkService} from '../services';
+import {BookmarkService} from '../../services';
 
 const types = {
   GET_BOOKMARKS: 'GET_BOOKMARKS',

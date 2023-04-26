@@ -93,7 +93,7 @@ const FoodDetail = ({
                 }}
 
                 leftComponent={
-                    <Ionicons name="ios-chevron-back-sharp" size={40} color="black" onPress={() => navigation.navigate("CustomDrawer")} />
+                    <Ionicons name="ios-chevron-back-sharp" size={40} color="black" onPress={() => navigation.navigate("Restaurant", { restaurantId: food.restaurantId })} />
                 }
             // rightComponent={
             //     <View>

@@ -1,3 +1,4 @@
 import AuthenticationService from "./AuthenticationService";
 import StorageService from './StorageService';
-export {AuthenticationService, StorageService};
+import CartService from "./CartService";
+export {AuthenticationService, StorageService, CartService} ;

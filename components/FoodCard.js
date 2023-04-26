@@ -6,8 +6,9 @@ import Display from '../utils/Display';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { ProgressiveImage } from "../components";
-//import {CartAction} from '../actions';
+import cartActions from '../stores/cart/cartActions';
 import storage from '@react-native-firebase/storage';
+import { CartService } from '../services';
 
 
 const FoodCard = ({ id, name, description, price, image, navigate }) => {
@@ -35,9 +36,12 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
       state?.cartState?.cart?.cartItems?.find(item => item?.foodId === id)
         ?.count,
   );
-  const addToCart = foodId => dispatch(CartAction.addToCart({ foodId }));
+  const addToCart = foodId => {
+
+    console.log(foodId)
+  };
   const removeFromCart = foodId =>
-    dispatch(CartAction.removeFromCart({ foodId }));
+    dispatch(cartActions.removeFromCart(foodId));
 
   return (
     <View style={styles.container}>
@@ -62,21 +66,23 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
           <View style={styles.itemAddContainer}>
             {itemCount > 0 ? (
               <>
-                <AntDesign
-                  name="minus"
-                  color={COLORS.DEFAULT_YELLOW}
-                  size={18}
-                  onPress={() => removeFromCart(id)}
-                />
+
                 <Text style={styles.itemCountText}>{itemCount}</Text>
               </>
             ) : null}
 
             <AntDesign
-              name="plus"
+              name="minus"
               color={COLORS.DEFAULT_YELLOW}
               size={18}
-              onPress={() => addToCart(id)}
+              onPress={() => removeFromCart(id)}
+            />
+              <Text style={styles.itemCountText}>0</Text>
+            <AntDesign
+              name="plus"
+              color={COLORS.DEFAULT_YELLOW}
+              size={24}
+              onPress={() => CartService.addToCart(id)}
             />
           </View>
         </View>
@@ -99,6 +105,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     margin: 6,
+    resizeMode: 'stretch',
     borderRadius: 8,
   },
   detailsContainer: {
