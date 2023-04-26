@@ -32,97 +32,109 @@ const Search = () => {
     const dispatch = useDispatch();
     const [initialRegion, setInitialRegion] = useState(null);
     const [markerCoords, setMarkerCoords] = useState(null);
+    const [searchMarkerCoords, setSearchMarkerCoords] = useState(null);
     return (
         // <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={{ flex: 2 }}>
-                    <Separator height={Display.setHeight(22)} />
-                    <View style={{marginVertical: 10}} />
-                    {/* Google Text Input */}
-                    <GooglePlacesAutocomplete
-                        query={{ key: GOOGLE_PLACES_API_KEY }}
-                        fetchDetails={true}
-                        // Set initial region as the text input region
-                        onPress={(data, details) => {
-                            const { lat, lng } = details.geometry.location;
-                            const addressName = details.formatted_address;
-                            dispatch(setLocation(addressName));
+        // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 2 }}>
+            <Separator height={Display.setHeight(22)} />
+            <View style={{ marginVertical: 10 }} />
+            {/* Google Text Input */}
+            <GooglePlacesAutocomplete
+                query={{ key: GOOGLE_PLACES_API_KEY }}
+                fetchDetails={true}
+                // Set initial region as the text input region
+                onPress={(data, details) => {
+                    const { lat, lng } = details.geometry.location;
+                    const addressName = details.formatted_address;
+                    dispatch(setLocation(addressName));
 
-                            setInitialRegion({
-                                latitude: lat,
-                                longitude: lng,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            });
-                            setMarkerCoords({ latitude: lat, longitude: lng });
-                        }}
-                        onFail={error => console.log(error)}
+                    setInitialRegion({
+                        latitude: lat,
+                        longitude: lng,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    });
+                    setSearchMarkerCoords({ latitude: lat, longitude: lng });
+                }}
+                onFail={error => console.log(error)}
 
-                        // If not found, just print error message
-                        onNotFound={() => console.log("No Result")}
-                        // listEmptyComponent={() => (
-                        //     <NotFound />
-                        // )}
-                        placeholder="Search "
+                // If not found, just print error message
+                onNotFound={() => console.log("No Result")}
+                // listEmptyComponent={() => (
+                //     <NotFound />
+                // )}
+                placeholder="Search "
 
-                        // Styles for text input
-                        styles={{
-                            container: {
-                                flex: 1,
-                                marginHorizontal: 15,
-                            },
-                            textInput: {
-                                backgroundColor: COLORS.lightGray1,
-                                borderRadius: 20,
-                                fontWeight: "700",
-                                marginTop: 7,
-                            },
-                            textInputContainer: {
-                                backgroundColor: COLORS.lightGray1,
-                                borderRadius: 25,
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginRight: 10,
+                // Styles for text input
+                styles={{
+                    container: {
+                        flex: 1,
+                        marginHorizontal: 15,
+                    },
+                    textInput: {
+                        backgroundColor: COLORS.lightGray1,
+                        borderRadius: 20,
+                        fontWeight: "700",
+                        marginTop: 7,
+                    },
+                    textInputContainer: {
+                        backgroundColor: COLORS.lightGray1,
+                        borderRadius: 25,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginRight: 10,
 
-                            },
-                        }}
+                    },
+                }}
 
-                        // Location mark
-                        renderLeftButton={() => (
-                            <View style={{ marginLeft: 10 }}>
-                                <Ionicons name="location-sharp" size={24} />
-                            </View>
-                        )}
-                        // Clock & search mark
-                        renderRightButton={() => (
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    marginRight: 8,
-                                    backgroundColor: "white",
-                                    padding: 9,
-                                    borderRadius: 15,
-                                    alignItems: "center",
-                                }}
-                            >
-                                <AntDesign
-                                    name="clockcircle"
-                                    size={11}
-                                    style={{ marginRight: 6 }}
-                                />
-                                <Text>Search</Text>
-                            </View>
-                        )}
-                    />
-
-                    {/* Show map */}
-                    <View style={{flex: 4, justifyContent: 'center', marginBottom: 100, alignItems: 'center'}}>
-                        <MapView style={styles.map} initialRegion={initialRegion}>
-                            {markerCoords && <Marker coordinate={markerCoords} />}
-                        </MapView>
+                // Location mark
+                renderLeftButton={() => (
+                    <View style={{ marginLeft: 10 }}>
+                        <Ionicons name="location-sharp" size={24} />
                     </View>
-                </View>
-            // </TouchableWithoutFeedback>
+                )}
+                // Clock & search mark
+                renderRightButton={() => (
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            marginRight: 8,
+                            backgroundColor: "white",
+                            padding: 9,
+                            borderRadius: 15,
+                            alignItems: "center",
+                        }}
+                    >
+                        <AntDesign
+                            name="clockcircle"
+                            size={11}
+                            style={{ marginRight: 6 }}
+                        />
+                        <Text>Search</Text>
+                    </View>
+                )}
+            />
+
+            {/* Show map */}
+            <View style={{ flex: 4, justifyContent: 'center', marginBottom: 100, alignItems: 'center' }}>
+                <MapView
+                    style={styles.map}
+                    initialRegion={initialRegion}
+                    showsUserLocation={true}
+                    followsUserLocation={true}
+                    onUserLocationChange={(event) => {
+                        const { latitude, longitude} = event.nativeEvent.coordinate;
+                        setMarkerCoords({latitude, longitude});
+                    }}
+                    requestPermissions={true}
+                    >
+                    {markerCoords && <Marker coordinate={markerCoords} />}
+                    {searchMarkerCoords && <Marker coordinate={searchMarkerCoords} />}
+                </MapView>
+            </View>
+        </View>
+        // </TouchableWithoutFeedback>
         // </KeyboardAvoidingView>
     )
 }
