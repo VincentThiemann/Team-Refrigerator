@@ -34,5 +34,5 @@ The Food Delivery App is created using [**React Native**](https://reactnative.de
 
 ## Setup instructions
 
-### Follow the Wiki page
+### Follow the Wiki second page
 ```
