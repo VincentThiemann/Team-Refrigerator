@@ -16,7 +16,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
   const [urlHD, setUrlHD] = React.useState();
 
   React.useEffect(() => {
-    const func = async () => {
+    async function func() {
       const referenceSD = storage().ref(`images/gallery/square/sd/${image}.png`);
       await referenceSD.getDownloadURL().then((x) => {
         setUrlSD(x);
@@ -27,19 +27,19 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
       })
 
     }
+    console.log({ id, name, description, price, image, navigate });
     if (urlSD == undefined) { func() };
   }, []);
 
   const dispatch = useDispatch();
+
   const itemCount = useSelector(
     state =>
-      state?.cartState?.cart?.cartItems?.find(item => item?.foodId === id)
-        ?.count,
+    state?.cartState?.cart?.cartItems?.find(item => item.foodId == id)?.count,
   );
-  const addToCart = foodId => {
 
-    console.log(foodId)
-  };
+  const addToCart = foodId => dispatch( cartActions.addToCart(foodId));
+
   const removeFromCart = foodId =>
     dispatch(cartActions.removeFromCart(foodId));
 
@@ -66,23 +66,25 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
           <View style={styles.itemAddContainer}>
             {itemCount > 0 ? (
               <>
+                <AntDesign
+                  name="minus"
+                  color={COLORS.DEFAULT_YELLOW}
+                  size={18}
+                  onPress={() => removeFromCart(id)}
+                />
 
                 <Text style={styles.itemCountText}>{itemCount}</Text>
               </>
             ) : null}
 
-            <AntDesign
-              name="minus"
-              color={COLORS.DEFAULT_YELLOW}
-              size={18}
-              onPress={() => removeFromCart(id)}
-            />
-              <Text style={styles.itemCountText}>0</Text>
+
             <AntDesign
               name="plus"
               color={COLORS.DEFAULT_YELLOW}
               size={24}
-              onPress={() => CartService.addToCart(id)}
+              onPress={() => {
+                addToCart(id)
+              }}
             />
           </View>
         </View>

@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProgressiveImage } from "../components";
 import Display from "../utils/Display"
-// import {BookmarkAction} from '../actions';
+import bookmarkActions from '../stores/bookmark/bookmarkActions';
 import storage from '@react-native-firebase/storage';
 
 
@@ -23,8 +23,10 @@ const RestaurantCard = ({
   const [urlSD, setUrlSD] = React.useState();
   const [urlHD, setUrlHD] = React.useState();
 
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
-    const func = async () => {
+    async function func() {
       const referenceSD = storage().ref(`images/poster/sd/${poster}.png`);
       await referenceSD.getDownloadURL().then((x) => {
         setUrlSD(x);
@@ -35,20 +37,20 @@ const RestaurantCard = ({
       })
       
     }
+    dispatch(bookmarkActions.getBookmarks());
     if (urlSD == undefined) { func() };
   }, []);
 
-  const dispatch = useDispatch();
   const isBookmarked = useSelector(
     state =>
-      state?.bookmarkState?.bookmarks?.filter(item => item?.restaurantId === id)
-        ?.length > 0,
+      state?.bookmarkState?.bookmarks?.restaurantsId?.filter(item => item == id)?.length > 0,
   );
+
   const addBookmark = () =>
-    dispatch(BookmarkAction.addBookmark({ restaurantId: id }));
+    dispatch(bookmarkActions.addBookmark(id));
 
   const removeBookmark = () =>
-    dispatch(BookmarkAction.removeBookmark({ restaurantId: id }));
+    dispatch(bookmarkActions.removeBookmark(id));
 
   return (
     <TouchableOpacity

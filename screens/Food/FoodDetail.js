@@ -47,7 +47,7 @@ const FoodDetail = ({
     );
 
     React.useEffect(() => {
-        const func = async () => {
+        async function func() {
             let name = "";
             await firestore()
                 .collection('Foods')

@@ -8,17 +8,50 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {COLORS, FONTS, images} from '../../constants';
-import {FoodCard, Separator} from '../../components';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { COLORS, FONTS, images } from '../../constants';
+import { FoodCard, Separator } from '../../components';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Display from '../../utils/Display';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { CartService } from '../../services';
+import cartActions from '../../stores/cart/cartActions';
+import { useDispatch } from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
 
-const CartTab = ({navigation}) => {
+
+const renderCards = async (id) => {
+  const val = await firestore()
+    .collection('Foods')
+    // Filter results
+    .doc(id)
+    .get();
+  const valData = val.data()
+  return valData
+
+}
+
+const CartTab = ({ navigation }) => {
+  const [foods, setFoods] = React.useState([])
+  const dispatch = useDispatch();
   const cart = useSelector(state => state?.cartState?.cart);
+
+  React.useEffect(() => {
+    dispatch(cartActions.getCartItems());
+    async function fetchData() {
+      let foodArray = [];
+      for (const id of cart?.cartItems) {
+        let querySnap = await firestore().collection('Foods').doc(id.foodId.toString()).get();
+        let queryData = querySnap.data()
+        foodArray.push(queryData)
+      }
+      setFoods(foodArray)
+      
+    }
+    fetchData();
+    
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -40,15 +73,16 @@ const CartTab = ({navigation}) => {
         <>
           <ScrollView>
             <View style={styles.foodList}>
-              {cart?.cartItems?.map(item => (
-                <FoodCard
-                  {...item?.food}
-                  key={item?.food?.id}
-                  navigate={() =>
-                    navigation.navigate('Food', {foodId: item?.id})
-                  }
-                />
-              ))}
+              {foods
+                ?.map(item => (
+                  <FoodCard
+                    key={item?.id}
+                    {...item}
+                    navigate={() =>
+                      navigation.navigate('Food', { foodId: item?.id })
+                    }
+                  />
+                ))}
             </View>
             <View style={styles.promoCodeContainer}>
               <View style={styles.rowAndCenter}>
@@ -72,13 +106,6 @@ const CartTab = ({navigation}) => {
                 <Text style={styles.amountLabelText}>Discount</Text>
                 <Text style={styles.amountText}>
                   $ {cart?.metaData?.discount?.toFixed(2)}
-                </Text>
-              </View>
-              <View style={styles.amountSubContainer}>
-                <Text style={styles.amountLabelText}>Delivery Fee</Text>
-                <Text
-                  style={{...styles.amountText, color:COLORS.DEFAULT_GREEN}}>
-                  Free
                 </Text>
               </View>
             </View>
@@ -115,7 +142,7 @@ const CartTab = ({navigation}) => {
           <Text style={styles.emptyCartSubText}>
             Go ahead and order some tasty food
           </Text>
-          <TouchableOpacity style={styles.addButtonEmpty} onPress = {() => {CartService.getCartItems()}}>
+          <TouchableOpacity style={styles.addButtonEmpty} >
             <AntDesign name="plus" color={COLORS.DEFAULT_WHITE} size={20} />
             <Text style={styles.addButtonEmptyText}>Add Food</Text>
           </TouchableOpacity>
@@ -129,7 +156,7 @@ const CartTab = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:COLORS.DEFAULT_WHITE,
+    backgroundColor: COLORS.DEFAULT_WHITE,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -161,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: FONTS.POPPINS_MEDIUM,
     lineHeight: 15 * 1.4,
-    color:COLORS.DEFAULT_BLACK,
+    color: COLORS.DEFAULT_BLACK,
     marginLeft: 10,
   },
   rowAndCenter: {
@@ -183,13 +210,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: FONTS.POPPINS_SEMI_BOLD,
     lineHeight: 15 * 1.4,
-    color:COLORS.DEFAULT_GREEN,
+    color: COLORS.DEFAULT_GREEN,
   },
   amountText: {
     fontSize: 15,
     fontFamily: FONTS.POPPINS_SEMI_BOLD,
     lineHeight: 15 * 1.4,
-    color:COLORS.DEFAULT_BLACK,
+    color: COLORS.DEFAULT_BLACK,
   },
   totalContainer: {
     marginHorizontal: Display.setWidth(4),
@@ -202,12 +229,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: FONTS.POPPINS_SEMI_BOLD,
     lineHeight: 20 * 1.4,
-    color:COLORS.DEFAULT_BLACK,
+    color: COLORS.DEFAULT_BLACK,
   },
   checkoutButton: {
     flexDirection: 'row',
     width: Display.setWidth(80),
-    backgroundColor:COLORS.DEFAULT_GREEN,
+    backgroundColor: COLORS.DEFAULT_GREEN,
     alignSelf: 'center',
     paddingHorizontal: 20,
     justifyContent: 'space-between',
@@ -220,7 +247,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: FONTS.POPPINS_MEDIUM,
     lineHeight: 16 * 1.4,
-    color:COLORS.DEFAULT_WHITE,
+    color: COLORS.DEFAULT_WHITE,
     marginLeft: 8,
   },
   emptyCartContainer: {
@@ -232,17 +259,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: FONTS.POPPINS_LIGHT,
     lineHeight: 30 * 1.4,
-    color:COLORS.DEFAULT_GREEN,
+    color: COLORS.DEFAULT_GREEN,
   },
   emptyCartSubText: {
     fontSize: 12,
     fontFamily: FONTS.POPPINS_MEDIUM,
     lineHeight: 12 * 1.4,
-    color:COLORS.INACTIVE_GREY,
+    color: COLORS.INACTIVE_GREY,
   },
   addButtonEmpty: {
     flexDirection: 'row',
-    backgroundColor:COLORS.DEFAULT_YELLOW,
+    backgroundColor: COLORS.DEFAULT_YELLOW,
     borderRadius: 8,
     paddingHorizontal: Display.setWidth(4),
     paddingVertical: 5,
@@ -255,7 +282,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: FONTS.POPPINS_MEDIUM,
     lineHeight: 12 * 1.4,
-    color:COLORS.DEFAULT_WHITE,
+    color: COLORS.DEFAULT_WHITE,
     marginLeft: 10,
   },
   emptyCartImage: {

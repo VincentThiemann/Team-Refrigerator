@@ -5,13 +5,13 @@ const types = {
   SET_IS_LOADING: 'SET_IS_LOADING',
 };
 
-const addBookmark = ({restaurantId}) => {
+const addBookmark = (restaurantId) => {
   return dispatch => {
     dispatch({
       type: types.SET_IS_LOADING,
       payload: true,
     });
-    BookmarkService.addBookmark({restaurantId})
+    BookmarkService.addBookmark(restaurantId)
       .then(bookmarkResponse => {
         dispatch({
           type: types.GET_BOOKMARKS,
@@ -31,13 +31,13 @@ const addBookmark = ({restaurantId}) => {
   };
 };
 
-const removeBookmark = ({restaurantId}) => {
+const removeBookmark = (restaurantId) => {
   return dispatch => {
     dispatch({
       type: types.SET_IS_LOADING,
       payload: true,
     });
-    BookmarkService.removeBookmark({restaurantId})
+    BookmarkService.removeBookmark(restaurantId)
       .then(bookmarkResponse => {
         dispatch({
           type: types.GET_BOOKMARKS,

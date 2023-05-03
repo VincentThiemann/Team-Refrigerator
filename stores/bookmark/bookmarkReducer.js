@@ -1,4 +1,4 @@
-import BookmarkAction from './bookmarkActions';
+import bookmarkActions from './bookmarkActions';
 
 const initialState = {
   bookmarks: [],
@@ -7,9 +7,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case BookmarkAction.types.GET_BOOKMARKS:
+    case bookmarkActions.types.GET_BOOKMARKS:
       return {...state, bookmarks: action?.payload};
-    case BookmarkAction.types.SET_IS_LOADING:
+    case bookmarkActions.types.SET_IS_LOADING:
       return {...state, isLoading: action?.payload};
     default:
       return state;

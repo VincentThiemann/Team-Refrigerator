@@ -18,7 +18,13 @@ const Profile = ({ navigation }) => {
             .update({
 
             })
-            
+        firestore()
+            .collection('Bookmark')
+            .doc(user)
+            .update({
+
+            })
+
         firestore()
             .collection('Users')
             .doc(user)
@@ -35,8 +41,8 @@ const Profile = ({ navigation }) => {
     }
 
     if (user == null)
-    return null;
-    
+        return null;
+
     return (
         <View style={{
             flex: 1,
