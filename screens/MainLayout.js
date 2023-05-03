@@ -21,6 +21,7 @@ import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants'
 import { Header } from '../components';
 import Display from '../utils/Display';
 import auth from '@react-native-firebase/auth';
+import { useSelector } from 'react-redux';
 
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
@@ -236,15 +237,9 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             })
             .catch(error => alert(error.message))
     }
-
-    const getHeaderHeight = () => {
-        
-        if(selectedTab == constants.screens.home) return 2000;
-        else if(toggleLocation) return 1600;
-        else return 2090;
-
-    }
     
+    const { addressName } = useSelector(state => state?.location)
+
     return (
         <Animated.View
             style={{
@@ -256,7 +251,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             <StatusBar barStyle="light-content"
                 backgroundColor="transparent"
                 translucent />
-            <BackgroundCurvedView  pos = {getHeaderHeight()}
+            <BackgroundCurvedView  pos = {2000}
             />
             
             {/* Header */}
@@ -297,9 +292,9 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                 alignItems: 'center',
                                 marginTop: SIZES.base,
                             }}
-                            onPress={() => setToggleLocation(!toggleLocation)}>
+                            onPress={() => {console.log(addressName)}}>
                             <Text style={{ ...FONTS.h3 }}>
-                                {dummyData?.myProfile?.address}
+                                {addressName}
                             </Text>
 
                             <Image
