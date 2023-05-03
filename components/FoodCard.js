@@ -6,8 +6,9 @@ import Display from '../utils/Display';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { ProgressiveImage } from "../components";
-//import {CartAction} from '../actions';
+import cartActions from '../stores/cart/cartActions';
 import storage from '@react-native-firebase/storage';
+import { CartService } from '../services';
 
 
 const FoodCard = ({ id, name, description, price, image, navigate }) => {
@@ -15,7 +16,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
   const [urlHD, setUrlHD] = React.useState();
 
   React.useEffect(() => {
-    const func = async () => {
+    async function func() {
       const referenceSD = storage().ref(`images/gallery/square/sd/${image}.png`);
       await referenceSD.getDownloadURL().then((x) => {
         setUrlSD(x);
@@ -26,18 +27,21 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
       })
 
     }
+    console.log({ id, name, description, price, image, navigate });
     if (urlSD == undefined) { func() };
   }, []);
 
   const dispatch = useDispatch();
+
   const itemCount = useSelector(
     state =>
-      state?.cartState?.cart?.cartItems?.find(item => item?.foodId === id)
-        ?.count,
+    state?.cartState?.cart?.cartItems?.find(item => item.foodId == id)?.count,
   );
-  const addToCart = foodId => dispatch(CartAction.addToCart({ foodId }));
+
+  const addToCart = foodId => dispatch( cartActions.addToCart(foodId));
+
   const removeFromCart = foodId =>
-    dispatch(CartAction.removeFromCart({ foodId }));
+    dispatch(cartActions.removeFromCart(foodId));
 
   return (
     <View style={styles.container}>
@@ -68,15 +72,19 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
                   size={18}
                   onPress={() => removeFromCart(id)}
                 />
+
                 <Text style={styles.itemCountText}>{itemCount}</Text>
               </>
             ) : null}
 
+
             <AntDesign
               name="plus"
               color={COLORS.DEFAULT_YELLOW}
-              size={18}
-              onPress={() => addToCart(id)}
+              size={24}
+              onPress={() => {
+                addToCart(id)
+              }}
             />
           </View>
         </View>
@@ -99,6 +107,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     margin: 6,
+    resizeMode: 'stretch',
     borderRadius: 8,
   },
   detailsContainer: {
