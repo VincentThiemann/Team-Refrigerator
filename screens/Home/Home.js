@@ -115,9 +115,9 @@ const Home = () => {
         const restaurant = await firestore().collection('Restaurants').get()
             .then((res) => {
                 setRestaurantData(res.docs.map(doc => doc.data()))
-                console.log(restaurantData);
+                // console.log(restaurantData);
             });
-
+            
         // const res = await fetch(yelpUrl, options)
         //     .then(response => response.json())
         //     .then(json => {
@@ -454,7 +454,7 @@ const Home = () => {
                         renderItem={({ item, index }) =>
                             <RestaurantCard {...item}
                                 navigate={restaurantId =>
-                                    navigation.navigate('Restaurant', { restaurantId })}
+                                    navigation.navigate('Restaurant',  restaurantId )}
                             />
                         }
                         ListHeaderComponent={

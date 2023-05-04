@@ -9,7 +9,7 @@ const RestaurantMediumCard = ({name, images: {logo}, time, distance, tags}) => {
   const [url, setUrl] = React.useState();
 
   React.useEffect(() => {
-    const func = async () => {
+    async function func() {
       const reference = storage().ref(`images/logo/${logo}.png`);
       await reference.getDownloadURL().then((x) => {
         setUrl(x);

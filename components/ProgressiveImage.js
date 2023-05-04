@@ -30,6 +30,7 @@ const ProgressiveImage = ({
 const styles = StyleSheet.create({
     imageOverlay: {
         position: 'absolute',
+        resizeMode: "center",
         left: 0,
         right: 0,
         bottom: 0,

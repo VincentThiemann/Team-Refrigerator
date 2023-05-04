@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../components/Header.js';
 import { FONTS, SIZES, COLORS, icons } from '../../constants/index.js';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native';
@@ -21,7 +20,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Separator from '../../components/Separator.js';
 import { keys } from "../../apiKeys.js";
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useDispatch } from 'react-redux';
 import { setLocation } from '../../stores/location/locationReducer.js';
 

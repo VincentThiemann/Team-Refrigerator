@@ -18,7 +18,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-//import {BookmarkAction} from '../actions';
+import bookmarkActions from '../../stores/bookmark/bookmarkActions';
+import { BookmarkService } from '../../services';
 
 const ListHeader = () => (
   <View
@@ -60,7 +61,7 @@ const ListFooter = () => (
 const Restaurant = ({
   navigation,
   route: {
-    params: { restaurantId },
+    params: restaurantId,
   },
 }) => {
   const [urlSD, setUrlSD] = React.useState();
@@ -72,7 +73,7 @@ const Restaurant = ({
 
 
   React.useEffect(() => {
-    const func = async () => {
+    async function func() {
       let name = "";
       await firestore()
       .collection('Foods')
@@ -107,14 +108,14 @@ const Restaurant = ({
   const dispatch = useDispatch();
   const isBookmarked = useSelector(
     state =>
-      state?.bookmarkState?.bookmarks?.filter(
-        item => item?.restaurantId === restaurantId,
+      state?.bookmarkState?.bookmarks?.restaurantsId?.filter(
+        item => item == restaurantId,
       )?.length > 0,
   );
   const addBookmark = () =>
-    dispatch(BookmarkAction.addBookmark({ restaurantId }));
+    dispatch(bookmarkActions.addBookmark(restaurantId));
   const removeBookmark = () =>
-    dispatch(BookmarkAction.removeBookmark({ restaurantId }));
+    dispatch(bookmarkActions.removeBookmark(restaurantId));
 
   return (
     <View style={styles.container}>
