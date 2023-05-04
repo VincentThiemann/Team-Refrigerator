@@ -9,18 +9,18 @@ import firstLauchActions from '../../stores/firstLaunch/firstLauchActions';
 const slides = [
     {
         image: require('../../assets/images/splash_image.jpg'),
-        name: "ONBOARDING SCREEN 1",
-        subtitle: "Welcome to first onboarding screen"
+        name: "Discover places near you",
+        subtitle: "We make it simple to find your favorite food. Enter the address and let us do the rest."
     },
     {
         image: require('../../assets/images/splash_image.jpg'),
         name: "ONBOARDING SCREEN 2",
-        subtitle: "Welcome to second onboarding screen"
+        subtitle: "We will store your favorite foods based on your search and orders."
     },
     {
         image: require('../../assets/images/splash_image.jpg'),
         name: "ONBOARDING SCREEN 3",
-        subtitle: "Welcome to final onboarding screen"
+        subtitle: "We make food ordering fast, easy and free."
     }
 ]
 
