@@ -1,2 +1,3 @@
 import AuthenticationService from "./AuthenticationService";
-export {AuthenticationService};
+import StorageService from './StorageService';
+export {AuthenticationService, StorageService};
