@@ -17,14 +17,24 @@ import {
 } from 'react-native';
 import Display from '../../utils/Display.js';
 import { Entypo } from '@expo/vector-icons';
+import firestore from '@react-native-firebase/firestore';
 
 export default Ratings = () => {
     const [rating, setRating] = React.useState(0);
     const navigation = useNavigation();
+
+    function update () {
+        // add rating to the database (unfinished)
+        // firestore().collection("Cart or Receipt or another").add({ratings: rating});
+
+        // navigate to another screen
+        navigation.navigate("Onboarding");
+    }
+
     return (
         <View style={styles.container}>
             <RatingHeader />
-            <View style = {{flex: 4}}>
+            <View style={{ flex: 4 }}>
                 <View style={{ marginVertical: 20 }} />
                 <Image style={styles.image} source={require('../../assets/images/splash_image.jpg')} />
                 <View style={{ marginVertical: 20 }} />
@@ -39,12 +49,12 @@ export default Ratings = () => {
                     <Star starNumber={4} onPress={() => setRating(4)} currentRating={rating} />
                     <Star starNumber={5} onPress={() => setRating(5)} currentRating={rating} />
                 </View>
-                </View>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Onboarding") }}>
-                            <Text style={{ fontSize: SIZES.h2, color: COLORS.white, fontFamily: FONTS.POPPINS_BOLD }}>Confirm your choice</Text>
-                        </TouchableOpacity>
-                    </View>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity style={styles.button} onPress={() => { update }}>
+                    <Text style={{ fontSize: SIZES.h2, color: COLORS.white, fontFamily: FONTS.POPPINS_BOLD }}>Confirm your choice</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
