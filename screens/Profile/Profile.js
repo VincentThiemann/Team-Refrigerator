@@ -4,7 +4,7 @@ import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-const user = auth()?.currentUser.uid;
+const user = auth()?.currentUser?.uid;
 
 const Profile = ({ navigation }) => {
     const [name, setName] = React.useState("");

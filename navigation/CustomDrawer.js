@@ -42,7 +42,7 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 }
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
-    const user = auth().uid;
+    const user = auth()?.currentUser?.uid;
 
     const handleSignOut = () => {
 
@@ -101,7 +101,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         <Text style={{
                             color: COLORS.black,
                             ...FONTS.h3,
-                        }}>{user?.uid}</Text>
+                        }}>{user}</Text>
                         <Text style={{
                             color: COLORS.black,
                             ...FONTS.body4,

@@ -2,7 +2,7 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth";
 
-const username = auth()?.currentUser.uid;
+const username = auth()?.currentUser?.uid;
 
 const getBookmarks = async () => {
   try {
