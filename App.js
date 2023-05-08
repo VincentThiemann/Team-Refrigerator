@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import CustomDrawer from './navigation/CustomDrawer';
 
 import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant } from './screens';
-
+import Ratings from './screens/Ratings/Ratings';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -107,6 +107,7 @@ const App = () => {
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
             <Stack.Screen name="Food" component={FoodDetail} />
             <Stack.Screen name="Restaurant" component={Restaurant} />
+            <Stack.Screen name="Ratings" component={Ratings} />
           </>
         )
         }
