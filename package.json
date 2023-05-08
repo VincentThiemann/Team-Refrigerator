@@ -10,7 +10,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "~1.17.3",
+    "@expo/config-plugins": "^5.0.2",
+    "@react-native-async-storage/async-storage": "~1.17.2",
     "@react-native-firebase/app": "^17.4.2",
     "@react-native-firebase/auth": "^17.4.2",
     "@react-native-firebase/firestore": "^17.4.2",
@@ -48,7 +49,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "expo-location": "~15.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

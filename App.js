@@ -54,7 +54,6 @@ const App = () => {
   function onAuthStateChanged(user) {
     setUser(user);
     if (initializing) setInitializing(false);
-    console.log(user.uid)
   }
 
   useEffect(() => {
