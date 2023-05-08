@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
+import 'expo-dev-client';
 
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
