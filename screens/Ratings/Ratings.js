@@ -24,11 +24,15 @@ export default Ratings = () => {
     const navigation = useNavigation();
 
     function update () {
-        // add rating to the database (unfinished)
-        // firestore().collection("Cart or Receipt or another").add({ratings: rating});
-
-        // navigate to another screen
-        navigation.navigate("Onboarding");
+        const users = firestore().collection("Users");
+        const userDoc = users.doc();
+        userDoc.set({ ratings: rating}, { merge: true })
+            .then(() => {
+                navigation.navigate("Onboarding");
+            })
+            .catch(err => {
+                console.error("Error in updating rating:", err)
+            });
     }
 
     return (
@@ -51,7 +55,7 @@ export default Ratings = () => {
                 </View>
             </View>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity style={styles.button} onPress={() => { update }}>
+                <TouchableOpacity style={styles.button} onPress={() => { update() }}>
                     <Text style={{ fontSize: SIZES.h2, color: COLORS.white, fontFamily: FONTS.POPPINS_BOLD }}>Confirm your choice</Text>
                 </TouchableOpacity>
             </View>
