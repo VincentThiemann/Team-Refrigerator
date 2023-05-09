@@ -251,7 +251,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             <StatusBar barStyle="light-content"
                 backgroundColor="transparent"
                 translucent />
-            <BackgroundCurvedView  pos = {2000}
+            <BackgroundCurvedView  pos = {2025}
             />
             
             {/* Header */}

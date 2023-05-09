@@ -7,8 +7,7 @@ import 'expo-dev-client';
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
 
-import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant } from './screens';
-
+import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Map } from './screens';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -107,6 +106,7 @@ const App = () => {
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
             <Stack.Screen name="Food" component={FoodDetail} />
             <Stack.Screen name="Restaurant" component={Restaurant} />
+            <Stack.Screen name="Map" component={Map} />
           </>
         )
         }

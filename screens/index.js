@@ -36,9 +36,11 @@ import FoodDetail from './Food/FoodDetail';
 
 import Onboarding  from "./Onboarding/Onboarding";
 
-import HelpCenter from "./HelpCenter/HelpCenter"
+import HelpCenter from "./HelpCenter/HelpCenter";
 
-import Restaurant from "./Restaurant/Restaurant"
+import Restaurant from "./Restaurant/Restaurant";
+
+import Map from "./Delivery/Map"
 
 
 export {
@@ -57,5 +59,6 @@ export {
     CreateNewAccount,
     Onboarding,
     HelpCenter, 
-    Restaurant
+    Restaurant,
+    Map
 }

@@ -36,7 +36,7 @@ const Search = () => {
         // <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 2 }}>
-            <Separator height={Display.setHeight(22)} />
+            <Separator height={Display.setHeight(12)} />
             <View style={{ marginVertical: 10 }} />
             {/* Google Text Input */}
             <GooglePlacesAutocomplete
