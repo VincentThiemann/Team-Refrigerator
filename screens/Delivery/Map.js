@@ -15,8 +15,9 @@ import { utils } from '../../utils';
 import MapViewDirections from "react-native-maps-directions"
 import { keys } from "../../apiKeys";
 import { useSelector } from "react-redux";
-import { Entypo } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
+import * as Location from 'expo-location';
 
 const Map = ({ navigation }) => {
 
@@ -27,6 +28,26 @@ const Map = ({ navigation }) => {
     const [angle, setAngle] = React.useState(0)
     const [isReady, setIsReady] = React.useState(false)
     const [duration, setDuration] = React.useState("")
+    const [location, setLocation] = React.useState(null);
+    const [errorMsg, setErrorMsg] = React.useState(null);
+
+    React.useEffect(() => {
+        (async () => {
+
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            const address = await Location.reverseGeocodeAsync(location.coords);
+            setLocation(address);
+
+
+        })();
+    }, []);
+
 
     React.useEffect(() => {
         let initialRegion = {
@@ -218,7 +239,7 @@ const Map = ({ navigation }) => {
                                 }}
                             >
                                 <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>Your address</Text>
-                                <Text style={{ ...FONTS.h3 }}>{addressName}</Text>
+                                <Text style={{ ...FONTS.h3 }}>{location[0].name}, {location[0].streetNumber} {location[0].street}, {location[0].city}</Text>
                             </View>
                         </View>
 
@@ -267,7 +288,7 @@ const Map = ({ navigation }) => {
                                 }}
                             >
                                 <Entypo name="chat" size={24} color="white" onPress={() => Linking.openURL('sms:+12349319865')} />
-                                
+
                             </View>
                         </TouchableOpacity>
                     </View>

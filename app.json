@@ -36,7 +36,21 @@
           "displayName": "csds393-auth",
           "scheme": "fb3367317896820221"
         }
-      ]
+      ],
+      [
+        "react-native-background-geolocation",
+        {
+          "license": "YOUR_LICENSE_KEY_HERE"
+        }
+      ],
+      [
+        "expo-gradle-ext-vars",
+        {
+          "googlePlayServicesLocationVersion": "20.0.0",
+          "appCompatVersion": "1.4.2"
+        }
+      ],
+      "react-native-background-fetch"
     ]
   }
 }
