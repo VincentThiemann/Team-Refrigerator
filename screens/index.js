@@ -40,7 +40,9 @@ import HelpCenter from "./HelpCenter/HelpCenter";
 
 import Restaurant from "./Restaurant/Restaurant";
 
-import Map from "./Delivery/Map"
+import Map from "./Delivery/Map";
+
+import Tracker from "./Delivery/Tracker";
 
 
 export {
@@ -60,5 +62,6 @@ export {
     Onboarding,
     HelpCenter, 
     Restaurant,
-    Map
+    Map,
+    Tracker
 }
