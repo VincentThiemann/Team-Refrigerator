@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { Entypo } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
 
 const Map = ({ navigation }) => {
 
@@ -34,10 +35,14 @@ const Map = ({ navigation }) => {
     React.useEffect(() => {
         (async () => {
 
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
+            const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
+            if (foregroundStatus === 'granted') {
+                const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
+                if (backgroundStatus === 'granted') {
+                    await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+                        accuracy: Location.Accuracy.Balanced,
+                    });
+                }
             }
 
             let location = await Location.getCurrentPositionAsync({});
