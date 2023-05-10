@@ -38,6 +38,7 @@ import Onboarding  from "./Onboarding/Onboarding";
 
 import HelpCenter from "./HelpCenter/HelpCenter"
 
+import Restaurant from "./Restaurant/Restaurant"
 
 
 export {
@@ -55,6 +56,6 @@ export {
     FoodDetail,
     CreateNewAccount,
     Onboarding,
-    HelpCenter
-
+    HelpCenter, 
+    Restaurant
 }

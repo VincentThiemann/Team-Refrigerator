@@ -19,10 +19,9 @@ import { setSelectedTab } from '../stores/tabs/tabActions';
 import { Home, Search, CartTab, Notification, Favourite, TransactionHistory } from './'
 import { COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants';
 import { Header } from '../components';
-import { auth } from "../firebase"
 import Display from '../utils/Display';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { TextInputComponent } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import { useSelector } from 'react-redux';
 
 const TabButton = ({ label, icon, isFocused, onPress, outerContainerStyle, innerContainerStyle }) => {
     return (
@@ -231,13 +230,15 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
     }, [selectedTab])
 
     const handleSignOut = () => {
-        auth
+        auth()
             .signOut()
             .then(() => {
                 navigation.replace("Authentication")
             })
             .catch(error => alert(error.message))
     }
+    
+    const { addressName } = useSelector(state => state?.location)
 
     return (
         <Animated.View
@@ -250,9 +251,8 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
             <StatusBar barStyle="light-content"
                 backgroundColor="transparent"
                 translucent />
-            {toggleLocation &&
-                <BackgroundCurvedView  pos = {1600}/>
-            }
+            <BackgroundCurvedView  pos = {2000}
+            />
             
             {/* Header */}
             <Header
@@ -292,9 +292,9 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                                 alignItems: 'center',
                                 marginTop: SIZES.base,
                             }}
-                            onPress={() => setToggleLocation(!toggleLocation)}>
+                            onPress={() => {console.log(addressName)}}>
                             <Text style={{ ...FONTS.h3 }}>
-                                {dummyData?.myProfile?.address}
+                                {addressName}
                             </Text>
 
                             <Image
@@ -402,6 +402,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                     horizontal
                     scrollEnabled={false}
                     pagingEnabled
+                    keyboardShouldPersistTaps={'handled'}
                     snapToAlignment="center"
                     snapToInterval={SIZES.width}
                     showsHorizontalScrollIndicator={false}

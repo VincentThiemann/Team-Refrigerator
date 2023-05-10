@@ -7,18 +7,26 @@ import {
     FlatList,
     TouchableOpacity,
     StyleSheet,
-    StatusBar
+    StatusBar,
+    ScrollView
 } from 'react-native';
-import { Separator, BackgroundCurvedView } from "../../components"
+import { Separator, BackgroundCurvedView, CategoryMenuItem, RestaurantCard, RestaurantMediumCard } from "../../components"
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants"
 import { HorizontalFoodCard, VerticalFoodCard } from '../../components';
 import Display from '../../utils/Display';
-import { keys } from '../../apiKeys'
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Feather from '@expo/vector-icons/Feather';
+import { keys } from '../../apiKeys';
+import { Mock } from "../../constants";
+import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 
 const YELP_API_KEY = keys.YELP_API_KEY;
+
+const sortStyle = isActive =>
+    isActive
+        ? styles.sortListItem
+        : { ...styles.sortListItem, borderBottomColor: COLORS.DEFAULT_WHITE };
+
+
 
 const Section = ({ title, onPress, children }) => {
     return (
@@ -28,7 +36,7 @@ const Section = ({ title, onPress, children }) => {
                 style={{
                     flexDirection: 'row',
                     marginHorizontal: SIZES.padding,
-                    marginTop: 30,
+                    marginBottom: 12
                 }}
             >
                 <Text
@@ -58,6 +66,9 @@ const Home = () => {
     const [discounts, setDiscounts] = React.useState([]);
     const [restaurantData, setRestaurantData] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
+    const [activeCategory, setActiveCategory] = React.useState();
+    const [activeSortItem, setActiveSortItem] = React.useState('recent');
+    const navigation = useNavigation();
 
     React.useEffect(() => {
         //handler
@@ -101,17 +112,21 @@ const Home = () => {
             }
         };
 
-        const res = await fetch(yelpUrl, options)
-            .then(response => response.json())
-            .then(json => {
-                setRestaurantData(
-                    json.businesses)
-                getCategoryFromRestaurant(restaurantData)
-
-
-            }
-            )
-            .catch(err => console.error(err));
+        const restaurant = await firestore().collection('Restaurants').get()
+            .then((res) => {
+                setRestaurantData(res.docs.map(doc => doc.data()))
+                // console.log(restaurantData);
+            });
+            
+        // const res = await fetch(yelpUrl, options)
+        //     .then(response => response.json())
+        //     .then(json => {
+        //         setRestaurantData(
+        //             json.businesses)
+        //         getCategoryFromRestaurant(restaurantData)
+        //     }
+        //     )
+        //     .catch(err => console.error(err));
     };
 
     //render
@@ -158,7 +173,7 @@ const Home = () => {
 
                 {/* filter */}
                 <TouchableOpacity
-                    onPress={() => console.log(categories)}
+                    onPress={() => console.log("Horizontal")}
                 >
                     <Image
                         source={icons.filter}
@@ -410,16 +425,87 @@ const Home = () => {
 
         <View style={{
             flex: 1,
-            marginTop: Display.setHeight(10)
+            marginTop: Display.setHeight(10),
         }}>
-            {/* <StatusBar
-                barStyle="default"
-                backgroundColor={COLORS.green}
-                translucent
-            /> */}
             <Separator height={StatusBar.currentHeight} />
-            <BackgroundCurvedView pos = {2000} />
+            <BackgroundCurvedView pos={2000} />
             {renderSearch()}
+            <View style={styles.categoriesContainer}>
+                {Mock.CATEGORIES.map(({ name, logo }) => (
+                    <CategoryMenuItem
+                        name={name}
+                        logo={logo}
+                        key={name}
+                        activeCategory={activeCategory}
+                        setActiveCategory={setActiveCategory}
+                    />
+                ))}
+            </View>
+            <Separator height={Display.setHeight(3.5)} />
+            <ScrollView style={styles.listContainer}>
+
+                <View>
+                    {/* List */}
+                    <FlatList
+                        data={restaurantData}
+                        keyExtractor={(item, index) => item.id.toString()}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) =>
+                            <RestaurantCard {...item}
+                                navigate={restaurantId =>
+                                    navigation.navigate('Restaurant',  restaurantId )}
+                            />
+                        }
+                        ListHeaderComponent={
+                            <View style={{ paddingTop: 32 }}>
+                                <Section title="Top Rated" />
+                            </View>
+                        }
+
+                    />
+                </View>
+                <View style={styles.sortListContainer}>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'recent')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('recent')}>
+                        <Text style={styles.sortListItemText}>Recent</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'favorite')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('favorite')}>
+                        <Text style={styles.sortListItemText}>Favorite</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'rating')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('rating')}>
+                        <Text style={styles.sortListItemText}>Rating</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'popular')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('popular')}>
+                        <Text style={styles.sortListItemText}>Popular</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'trending')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('trending')}>
+                        <Text style={styles.sortListItemText}>Trending</Text>
+                    </TouchableOpacity>
+                </View>
+                {restaurantData?.map(item => (
+                    <RestaurantMediumCard {...item} key={item?.id} />
+                ))}
+
+                <Separator height={Display.setHeight(15)} />
+
+            </ScrollView>
+
+
         </View>
     )
 }

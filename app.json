@@ -8,11 +8,27 @@
     },
     "android": {
       "package": "com.lmd0612.fooddelivery",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBeOCqzWB1mDwkWukg9IUenxyRy7PL7KQc"
+        }
+      }
     },
     "plugins": [
-      ["@react-native-google-signin/google-signin"],
-      ["@react-native-firebase/app", "@react-native-firebase/auth"],
+      [
+        "@react-native-google-signin/google-signin"
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      [
+        "@react-native-firebase/app",
+        "@react-native-firebase/auth"
+      ],
       [
         "react-native-fbsdk-next",
         {
@@ -20,7 +36,6 @@
           "clientToken": "ef77c2231811e1ad5ec76fcef71e6e2c",
           "displayName": "csds393-auth",
           "scheme": "fb3367317896820221"
-
         }
       ]
     ]

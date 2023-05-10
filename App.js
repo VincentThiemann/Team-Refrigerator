@@ -4,7 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
-import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication } from './screens';
+
+import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant } from './screens';
+
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -39,6 +41,7 @@ const App = () => {
   const { isFirstTimeUse } = useSelector(
     state => state?.generalState,
   );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,6 +52,7 @@ const App = () => {
   function onAuthStateChanged(user) {
     setUser(user);
     if (initializing) setInitializing(false);
+    console.log(user.uid)
   }
 
   useEffect(() => {
@@ -92,14 +96,18 @@ const App = () => {
             <Stack.Screen name="Authentication" component={Authentication} />
             <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
             <Stack.Screen name="LogInAccount" component={LogInAccount} />
+
           </>
         ) : (
           <>
+            {/* <Stack.Screen name="Profile" component={Profile} /> */}
             <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
             <Stack.Screen name="Cart" component={CartTab} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
             <Stack.Screen name="FoodDetail" component={FoodDetail} />
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Food" component={FoodDetail} />
+            <Stack.Screen name="Restaurant" component={Restaurant} />
           </>
         )
         }

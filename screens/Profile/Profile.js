@@ -1,25 +1,47 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { View, Text, Button, TextInput } from "react-native";
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
+const user = auth()?.currentUser.uid;
+
+const Profile = ({ navigation }) => {
+    const [name, setName] = React.useState("");
+    const [age, setAge] = React.useState(0);
 
 
-const Profile = ({navigation}) => {
     const createProfile = () => {
         firestore()
+            .collection('Cart')
+            .doc(user)
+            .update({
+
+            })
+        firestore()
+            .collection('Bookmark')
+            .doc(user)
+            .update({
+
+            })
+
+        firestore()
             .collection('Users')
-            .doc(auth().currentUser.uid)
+            .doc(user)
             .set({
-                name: 'Ada Lovelace',
-                age: 30,
+
             })
             .then(() => {
                 console.log('User added!');
+                navigation.navigate("CustomDrawer")
+            })
+            .catch((e) => {
+                console.log(e.message);
             });
     }
+
+    if (user == null)
+        return null;
 
     return (
         <View style={{
@@ -27,8 +49,15 @@ const Profile = ({navigation}) => {
             alignItems: "center",
             justifyContent: "center"
         }}>
-            {createProfile()}
-            <Button title = "Verify" onClick={navigation.navigate("CustomDrawer")}/>
+            <TextInput
+                onChangeText={setName}
+                value={name}
+                placeholder="NAME" />
+            <TextInput
+                onChangeText={setAge}
+                value={age}
+                placeholder="Age" />
+            <Button title="Verify" onPress={() => createProfile()} />
         </View>
     )
 }

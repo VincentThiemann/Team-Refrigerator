@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -9,23 +9,70 @@ import {
     TouchableOpacity,
     TextInput
 } from 'react-native';
-import { FONTS, COLORS, SIZES, icons, images, dummyData, constants } from "../../constants"
-import { Header, Separator, IconLabel } from "../../components";
+import { ApiContants, FONTS, COLORS, SIZES, icons, images, dummyData } from "../../constants";
+import { Header, Separator, ProgressiveImage } from "../../components";
 import Display from '../../utils/Display';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+//import {CartAction} from '../actions';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const setStyle = isActive =>
     isActive
         ? styles.subMenuButtonText
         : { ...styles.subMenuButtonText, color: COLORS.DEFAULT_GREY };
 
-const FoodDetail = ({navigation}) => {
 
-    const [food, setFood] = React.useState(dummyData.vegBiryani);
-    const [isBookmarked, setIsBookmarked] = React.useState(false);
+const FoodDetail = ({
+    navigation,
+    route: {
+        params: { foodId },
+    }, }) => {
+    const [urlSD, setUrlSD] = React.useState();
+    const [urlHD, setUrlHD] = React.useState();
+    const [food, setFood] = useState(null);
+    const [selectedSubMenu, setSelectedSubMenu] = useState('Details');
+
+    //const [isBookmarked, setIsBookmarked] = React.useState(false);
     const [qty, setQty] = React.useState(1);
+
+    const dispatch = useDispatch();
+    const itemCount = useSelector(
+        state =>
+            state?.cartState?.cart?.cartItems?.find(item => item?.foodId === foodId)
+                ?.count,
+    );
+
+    React.useEffect(() => {
+        async function func() {
+            let name = "";
+            await firestore()
+                .collection('Foods')
+                // Filter results
+                .doc(foodId)
+                .get()
+                .then((response) => {
+                    setFood(response?.data());
+                    name = response?.data().image;
+                    console.log(name);
+                });
+
+            const referenceSD = storage().ref(`images/gallery/square/sd/${name}.png`);
+            await referenceSD.getDownloadURL().then((x) => {
+                setUrlSD(x);
+            })
+            const referenceHD = storage().ref(`images/gallery/square/hd/${name}.png`);
+            await referenceHD.getDownloadURL().then((x) => {
+                setUrlHD(x);
+            })
+
+        }
+        if (urlSD == undefined) { func() };
+    }, []);
+
 
     function handleFoodItem(passedFoodItem) {
         let foodItems = dummyData.menu.find(a => a.name == "All");
@@ -37,18 +84,16 @@ const FoodDetail = ({navigation}) => {
             <Header
 
                 containerStyle={{
-
                     positon: 'absolute',
                     height: 60,
                     top: Display.setHeight(3),
                     marginHorizontal: SIZES.padding,
                     margintop: 40,
-                    backgroundColor: 'green'
 
                 }}
 
                 leftComponent={
-                    <Ionicons name="ios-chevron-back-sharp" size={40} color="black" onPress={() => navigation.navigate("CustomDrawer")} />
+                    <Ionicons name="ios-chevron-back-sharp" size={40} color="black" onPress={() => navigation.navigate("Restaurant", { restaurantId: food.restaurantId })} />
                 }
             // rightComponent={
             //     <View>
@@ -88,10 +133,13 @@ const FoodDetail = ({navigation}) => {
         >
             <StatusBar barStyle="default" translucent backgroundColor="transparent" />
 
-            <Image
-                source={food?.image}
+
+            <ProgressiveImage
+                thumbnailSource={{ uri: urlSD }}
+                source={{ uri: urlHD }}
                 style={styles.backgroundImage}
             />
+
             {/* Header */}
             {renderHeader()}
 
@@ -99,7 +147,7 @@ const FoodDetail = ({navigation}) => {
             {/* Body */}
             <ScrollView style={{ flex: 1 }}>
 
-                <Separator height={Display.setWidth(100)} />
+                <Separator height={Display.setWidth(80)} />
                 <View style={styles.mainContainer}>
                     <View style={styles.titleHeaderContainer}>
                         <Text style={styles.titleText}>{food?.name}</Text>
@@ -192,7 +240,7 @@ const FoodDetail = ({navigation}) => {
                                 color={COLORS.DEFAULT_YELLOW}
                                 size={24}
                                 onPress={() => {
-                                        setQty(qty + 1)
+                                    setQty(qty + 1)
                                 }}
                             />
                         </View>
@@ -206,7 +254,7 @@ const FoodDetail = ({navigation}) => {
                         <TouchableOpacity style={styles.cartButton}
                             onPress={() => navigation.navigate("Cart")}
                             activeOpacity={0.8}>
-                            <Text style={styles.priceText}> Add to Basket - $ {food?.price*qty}</Text>
+                            <Text style={styles.priceText}> Add to Basket - $ {food?.price * qty}</Text>
                         </TouchableOpacity>
                     </View>
 

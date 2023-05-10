@@ -1,0 +1,12 @@
+name: Unit test
+
+on: [push, pull_request]
+
+jobs:
+  always_true_job:
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Always True Step
+        id: always_true_step
+        run: echo "Unit test"

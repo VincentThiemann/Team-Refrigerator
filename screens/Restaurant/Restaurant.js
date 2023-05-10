@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,17 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import {CategoryListItem, FoodCard, Separator} from '../components';
-import {ApiContants, Colors, Fonts, Images} from '../contants';
-import {RestaurantService, StaticImageService} from '../services';
-import {Display} from '../utils';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useDispatch, useSelector} from 'react-redux';
-import {BookmarkAction} from '../actions';
+
+import { CategoryListItem, FoodCard, Separator, ProgressiveImage } from '../../components';
+import { ApiContants, COLORS, FONTS, images } from '../../constants';
+import Display from '../../utils/Display';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useDispatch, useSelector } from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import bookmarkActions from '../../stores/bookmark/bookmarkActions';
+import { BookmarkService } from '../../services';
 
 const ListHeader = () => (
   <View
@@ -28,7 +31,7 @@ const ListHeader = () => (
     }}>
     <View
       style={{
-        backgroundColor: Colors.LIGHT_YELLOW,
+        backgroundColor: COLORS.LIGHT_YELLOW,
         width: 20,
         borderTopLeftRadius: 64,
         borderBottomLeftRadius: 64,
@@ -46,7 +49,7 @@ const ListFooter = () => (
     }}>
     <View
       style={{
-        backgroundColor: Colors.LIGHT_YELLOW,
+        backgroundColor: COLORS.LIGHT_YELLOW,
         width: 20,
         borderTopRightRadius: 64,
         borderBottomRightRadius: 64,
@@ -58,45 +61,72 @@ const ListFooter = () => (
 const Restaurant = ({
   navigation,
   route: {
-    params: {restaurantId},
+    params: restaurantId,
   },
 }) => {
+  const [urlSD, setUrlSD] = React.useState();
+  const [urlHD, setUrlHD] = React.useState();
   const [restaurant, setRestaurant] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [foods, setFoods] = useState([]);
   //const [isBookmarked, setIsBookmarked] = useState(false);
 
-  useEffect(() => {
-    RestaurantService.getOneRestaurantById(restaurantId).then(response => {
-      setSelectedCategory(response?.data?.categories[0]);
-      setRestaurant(response?.data);
-    });
+
+  React.useEffect(() => {
+    async function func() {
+      let name = "";
+      await firestore()
+      .collection('Foods')
+      // Filter results
+      .where('restaurantId', '==', restaurantId)
+      .get()
+      .then(querySnapshot => {
+        setFoods(querySnapshot.docs.map(doc => doc.data()))
+        console.log(foods)
+      });
+      
+      await firestore().collection('Restaurants').doc(restaurantId).get()
+        .then((response) => {
+          setRestaurant(response?.data())
+          setSelectedCategory(response?.data().categories[0]);
+          name = response?.data().images.cover;
+          console.log(response?.data().categories[0])
+        });
+
+      const referenceSD = storage().ref(`images/gallery/square/sd/${name}.png`);
+      await referenceSD.getDownloadURL().then((x) => {
+        setUrlSD(x);
+      })
+      const referenceHD = storage().ref(`images/gallery/square/hd/${name}.png`);
+      await referenceHD.getDownloadURL().then((x) => {
+        setUrlHD(x);
+      })
+    }
+    if (urlSD == undefined) { func() };
   }, []);
 
   const dispatch = useDispatch();
   const isBookmarked = useSelector(
     state =>
-      state?.bookmarkState?.bookmarks?.filter(
-        item => item?.restaurantId === restaurantId,
+      state?.bookmarkState?.bookmarks?.restaurantsId?.filter(
+        item => item == restaurantId,
       )?.length > 0,
   );
   const addBookmark = () =>
-    dispatch(BookmarkAction.addBookmark({restaurantId}));
+    dispatch(bookmarkActions.addBookmark(restaurantId));
   const removeBookmark = () =>
-    dispatch(BookmarkAction.removeBookmark({restaurantId}));
+    dispatch(bookmarkActions.removeBookmark(restaurantId));
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="default" translucent backgroundColor="transparent" />
       <>
-        <Image
-          source={{
-            uri: StaticImageService.getGalleryImage(
-              restaurant?.images?.cover,
-              ApiContants.STATIC_IMAGE.SIZE.SQUARE,
-            ),
-          }}
+      <ProgressiveImage
+          thumbnailSource={{ uri: urlSD }}
+          source={{ uri: urlHD }}
           style={styles.backgroundImage}
         />
+
         <ScrollView>
           <Separator height={Display.setHeight(35)} />
           <View style={styles.mainContainer}>
@@ -104,7 +134,7 @@ const Restaurant = ({
               <Text style={styles.title}>{restaurant?.name}</Text>
               <Ionicons
                 name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
-                color={Colors.DEFAULT_YELLOW}
+                color={COLORS.DEFAULT_YELLOW}
                 size={24}
                 onPress={() =>
                   isBookmarked ? removeBookmark() : addBookmark()
@@ -116,7 +146,7 @@ const Restaurant = ({
               <FontAwesome
                 name="star"
                 size={18}
-                color={Colors.DEFAULT_YELLOW}
+                color={COLORS.DEFAULT_YELLOW}
               />
               <Text style={styles.ratingText}>4.2</Text>
               <Text style={styles.reviewsText}>(455 Reviews)</Text>
@@ -125,14 +155,14 @@ const Restaurant = ({
               <View style={styles.rowAndCenter}>
                 <Image
                   style={styles.deliveryDetailIcon}
-                  source={Images.DELIVERY_CHARGE}
+                  source={images.DELIVERY_CHARGE}
                 />
                 <Text style={styles.deliveryDetailText}>Free Delivery</Text>
               </View>
               <View style={styles.rowAndCenter}>
                 <Image
                   style={styles.deliveryDetailIcon}
-                  source={Images.DELIVERY_TIME}
+                  source={images.DELIVERY_TIME}
                 />
                 <Text style={styles.deliveryDetailText}>
                   {restaurant?.time} min
@@ -141,10 +171,10 @@ const Restaurant = ({
               <View style={styles.rowAndCenter}>
                 <Image
                   style={styles.deliveryDetailIcon}
-                  source={Images.MARKER}
+                  source={images.MARKER}
                 />
                 <Text style={styles.deliveryDetailText}>
-                  {restaurant?.distance / 1000}km
+                  {(restaurant?.distance / 1000).toFixed(2)} km
                 </Text>
               </View>
               <View style={styles.restaurantType}>
@@ -161,7 +191,7 @@ const Restaurant = ({
                 ListHeaderComponent={() => <ListHeader />}
                 ListFooterComponent={() => <ListFooter />}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <CategoryListItem
                     name={item}
                     isActive={item === selectedCategory}
@@ -171,14 +201,14 @@ const Restaurant = ({
               />
             </View>
             <View style={styles.foodList}>
-              {restaurant?.foods
+              {foods
                 ?.filter(food => food?.category === selectedCategory)
                 ?.map(item => (
                   <FoodCard
                     key={item?.id}
                     {...item}
                     navigate={() =>
-                      navigation.navigate('Food', {foodId: item?.id})
+                      navigation.navigate('Food', { foodId: item?.id })
                     }
                   />
                 ))}
@@ -203,7 +233,7 @@ const styles = StyleSheet.create({
     width: Display.setWidth(100),
   },
   mainContainer: {
-    backgroundColor: Colors.SECONDARY_WHITE,
+    backgroundColor: COLORS.SECONDARY_WHITE,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
   },
@@ -217,16 +247,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 23,
     lineHeight: 23 * 1.4,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-    color: Colors.DEFAULT_BLACK,
+    fontFamily: FONTS.POPPINS_SEMI_BOLD,
+    color: COLORS.DEFAULT_BLACK,
   },
   tagText: {
     marginHorizontal: 25,
     marginTop: 5,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-    color: Colors.DEFAULT_GREY,
+    fontFamily: FONTS.POPPINS_SEMI_BOLD,
+    color: COLORS.DEFAULT_GREY,
   },
   ratingReviewsContainer: {
     flexDirection: 'row',
@@ -238,15 +268,15 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_BOLD,
-    color: Colors.DEFAULT_BLACK,
+    fontFamily: FONTS.POPPINS_BOLD,
+    color: COLORS.DEFAULT_BLACK,
   },
   reviewsText: {
     marginLeft: 5,
     fontSize: 13,
     lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    color: Colors.DEFAULT_BLACK,
+    fontFamily: FONTS.POPPINS_MEDIUM,
+    color: COLORS.DEFAULT_BLACK,
   },
   deliveryDetailsContainer: {
     flexDirection: 'row',
@@ -259,8 +289,8 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     fontSize: 12,
     lineHeight: 12 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    color: Colors.DEFAULT_BLACK,
+    fontFamily: FONTS.POPPINS_MEDIUM,
+    color: COLORS.DEFAULT_BLACK,
   },
   deliveryDetailIcon: {
     height: 16,
@@ -271,7 +301,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   restaurantType: {
-    backgroundColor: Colors.LIGHT_YELLOW,
+    backgroundColor: COLORS.LIGHT_YELLOW,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10,
@@ -281,8 +311,8 @@ const styles = StyleSheet.create({
   restaurantTypeText: {
     fontSize: 12,
     lineHeight: 12 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    color: Colors.DEFAULT_YELLOW,
+    fontFamily: FONTS.POPPINS_MEDIUM,
+    color: COLORS.DEFAULT_YELLOW,
   },
   categoriesContainer: {
     marginVertical: 20,
