@@ -45,57 +45,51 @@ export const HelpCenterHeader = () => {
 const FAQData = [
     {
         id: 1,
-        question: "Question 1?",
-        answer: "Answer 1",
+        question: "How do I place order on the app?",
+        answer: "To do so, you just need to browse the menu, select foods that you want to order, put them in the cart, and proceed to checkout.",
         topic: 1
     },
     {
         id: 2,
-        question: "Question 2?",
-        answer: "Answer 2",
-        topic: 1
+        question: "How can I receive my order?",
+        answer: "You can pick up your order at the restaurant or you can request your friend to take the order for you. We provide notification functionality to help you receive order from your friend more easily.",
+        topic: 2
     },
     {
         id: 3,
-        question: "Question 3?",
-        answer: "Answer 3",
+        question: "How long does it take to have my order?",
+        answer: "It may depend on the current demand and the distance between your current location and the restaurant's location.",
         topic: 2
     },
     {
         id: 4,
-        question: "Question 4?",
-        answer: "Answer 4",
+        question: "Can I change the quantity for each food or drink type?",
+        answer: "Yes, you can click on the + sign or the - sign to increase or decrease the quantity.",
         topic: 1
     },
     {
         id: 5,
-        question: "Question 5?",
-        answer: "Answer 5",
-        topic: 2
+        question: "Can I choose different types of foods and drinks for my order?",
+        answer: "Yes, you can choose as many different types of foods and drinks for your order as you like.",
+        topic: 1
     },
     {
         id: 6,
-        question: "Question 6?",
-        answer: "Answer 6",
-        topic: 4
+        question: "How can I find my favorite foods or drinks?",
+        answer: "You can click on the heart sign in the lower tab to have information about your favorite foods or drinks.",
+        topic: 1
     },
     {
         id: 7,
-        question: "Question 7?",
-        answer: "Answer 7",
-        topic: 3
+        question: "Will I be notified when my friend has brought my order to my place?",
+        answer: "Yes, there will be a push notification when your friend has brought my order to your place.",
+        topic: 2
     },
     {
         id: 8,
-        question: "Question 8?",
-        answer: "Answer 8",
-        topic: 2
-    },
-    {
-        id: 9,
-        question: "Question 9?",
-        answer: "Answer 9",
-        topic: 2
+        question: "What if my order is incorrect or missing items?",
+        answer: "You will need to contact the restaurant as soon as possible to solve the issue.",
+        topic: 1
     }
 ]
 
@@ -155,16 +149,10 @@ export const FAQ = () => {
                         <Text style={styles.title}>All topics</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(1) }}>
-                        <Text style={styles.title}>Topic 1</Text>
+                        <Text style={styles.title}>Ordering</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(2) }}>
-                        <Text style={styles.title}>Topic 2</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(3) }}>
-                        <Text style={styles.title}>Topic 3</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(4) }}>
-                        <Text style={styles.title}>Topic 4</Text>
+                        <Text style={styles.title}>Receiving order</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>

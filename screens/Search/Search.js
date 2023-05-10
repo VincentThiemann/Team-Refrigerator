@@ -24,8 +24,6 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useDispatch } from 'react-redux';
 import { setLocation } from '../../stores/location/locationReducer.js';
 import * as Location from 'expo-location';
-// import * as Permissions from 'react-redux-permissions';
-
 
 const GOOGLE_PLACES_API_KEY = keys.GOOGLE_PLACES_API_KEY;
 const Search = () => {
@@ -36,12 +34,14 @@ const Search = () => {
     const [searchMarkerCoords, setSearchMarkerCoords] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
 
-    React.useEffect(async () => {
-        const { permission } = Location.requestForegroundPermissionsAsync();
-        if (permission == "granted") {
-            const location = await Location.getCurrentPositionAsync();
-            setCurrentLocation(location);
-        };
+    React.useEffect(() => {
+        (async () => {
+            const { permission } = Location.requestForegroundPermissionsAsync();
+            if (permission == "granted") {
+                const location = await Location.getCurrentPositionAsync();
+                setCurrentLocation(location);
+            };
+        })()
     }, []);
 
 
