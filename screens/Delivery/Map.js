@@ -20,6 +20,8 @@ import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 
+const LOCATION_TASK_NAME = 'background-location-task';
+
 const Map = ({ navigation }) => {
 
     const mapView = React.useRef()
@@ -48,8 +50,6 @@ const Map = ({ navigation }) => {
             let location = await Location.getCurrentPositionAsync({});
             const address = await Location.reverseGeocodeAsync(location.coords);
             setLocation(address);
-
-
         })();
     }, []);
 
@@ -71,7 +71,6 @@ const Map = ({ navigation }) => {
 
         setToLoc(destination);
         setFromLoc(dummyData.fromLocs[1])
-
         setRegion(initialRegion)
     }, [])
 
