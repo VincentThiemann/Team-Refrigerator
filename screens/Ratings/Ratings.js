@@ -30,9 +30,6 @@ export default Ratings = () => {
             const users = firestore().collection("Users");
             const userDoc = users.doc(username);
             userDoc.set({ ratings: rating }, { merge: true })
-                .then(() => {
-                    navigation.navigate("Onboarding");
-                })
                 .catch(err => {
                     console.error("Error in updating rating:", err)
                 });

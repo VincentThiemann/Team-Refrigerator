@@ -14,11 +14,12 @@ import {
     ScrollView,
     Linking,
 } from 'react-native';
+import Display from '../../utils/Display';
 
 const Tab = createMaterialTopTabNavigator();
 
 const HelpCenter = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.green }}>
+    <View style={{ flex: 1, backgroundColor: COLORS.DEFAULT_GREEN }}>
         <HelpCenterHeader />
         <Tab.Navigator>
             <Tab.Screen name="FAQ" component={FAQ} />
@@ -30,11 +31,11 @@ const HelpCenter = () => (
 export const HelpCenterHeader = () => {
     const navigation = useNavigation();
     return (
-        <Header containerStyle={{ marginHorizontal: 20, marginTop: 45, marginBottom: 20 }} title={"HELP CENTER"}
+        <Header containerStyle={{ marginHorizontal: 20, marginTop: 45, marginBottom: 20 }} title={"HELP CENTER"} titleStyle={{ color: COLORS.white }}
             leftComponent={
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate("Home") }}>
-                    <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
+                    onPress={() => { navigation.goBack() }}>
+                    <Image style={{ width: 30, height: 30, tintColor: COLORS.white }} source={icons.arrow_back} />
                 </TouchableOpacity>
             }
         />
@@ -121,12 +122,12 @@ const FAQItem = ({ question, answer }) => {
     const ButtonPress = () => {
         if (pressed) {
             return <TouchableOpacity style={styles.largeItem} onPress={() => { setPressed(!pressed) }}>
-                <Text style={styles.title}>{question}</Text>
-                <Text style={styles.text}>{answer}</Text>
+                <Text style={styles.smallTitle}>{question}</Text>
+                <Text style={styles.smallTitle}>{answer}</Text>
             </TouchableOpacity>
         } else {
             return <TouchableOpacity style={styles.item} onPress={() => { setPressed(!pressed) }}>
-                <Text style={styles.title}>{question}</Text>
+                <Text style={styles.smallTitle}>{question}</Text>
             </TouchableOpacity>
         }
     }
@@ -138,7 +139,7 @@ const FAQItem = ({ question, answer }) => {
 const ContactItem = ({ content, page }) => {
     return (
         <TouchableOpacity style={styles.item} onPress={() => Linking.openURL(page)}>
-            <Text style={styles.title}>{content}</Text>
+            <Text style={styles.smallTitle}>{content}</Text>
         </TouchableOpacity>
     )
 }
@@ -149,6 +150,7 @@ export const FAQ = () => {
         <View style={styles.container}>
             <View style={{ flexDirection: 'row' }}>
                 <ScrollView horizontal={true}>
+                    <View style={{ marginHorizontal: 5 }} />
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(0) }}>
                         <Text style={styles.title}>All topics</Text>
                     </TouchableOpacity>
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
         paddingLeft: SIZES.radius,
         borderRadius: 15,
         backgroundColor: "transparent",
-        borderColor: COLORS.green,
+        borderColor: COLORS.DEFAULT_GREEN,
         justifyContent: 'center',
         borderWidth: 2,
         alignItems: 'center',
@@ -212,10 +214,11 @@ const styles = StyleSheet.create({
     },
     item: {
         height: 60,
-        width: 350,
+        // width: 350,
+        width: Display.setWidth(90),
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: COLORS.green,
+        backgroundColor: COLORS.DEFAULT_GREEN,
         justifyContent: 'center',
         alignItems: 'flex-start',
         padding: 15,
@@ -223,10 +226,12 @@ const styles = StyleSheet.create({
     },
     largeItem: {
         height: 200,
-        width: 350,
+        // width: 350,
+        width: Display.setWidth(90),
+        marginHorizontal: 10,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
-        backgroundColor: COLORS.green,
+        backgroundColor: COLORS.DEFAULT_GREEN,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         padding: 15,
@@ -237,10 +242,14 @@ const styles = StyleSheet.create({
         fontSize: SIZES.h3,
         color: COLORS.black,
     },
+    smallTitle: {
+        fontSize: SIZES.h3,
+        color: COLORS.white,
+    },
     text:
     {
         fontSize: SIZES.h4,
-        color: COLORS.black,
+        color: COLORS.white,
     }
 });
 

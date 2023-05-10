@@ -151,6 +151,13 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                             navigation.navigate("MainLayout")
                         }} />
 
+                    {/* Line divider */}
+                    <View style={{
+                        height: 1, marginVertical: SIZES.radius,
+                        marginLeft: SIZES.radius,
+                        backgroundColor: COLORS.lightGray1
+                    }} />
+
                     <CustomDrawerItem
                         label="Ratings"
                         icon={icons.star}
@@ -159,13 +166,6 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                             setSelectedTab("Ratings")
                             navigation.navigate("Ratings")
                         }} />
-
-                    {/* Line divider */}
-                    <View style={{
-                        height: 1, marginVertical: SIZES.radius,
-                        marginLeft: SIZES.radius,
-                        backgroundColor: COLORS.lightGray1
-                    }} />
 
                     <CustomDrawerItem label="Track your order"
                         icon={icons.location} />
@@ -179,8 +179,14 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     <CustomDrawerItem label="Invite a friend"
                         icon={icons.profile} />
 
-                    <CustomDrawerItem label="Help"
-                        icon={icons.help} />
+                    <CustomDrawerItem
+                        label="Help"
+                        icon={icons.help}
+                        isFocused={selectedTab == "Help"}
+                        onPress={() => {
+                            setSelectedTab("HelpCenter")
+                            navigation.navigate("HelpCenter")
+                        }} />
 
                 </View>
 
@@ -213,7 +219,6 @@ const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
     })
 
     const animatedStyle = { borderRadius, transform: [{ scale }] }
-
 
     return (
         <View style={{
