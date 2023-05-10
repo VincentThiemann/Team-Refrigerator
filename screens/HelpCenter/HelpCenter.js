@@ -58,7 +58,7 @@ const FAQData = [
     {
         id: 3,
         question: "How long does it take to have my order?",
-        answer: "It may depend on the current demand and the distance between your current location and the restaurant's location.",
+        answer: "It depends on the current demand and the distance between your current location and the restaurant's location.",
         topic: 2
     },
     {
@@ -81,7 +81,7 @@ const FAQData = [
     },
     {
         id: 7,
-        question: "Will I be notified when my friend has brought my order to my place?",
+        question: "Will I be notified when my order has arrived?",
         answer: "Yes, there will be a push notification when your friend has brought my order to your place.",
         topic: 2
     },
@@ -117,7 +117,7 @@ const FAQItem = ({ question, answer }) => {
         if (pressed) {
             return <TouchableOpacity style={styles.largeItem} onPress={() => { setPressed(!pressed) }}>
                 <Text style={styles.smallTitle}>{question}</Text>
-                <Text style={styles.smallTitle}>{answer}</Text>
+                <Text style={styles.text}>{answer}</Text>
             </TouchableOpacity>
         } else {
             return <TouchableOpacity style={styles.item} onPress={() => { setPressed(!pressed) }}>
@@ -146,13 +146,13 @@ export const FAQ = () => {
                 <ScrollView horizontal={true}>
                     <View style={{ marginHorizontal: 5 }} />
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(0) }}>
-                        <Text style={styles.title}>All topics</Text>
+                        <Text style={styles.title}>ALL TOPICS</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(1) }}>
-                        <Text style={styles.title}>Ordering</Text>
+                        <Text style={styles.title}>ORDERING</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(2) }}>
-                        <Text style={styles.title}>Receiving order</Text>
+                        <Text style={styles.title}>RECEIVING ORDER</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     },
     category: {
         height: 60,
-        width: 98,
+        width: 180,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
         backgroundColor: "transparent",
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     largeItem: {
-        height: 200,
+        height: 120,
         // width: 350,
         width: Display.setWidth(90),
         marginHorizontal: 10,
@@ -231,12 +231,12 @@ const styles = StyleSheet.create({
         color: COLORS.black,
     },
     smallTitle: {
-        fontSize: SIZES.h3,
+        fontSize: SIZES.h2,
         color: COLORS.white,
     },
     text:
     {
-        fontSize: SIZES.h4,
+        fontSize: SIZES.h3,
         color: COLORS.white,
     }
 });
