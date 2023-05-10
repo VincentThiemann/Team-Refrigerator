@@ -20,7 +20,7 @@ const categories = [
         id: 1,
         name: "Fast Food",
         icon: icons.burger
-        
+
     },
     {
         id: 2,
@@ -97,14 +97,14 @@ const menu = [
         id: 3,
         name: "Pizza",
         list: [
-            
+
         ]
     },
     {
         id: 4,
         name: "Noddles",
         list: [
-            
+
         ]
     },
     {
@@ -118,7 +118,7 @@ const menu = [
         id: 6,
         name: "Dessert",
         list: [
-        
+
         ]
     },
     {
@@ -132,11 +132,39 @@ const menu = [
 
 ]
 
+const fromLocs = [
+    {
+        latitude: 1.5347282806345879,
+        longitude: 110.35632207358996,
+    },
+    {
+        latitude: 41.5146804,
+        longitude: -81.6055284,
+    },
+    {
+        latitude: 1.5238753474714375,
+        longitude: 110.34261833833622,
+    },
+    {
+        latitude: 1.5578068150528928,
+        longitude: 110.35482523764315,
+    },
+    {
+        latitude: 1.558050496260768,
+        longitude: 110.34743759630511,
+    },
+    {
+        latitude: 1.5573478487252896,
+        longitude: 110.35568783282145,
+    }
+]
+
 
 export default {
     vegBiryani,
     myProfile,
     categories,
     menu,
-    offers
+    offers,
+    fromLocs
 }

@@ -60,15 +60,8 @@ const CartTab = ({ navigation }) => {
         backgroundColor={COLORS.DEFAULT_WHITE}
         translucent
       />
-      <Separator height={StatusBar.currentHeight + Display.setHeight(14)} />
-      {/* <View style={styles.headerContainer}>
-        <Ionicons
-          name="chevron-back-outline"
-          size={30}
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={styles.headerTitle}>My Cart</Text>
-      </View> */}
+      <Separator height={StatusBar.currentHeight + Display.setHeight(10)} />
+
       {cart?.cartItems?.length > 0 ? (
         <>
           <ScrollView>

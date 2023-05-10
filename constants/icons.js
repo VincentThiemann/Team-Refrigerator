@@ -27,6 +27,13 @@ const facebookIcon = require ("../assets/icons/facebookIcon.png")
 const checkMarkIcon = require ("../assets/icons/checkMarkIcon.png")
 const emailIcon = require ("../assets/icons/emailIcon.png")
 const phoneIcon = require ("../assets/icons/phoneIcon.png")
+const location_pin = require("../assets/icons/location_pin.png")
+const navigator = require("../assets/icons/navigator.png")
+const navigator1 = require("../assets/icons/navigator1.png")
+const back = require("../assets/icons/back.png")
+const clock = require("../assets/icons/clock.png")
+const focus = require("../assets/icons/focus.png")
+const chat = require("../assets/icons/chat.png")
 
 export default {
     emailIcon,
@@ -58,4 +65,11 @@ export default {
     star,
     wallet,
     help,
+    location_pin,
+    navigator,
+    navigator1,
+    back,
+    clock,
+    focus,
+    chat
 }
