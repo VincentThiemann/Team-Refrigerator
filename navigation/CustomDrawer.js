@@ -11,6 +11,7 @@ import constants from '../constants/constants'
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions'
 import auth from '@react-native-firebase/auth';
+import { Profile } from 'react-native-fbsdk-next';
 
 const Drawer = createDrawerNavigator();
 const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
@@ -84,7 +85,9 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         alignItems: 'center',
                         marginTop: SIZES.radius,
                     }}
-                    onPress={() => console.log(user)}
+                    onPress={() => {
+                        navigation.navitate("Profile");
+                    }}
                 >
                     <Image source={dummyData.myProfile?.profile_images}
                         style={{
@@ -126,12 +129,12 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         label={constants.screens.my_wallet}
                         icon={icons.wallet}
                         isFocused={selectedTab == constants.screens.my_wallet}
-                        onPress={()=>{
+                        onPress={() => {
                             setSelectedTab(constants.screens.my_wallet)
                             navigation.navigate("MainLayout")
-    
+
                         }}
-                        
+
                     />
 
                     <CustomDrawerItem
@@ -189,7 +192,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
 }
 
 const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
-    
+
 
     const [progress, setProgress] = useState(new Animated.Value(0));
 

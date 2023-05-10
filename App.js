@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
 
-
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
 import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication } from './screens';
@@ -100,6 +99,7 @@ const App = () => {
             <Stack.Screen name="Cart" component={CartTab} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
             <Stack.Screen name="FoodDetail" component={FoodDetail} />
+            <Stack.Screen name="Profile" component={Profile} />
           </>
         )
         }
