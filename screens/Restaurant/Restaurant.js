@@ -174,7 +174,7 @@ const Restaurant = ({
                   source={images.MARKER}
                 />
                 <Text style={styles.deliveryDetailText}>
-                  {restaurant?.distance / 1000}km
+                  {(restaurant?.distance / 1000).toFixed(2)} km
                 </Text>
               </View>
               <View style={styles.restaurantType}>

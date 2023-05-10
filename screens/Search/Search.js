@@ -23,6 +23,8 @@ import { keys } from "../../apiKeys.js";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useDispatch } from 'react-redux';
 import { setLocation } from '../../stores/location/locationReducer.js';
+import * as Location from 'expo-location';
+import * as Permissions from 'react-redux-permissions';
 
 
 const GOOGLE_PLACES_API_KEY = keys.GOOGLE_PLACES_API_KEY;
@@ -32,6 +34,24 @@ const Search = () => {
     const [initialRegion, setInitialRegion] = useState(null);
     const [markerCoords, setMarkerCoords] = useState(null);
     const [searchMarkerCoords, setSearchMarkerCoords] = useState(null);
+
+    useEffect(() => {
+        const requestPermission = async () => {
+            const permission = await Permissions.request("location");
+            if(permission === "authorized") {
+                const { coordinates } = await Location.getCurrentPositionAsync();
+                const { lat, lng } = coordinates;
+                setInitialRegion({
+                    lat,
+                    lng,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                });
+            }
+        };
+        requestPermission();
+    }, []);
+
     return (
         // <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -117,6 +137,7 @@ const Search = () => {
 
             {/* Show map */}
             <View style={{ flex: 4, justifyContent: 'center', marginBottom: 100, alignItems: 'center' }}>
+                {initialRegion && (
                 <MapView
                     style={styles.map}
                     initialRegion={initialRegion}
@@ -126,11 +147,11 @@ const Search = () => {
                         const { latitude, longitude} = event.nativeEvent.coordinate;
                         setMarkerCoords({latitude, longitude});
                     }}
-                    requestPermissions={true}
-                    >
+                >
                     {markerCoords && <Marker coordinate={markerCoords} />}
                     {searchMarkerCoords && <Marker coordinate={searchMarkerCoords} />}
                 </MapView>
+                )}
             </View>
         </View>
         // </TouchableWithoutFeedback>
