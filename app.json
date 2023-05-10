@@ -32,11 +32,6 @@
         }
       ],
       [
-        "@react-native-firebase/app",
-        "@react-native-firebase/auth",
-        "@react-native-firebase/database"
-      ],
-      [
         "react-native-fbsdk-next",
         {
           "appID": "3367317896820221",
@@ -58,7 +53,10 @@
           "appCompatVersion": "1.4.2"
         }
       ],
-      "react-native-background-fetch"
+      "react-native-background-fetch",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-firebase/messaging"
     ]
   },
   "android": {

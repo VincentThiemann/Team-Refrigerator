@@ -77,6 +77,21 @@ const Map = ({ navigation }) => {
 
     const { addressName } = useSelector(state => state?.location)
 
+    TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
+        if (error) {
+          console.error(error)
+          return
+        }
+        if (data) {
+          // Extract location coordinates from data
+          const { locations } = data
+          const location = locations[0]
+          if (location) {
+            console.log("Location in background", location.coords)
+          }
+        }
+      })
+
     function renderMap() {
         return (
             <MapView
