@@ -18,8 +18,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import bookmarkActions from '../../stores/bookmark/bookmarkActions';
-import { BookmarkService } from '../../services';
+import bookmarkActions from '../../stores/bookmark/bookmarkActions';  
 
 const ListHeader = () => (
   <View

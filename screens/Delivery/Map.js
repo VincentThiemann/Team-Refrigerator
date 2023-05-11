@@ -22,7 +22,8 @@ import * as TaskManager from 'expo-task-manager';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-const user = auth()?.currentUser?.uid;
+const user = 
+"IQ0szOEWjNWSBnCHAL5uT3OcHBC3";
 
 const LOCATION_TASK_NAME = 'background-location-task';
 let foregroundSubscription = null
@@ -78,7 +79,7 @@ const Map = ({ navigation }) => {
                 .catch(error => console.error(error));
 
             let initialRegion = {
-                latitude: 41.514396,
+                latitude: 1,
                 longitude: -81.6058287,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
@@ -94,7 +95,7 @@ const Map = ({ navigation }) => {
             setRegion(initialRegion)
 
         })();
-    }, []);
+    }, [locAddress]);
 
 
     React.useEffect(() => {
@@ -147,7 +148,7 @@ const Map = ({ navigation }) => {
                         tracksViewChanges={false}
                         anchor={{ x: 0.5, y: 0.5 }}
                     >
-                        <Image source={icons.location_pin} style={{height: 35, width:35 }} />
+                        {/* <Image source={icons.location_pin} style={{height: 35, width:35 }} /> */}
                     </Marker>
 
                 }

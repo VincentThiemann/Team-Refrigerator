@@ -400,6 +400,12 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                 <FlatList
                     ref={flatListRef}
                     horizontal
+                    onScrollToIndexFailed={info => {
+                        const wait = new Promise(resolve => setTimeout(resolve, 700));
+                        wait.then(() => {
+                          flatListRef.current?.scrollToIndex({ index: info.index, animated: true/false });
+                        });
+                    }}
                     scrollEnabled={false}
                     pagingEnabled
                     keyboardShouldPersistTaps={'handled'}
