@@ -11,37 +11,40 @@ const getCartItems = async () => {
       const cartItemsSnapshot = await cartRef.get();
       const data = cartItemsSnapshot.data();
 
-      const cartItems = Object.keys(data).map(key => {
-        return { "foodId": parseInt(key), "count": data[key] };
-      });
+      if (data) {
+        const cartItems = Object.keys(data).map(key => {
+          return { "foodId": parseInt(key), "count": data[key] };
+        });
 
-      let itemsTotal = 0;
-      let discount = 0;
+        let itemsTotal = 0;
+        let discount = 0;
 
 
-      for (const cartItem of cartItems) {
-        const foodDoc = firestore().collection("Foods");
-        const querySnap = await foodDoc.doc(cartItem.foodId.toString()).get();
-        const data = querySnap.data();
+        for (const cartItem of cartItems) {
+          const foodDoc = firestore().collection("Foods");
+          const querySnap = await foodDoc.doc(cartItem.foodId.toString()).get();
+          const data = querySnap.data();
 
-        itemsTotal += data.price * cartItem.count;
-      }
+          itemsTotal += data.price * cartItem.count;
+        }
 
-      return {
-        status: true,
-        message: "Cart items fetched Successfully",
-        data: {
-          cartItems,
-          metaData: {
-            itemsTotal,
-            discount,
-            grandTotal: itemsTotal - discount,
+
+        return {
+          status: true,
+          message: "Cart items fetched Successfully",
+          data: {
+            cartItems,
+            metaData: {
+              itemsTotal,
+              discount,
+              grandTotal: itemsTotal - discount,
+            },
           },
-        },
-      };
+        };
+      }
     }
   } catch (error) {
-    console.error("Error fetching data from Firestore:", error);
+    console.error("Error fetching data from Firestore b:", error);
     return {
       status: false,
       message: "Cart items fetched Failed",
@@ -56,6 +59,7 @@ const addToCart = async (foodId) => {
       const cartRef = firestore().collection('Cart').doc(username);
       await cartRef.get()
         .then((documentSnapshot) => {
+          console.log(documentSnapshot);
           if (documentSnapshot.exists) {
             const data = documentSnapshot.data();
             if (data.hasOwnProperty(foodId)) {
@@ -68,7 +72,9 @@ const addToCart = async (foodId) => {
               })
             }
           } else {
-            console.log('Document does not exist.');
+            cartRef.set({
+              [foodId]: 1
+            })
           }
         })
         .catch((error) => {

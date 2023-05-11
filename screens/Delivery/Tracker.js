@@ -5,7 +5,8 @@ import * as Location from "expo-location"
 import firestore from "@react-native-firebase/firestore";
 import auth from '@react-native-firebase/auth';
 
-const user = auth()?.currentUser?.uid;
+const user = 
+"IQ0szOEWjNWSBnCHAL5uT3OcHBC3";
 
 const LOCATION_TASK_NAME = "LOCATION_TASK_NAME"
 let foregroundSubscription = null

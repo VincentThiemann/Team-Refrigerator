@@ -8,12 +8,29 @@ import { useSelector } from 'react-redux';
 import { ProgressiveImage } from "../components";
 import cartActions from '../stores/cart/cartActions';
 import storage from '@react-native-firebase/storage';
-import { CartService } from '../services';
+import firestore from '@react-native-firebase/firestore';
+import auth from "@react-native-firebase/auth"
 
+const user = auth()?.currentUser?.uid;
 
 const FoodCard = ({ id, name, description, price, image, navigate }) => {
   const [urlSD, setUrlSD] = React.useState();
   const [urlHD, setUrlHD] = React.useState();
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    const subscriber = firestore()
+      .collection('Cart')
+      .doc(user)
+      .onSnapshot(documentSnapshot => {
+        if(documentSnapshot.data()[id] !== undefined) {
+          setCount(documentSnapshot.data()[id])
+        }
+      });
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, [user]);
 
   React.useEffect(() => {
     async function func() {
@@ -25,20 +42,22 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
       await referenceHD.getDownloadURL().then((x) => {
         setUrlHD(x);
       })
-
     }
-    console.log({ id, name, description, price, image, navigate });
     if (urlSD == undefined) { func() };
   }, []);
 
   const dispatch = useDispatch();
 
+  // mismatch value returned from redux state change
   const itemCount = useSelector(
     state =>
     state?.cartState?.cart?.cartItems?.find(item => item.foodId == id)?.count,
   );
 
-  const addToCart = foodId => dispatch( cartActions.addToCart(foodId));
+
+
+  const addToCart = foodId => { 
+     dispatch( cartActions.addToCart(foodId))};
 
   const removeFromCart = foodId =>
     dispatch(cartActions.removeFromCart(foodId));
@@ -64,7 +83,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
         <View style={styles.footerContainer}>
           <Text style={styles.priceText}>$ {price}</Text>
           <View style={styles.itemAddContainer}>
-            {itemCount > 0 ? (
+            {count > 0 ? (
               <>
                 <AntDesign
                   name="minus"
@@ -73,7 +92,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
                   onPress={() => removeFromCart(id)}
                 />
 
-                <Text style={styles.itemCountText}>{itemCount}</Text>
+                <Text style={styles.itemCountText}>{count}</Text>
               </>
             ) : null}
 
