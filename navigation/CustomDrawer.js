@@ -48,7 +48,7 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
     const user = auth()?.currentUser?.uid;
     const [name, setName] = useState("")
-    firestore().collection('Users').doc(userid).get().then(res => setName(res.data().userName)).catch((err) => {console.error(err)});
+    firestore().collection('Users').doc(userid).get().then(res => setName(res.data().userName));
 
     const handleSignOut = () => {
 

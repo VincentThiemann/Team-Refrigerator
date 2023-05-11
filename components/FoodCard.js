@@ -38,14 +38,10 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
       await referenceSD.getDownloadURL().then((x) => {
         setUrlSD(x);
       })
-      .catch((err) => {console.error(err)})
-
       const referenceHD = storage().ref(`images/gallery/square/hd/${image}.png`);
       await referenceHD.getDownloadURL().then((x) => {
         setUrlHD(x);
       })
-      .catch((err) => {console.error(err)})
-      
     }
     if (urlSD == undefined) { func() };
   }, []);

@@ -58,20 +58,16 @@ const FoodDetail = ({
                     setFood(response?.data());
                     name = response?.data().image;
                     console.log(name);
-                })
-                .catch((err) => {console.error(err)});
+                });
 
             const referenceSD = storage().ref(`images/gallery/square/sd/${name}.png`);
             await referenceSD.getDownloadURL().then((x) => {
                 setUrlSD(x);
             })
-            .catch((err) => {console.error(err)})
-
             const referenceHD = storage().ref(`images/gallery/square/hd/${name}.png`);
             await referenceHD.getDownloadURL().then((x) => {
                 setUrlHD(x);
             })
-            .catch((err) => {console.error(err)})
 
         }
         if (urlSD == undefined) { func() };

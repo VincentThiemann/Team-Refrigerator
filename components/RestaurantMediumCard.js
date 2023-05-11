@@ -14,7 +14,6 @@ const RestaurantMediumCard = ({name, images: {logo}, time, distance, tags}) => {
       await reference.getDownloadURL().then((x) => {
         setUrl(x);
       }) 
-      .catch((err) => {console.error(err)})
     }
     if (url == undefined) { func() };
   }, []);
