@@ -43,7 +43,8 @@ const appStart = () => {
         type: types.SET_FIRST_TIME_USE,
         payload: isFirstTimeUse ? false : true,
       });
-    });  
+    })
+    .catch((err) => {console.error(err)});  
   };
 };
 

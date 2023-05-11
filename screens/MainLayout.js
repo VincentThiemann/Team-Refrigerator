@@ -404,7 +404,8 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                         const wait = new Promise(resolve => setTimeout(resolve, 700));
                         wait.then(() => {
                           flatListRef.current?.scrollToIndex({ index: info.index, animated: true/false });
-                        });
+                        })
+                        .catch((err) => {console.error(err)});
                     }}
                     scrollEnabled={false}
                     pagingEnabled

@@ -34,7 +34,8 @@ export const Onboarding = () => {
     const navigate = () => {
         StorageService.setFirstTimeUse().then(() => {
             dispatch(firstLauchActions.setIsFirstTimeUse());
-        });
+        })
+        .catch((err) => {console.error(err)});
     };
 
     function moveToNextSlide() {
