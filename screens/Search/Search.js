@@ -34,15 +34,15 @@ const Search = () => {
     const [searchMarkerCoords, setSearchMarkerCoords] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
 
-    React.useEffect(() => {
-        (async () => {
-            const { permission } = Location.requestForegroundPermissionsAsync();
-            if (permission == "granted") {
-                const location = await Location.getCurrentPositionAsync();
-                setCurrentLocation(location);
-            };
-        })()
-    }, []);
+    // React.useEffect(() => {
+    //     (async () => {
+    //         const { permission } = Location.requestForegroundPermissionsAsync();
+    //         if (permission == "granted") {
+    //             const location = await Location.getCurrentPositionAsync();
+    //             setCurrentLocation(location);
+    //         };
+    //     })()
+    // }, []);
 
 
     //     async () => {
