@@ -7,7 +7,7 @@ import 'expo-dev-client';
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
 
-import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Notification } from './screens';
+import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Notification, Tracker } from './screens';
 import Ratings from './screens/Ratings/Ratings';
 // import Notification from './screens/Notifications/Notification';
 

@@ -152,12 +152,13 @@ export const FAQ = () => {
                         <Text style={styles.title}>ORDERING</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.category} onPress={() => { setRequiredTopic(2) }}>
-                        <Text style={styles.title}>RECEIVING ORDER</Text>
+                        <Text style={styles.title}>RECEIVING</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
             <FlatList
                 data={FAQData}
+                showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => {
                     if (requiredTopic == item.topic || requiredTopic == 0) { return <FAQItem question={item.question} answer={item.answer} /> }
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     },
     category: {
         height: 60,
-        width: 180,
+        width: 110,
         paddingLeft: SIZES.radius,
         borderRadius: 15,
         backgroundColor: "transparent",
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
     item: {
-        height: 60,
+        height: 50,
         // width: 350,
         width: Display.setWidth(90),
         paddingLeft: SIZES.radius,
@@ -227,16 +228,16 @@ const styles = StyleSheet.create({
     },
     title:
     {
-        fontSize: SIZES.h3,
+        fontSize: SIZES.body5,
         color: COLORS.black,
     },
     smallTitle: {
-        fontSize: SIZES.h2,
+        fontSize: SIZES.h4,
         color: COLORS.white,
     },
     text:
     {
-        fontSize: SIZES.h3,
+        fontSize: SIZES.h4,
         color: COLORS.white,
     }
 });

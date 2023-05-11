@@ -129,7 +129,7 @@ export const LogInAccount = ({ navigation, signIn }) => {
 
 
                     <Text style={{
-                        fontSize: 35,
+                        fontSize: 30,
                         fontWeight: "bold",
                         marginVertical: 50
 

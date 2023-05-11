@@ -6,7 +6,7 @@ import { Platform, ScrollView, View, Text, Image, TouchableOpacity, TextInput, S
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const user = auth()?.currentUser.uid;
+const user = auth()?.currentUser?.uid;
 var currentUserName,currentphoneNumber,currentProfileName;
  
 

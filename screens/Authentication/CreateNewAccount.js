@@ -136,7 +136,7 @@ export const CreateNewAccount = ({ navigation }) => {
 
 
                 <Text style={{
-                    fontSize: 36,
+                    fontSize: 34,
                     fontWeight: "bold",
                     marginVertical: 30
 
@@ -147,7 +147,7 @@ export const CreateNewAccount = ({ navigation }) => {
                 >
                     <Image
                         style={editting1 ? styles.inputProfileIconSelected : styles.inputProfileIcon}
-                        source={icons.phoneIcon}
+                        source={{ uri: 'https://wilcity.com/wp-content/uploads/2020/06/115-1150152_default-profile-picture-avatar-png-green.jpg' }}
                     />
 
                     <TextInput
@@ -164,7 +164,7 @@ export const CreateNewAccount = ({ navigation }) => {
 
                         id="phoneNumber"
                         style={editting1 ? styles.selectedInput : styles.input}
-                        placeholder="+1 000 000 0000 "
+                        placeholder="Password "
                     />
                 </View>
                 <View

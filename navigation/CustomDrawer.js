@@ -10,7 +10,11 @@ import { COLORS, FONTS, SIZES, dummyData, icons } from '../constants'
 import constants from '../constants/constants'
 import { connect } from 'react-redux';
 import { setSelectedTab } from '../stores/tabs/tabActions'
+import firestore from "@react-native-firebase/firestore";
 import auth from '@react-native-firebase/auth';
+
+
+const userid = auth()?.currentUser?.uid;
 
 const Drawer = createDrawerNavigator();
 const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
@@ -43,6 +47,8 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
     const user = auth()?.currentUser?.uid;
+    const [name, setName] = useState("")
+    firestore().collection('Users').doc(userid).get().then(res => setName(res.data().userName));
 
     const handleSignOut = () => {
 
@@ -86,7 +92,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     }}
                     onPress={() => navigation.navigate("Profile")}
                 >
-                    <Image source={dummyData.myProfile?.profile_images}
+                    <Image source={{ uri: 'https://wilcity.com/wp-content/uploads/2020/06/115-1150152_default-profile-picture-avatar-png-green.jpg' }}
                         style={{
                             width: 50,
                             height: 50,
@@ -101,7 +107,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         <Text style={{
                             color: COLORS.black,
                             ...FONTS.h3,
-                        }}>{user}</Text>
+                        }}>{name}</Text>
                         <Text style={{
                             color: COLORS.black,
                             ...FONTS.body4,
@@ -210,7 +216,6 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
 }
 
 const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
-
 
     const [progress, setProgress] = useState(new Animated.Value(0));
 
