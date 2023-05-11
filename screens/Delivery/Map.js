@@ -90,9 +90,7 @@ const Map = ({ navigation }) => {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }
-
             setToLoc(destination);
-            setFromLoc(dummyData.fromLocs[1])
             setRegion(initialRegion)
 
         })();
@@ -133,10 +131,12 @@ const Map = ({ navigation }) => {
                         key={'FromLoc'}
                         coordinate={fromLoc}
                         tracksViewChanges={false}
-                        icon={icons.navigator}
+                        // icon={icons.navigator1}
                         rotation={angle}
                         anchor={{ x: 0.5, y: 0.5 }}
-                    />
+                    >
+                        <Image source={icons.navigator1} style={{height: 25, width: 25 }} />
+                    </Marker>
                 }
 
                 {
@@ -145,9 +145,10 @@ const Map = ({ navigation }) => {
                         key={'ToLoc'}
                         coordinate={toLoc}
                         tracksViewChanges={false}
-                        //icon={icons.location_pin}
                         anchor={{ x: 0.5, y: 0.5 }}
-                    />
+                    >
+                        <Image source={icons.location_pin} style={{height: 35, width:35 }} />
+                    </Marker>
 
                 }
                 <MapViewDirections

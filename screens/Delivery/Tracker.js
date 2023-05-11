@@ -22,6 +22,11 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
     const location = locations[0]
     if (location) {
       console.log("Location in background", location.coords)
+        firestore()
+        .collection('Location')
+        .doc(user).set(
+          location.coords
+        )
     }
   }
 })
