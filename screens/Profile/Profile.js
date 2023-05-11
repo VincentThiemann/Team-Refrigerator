@@ -1,6 +1,4 @@
 
-
-import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import React, { useEffect, useState } from "react";
@@ -8,44 +6,73 @@ import { Platform, ScrollView, View, Text, Image, TouchableOpacity, TextInput, S
 import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 const user = auth()?.currentUser.uid;
+var currentUserName,currentphoneNumber,currentProfileName;
+ 
+
+
 
 const Profile = ({ navigation }) => {
-    const [name, setName] = React.useState("");
+ useEffect(()=>{
+    const fetchData = async ()=>{
+        currentUserName  =  await firestore().collection('Users').doc(user).get()?.userName;
+        currentphoneNumber  =  await firestore().collection('Users').doc(user).get()?.profileName;
+        currentProfileName  =  await firestore().collection('Users').doc(user).get()?.phoneNumber;
+    }
+
+    fetchData();
+    
+ }, []);
+    
+      
+     const [profileName, setProfileName] = useState((currentProfileName === undefined)? "": currentProfileName);
+     const [userName, setUserName] = useState((currentUserName === undefined)? "": currentUserName);
+     const [phoneNumber, setPhoneNumber] = useState((currentphoneNumber === undefined)? "": currentphoneNumber);
+    const createProfile = () => {
+        firestore()
+            .collection('Cart')
+            .doc(user)
+            .update({
+
+            })
+        firestore()
+            .collection('Bookmark')
+            .doc(user)
+            .update({
+
+            })
+
+        firestore()
+            .collection('Users')
+            .doc(user)
+            .set({
+                phoneNumber: phoneNumber,
+                userName: userName,
+                profileName: profileName
+            })
+            .then(() => {
+                console.log('User added!');
+                navigation.navigate("CustomDrawer")
+            })
+            .catch((e) => {
+                console.log(e.message);
+            });
+    }
+
     if (user == null)
         return null;
 
-    const [image, setImage] = useState(null);
 
 
     const [remember, setRemember] = React.useState(false);
     const [editting1, setEditting1] = React.useState(false);
     const [editting2, setEditting2] = React.useState(false);
     const [editting3, setEditting3] = React.useState(false);
-    const [editting4, setEditting4] = React.useState(false);
-    const [editting5, setEditting5] = React.useState(false);
-    const [editting6, setEditting6] = React.useState(false);
-    const [editting7, setEditting7] = React.useState(false);
     const [pressed1, setPressed1] = React.useState(false);
     const [pressed2, setPressed2] = React.useState(false);
     const [pressed3, setPressed3] = React.useState(false);
-    const [pressed4, setPressed4] = React.useState(false);
-    const [pressed5, setPressed5] = React.useState(false);
-    const [pressed6, setPressed6] = React.useState(false);
-    const [pressed7, setPressed7] = React.useState(false);
-    const [profilePicture, setProfilePicture] = useState('https://wilcity.com/wp-content/uploads/2020/06/115-1150152_default-profile-picture-avatar-png-green.jpg');
 
-    //Change the defualts to data in the firebase
-    const [profileName, setProfileName] = useState('default');
-    const [userName, setUserName] = useState('default');
-    const [birthday, setBirthday] = useState('default');
-    const [gender, setGender] = useState('default');
-    const [email, setEmail] = useState('default');
-    const [phoneNumber, setPhoneNumber] = useState('default');
-    const [country, setCountry] = useState('default');
-    const [selectedValue, setSelectedValue] = useState("java");
+
     return (
         <KeyboardAwareScrollView
             showsHorizontalScrollIndicator={false}
@@ -82,10 +109,9 @@ const Profile = ({ navigation }) => {
                 }}>Your Profile</Text>
 
                 <TouchableOpacity
-                    onPress={pickImage}
                 >
                     <Image
-                        source={{ uri: profilePicture }}
+                        source={{ uri: 'https://wilcity.com/wp-content/uploads/2020/06/115-1150152_default-profile-picture-avatar-png-green.jpg' }}
                         style={{
                             width: 200,
                             height: 200,
@@ -107,16 +133,13 @@ const Profile = ({ navigation }) => {
                             setEditting1(true)
                             setEditting2(false)
                             setEditting3(false)
-                            setEditting4(false)
-                            setEditting5(false)
-                            setEditting6(false)
-                            setEditting7(false)
+
                         }}
                         onChangeText={text => setProfileName(text)}
                         onEndEditing={() => {
                             setEditting1(false)
                         }}
-
+                        placeholder='Profile Name'
                         id="profileName"
                         style={editting1 ? styles.selectedInput : styles.input}
                     />
@@ -132,16 +155,13 @@ const Profile = ({ navigation }) => {
                             setEditting1(false)
                             setEditting2(true)
                             setEditting3(false)
-                            setEditting4(false)
-                            setEditting5(false)
-                            setEditting6(false)
-                            setEditting7(false)
+
                         }}
                         onChangeText={text => setUserName(text)}
                         onEndEditing={() => {
                             setEditting2(false)
                         }}
-
+                        placeholder='Username'
                         id="userName"
                         style={editting2 ? styles.selectedInput : styles.input}
                     />
@@ -151,30 +171,26 @@ const Profile = ({ navigation }) => {
                     style={styles.inputVeiwStyle}
                 >
                     <TextInput
-                        value={birthday}
-                        inputMode="date"
+                        value={phoneNumber}
+                        inputMode="tel"
                         onTouchStart={() => {
                             setEditting1(false)
                             setEditting2(false)
                             setEditting3(true)
-                            setEditting4(false)
-                            setEditting5(false)
-                            setEditting6(false)
-                            setEditting7(false)
                         }}
-                        onChangeText={text => setBirthday(text)}
+                        onChangeText={text => setPhoneNumber(text)}
                         onEndEditing={() => {
                             setEditting3(false)
                         }}
-
-                        id="birthday"
+                        placeholder='+1 000 000 0000'
+                        id="phoneNumber"
                         style={editting3 ? styles.selectedInput : styles.input}
                     />
                 </View>
 
                 <Button
-                    onPress={() => { console.log("UPDATE"); }}
-                    title="Update"
+                    onPress={() => {createProfile()}}
+                    title="Set Profile"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
                         backgroundColor: COLORS.green,

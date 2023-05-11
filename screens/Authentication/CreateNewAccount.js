@@ -164,7 +164,7 @@ export const CreateNewAccount = ({ navigation }) => {
 
                         id="phoneNumber"
                         style={editting1 ? styles.selectedInput : styles.input}
-                        placeholder="+1 000 000 000 "
+                        placeholder="+1 000 000 0000 "
                     />
                 </View>
                 <View
