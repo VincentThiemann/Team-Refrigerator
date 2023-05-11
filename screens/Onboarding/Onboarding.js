@@ -10,7 +10,7 @@ const slides = [
     {
         image: require('../../assets/images/splash_image.jpg'),
         name: "Discover places near you",
-        subtitle: "We make it simple to find your favorite food. Enter the address and let us do the rest."
+        subtitle: "We make it simple to find foods. Enter the address and let us do the rest."
     },
     {
         image: require('../../assets/images/splash_image.jpg'),
