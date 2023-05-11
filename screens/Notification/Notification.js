@@ -119,7 +119,7 @@ export default function Notification() {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
-      <Separator height={Display.setHeight(30)} />
+      <Separator height={Display.setHeight(32)} />
         <TouchableOpacity style={styles.category}>
           <Text style={styles.text}>{notification && notification.request.content.title}</Text>
           <Text style={styles.text}>{notification && notification.request.content.body}</Text>
