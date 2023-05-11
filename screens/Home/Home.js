@@ -116,7 +116,8 @@ const Home = () => {
             .then((res) => {
                 setRestaurantData(res.docs.map(doc => doc.data()))
                 // console.log(restaurantData);
-            });
+            })
+            .catch((err) => {console.error(err)});
             
         // const res = await fetch(yelpUrl, options)
         //     .then(response => response.json())

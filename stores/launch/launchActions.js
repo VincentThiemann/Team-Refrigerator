@@ -10,11 +10,12 @@ export function appStart() {
     return dispatch => {
         StorageService.getFirstTimeUse().then(isFirstTimeUse => {
             dispatch({
-              type: types.SET_FIRST_TIME_USE,
-              payload: isFirstTimeUse ? false : true,
+                type: types.SET_FIRST_TIME_USE,
+                payload: isFirstTimeUse ? false : true,
             });
-    });
-};
+        })
+            .catch((err) => { console.error(err) });
+    };
 };
 
-export default { setFirstTimeUse, appStart}
+export default { setFirstTimeUse, appStart }

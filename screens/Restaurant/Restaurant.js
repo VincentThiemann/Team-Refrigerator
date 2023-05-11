@@ -82,7 +82,8 @@ const Restaurant = ({
       .then(querySnapshot => {
         setFoods(querySnapshot.docs.map(doc => doc.data()))
         console.log(foods)
-      });
+      })
+      .catch((err) => {console.error(err)});
       
       await firestore().collection('Restaurants').doc(restaurantId).get()
         .then((response) => {
@@ -90,16 +91,19 @@ const Restaurant = ({
           setSelectedCategory(response?.data().categories[0]);
           name = response?.data().images.cover;
           console.log(response?.data().categories[0])
-        });
+        })
+        .catch((err) => {console.error(err)});
 
       const referenceSD = storage().ref(`images/gallery/square/sd/${name}.png`);
       await referenceSD.getDownloadURL().then((x) => {
         setUrlSD(x);
       })
+      .catch((err) => {console.error(err)})
       const referenceHD = storage().ref(`images/gallery/square/hd/${name}.png`);
       await referenceHD.getDownloadURL().then((x) => {
         setUrlHD(x);
       })
+      .catch((err) => {console.error(err)})
     }
     if (urlSD == undefined) { func() };
   }, []);
