@@ -63,13 +63,13 @@ const FAQData = [
     },
     {
         id: 4,
-        question: "Can I change the quantity for each food or drink type?",
+        question: "Can I change the quantity for each food type?",
         answer: "Yes, you can click on the + sign or the - sign to increase or decrease the quantity.",
         topic: 1
     },
     {
         id: 5,
-        question: "Can I choose different types of foods and drinks for my order?",
+        question: "Can I choose many types of foods for order?",
         answer: "Yes, you can choose as many different types of foods and drinks for your order as you like.",
         topic: 1
     },
