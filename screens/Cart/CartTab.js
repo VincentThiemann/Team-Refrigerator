@@ -15,7 +15,6 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Display from '../../utils/Display';
 import { useSelector } from 'react-redux';
-import { CartService } from '../../services';
 import cartActions from '../../stores/cart/cartActions';
 import { useDispatch } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';

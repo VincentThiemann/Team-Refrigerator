@@ -7,7 +7,7 @@ import 'expo-dev-client';
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
 
-import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Map } from './screens';
+import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Map, Tracker } from './screens';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -20,7 +20,7 @@ import rootReducer from './stores/rootReducer';
 import auth from "@react-native-firebase/auth";
 import 'expo-dev-client';
 import { useSelector, useDispatch } from 'react-redux';
-import firstLauchActions from "./stores/firstLaunch/firstLauchActions"
+import firstLauchActions from "./stores/firstLaunch/firstLauchActions";
 
 const Stack = createStackNavigator();
 
@@ -107,6 +107,8 @@ const App = () => {
             <Stack.Screen name="Food" component={FoodDetail} />
             <Stack.Screen name="Restaurant" component={Restaurant} />
             <Stack.Screen name="Map" component={Map} />
+            <Stack.Screen name="Tracker" component={Tracker} />
+
           </>
         )
         }

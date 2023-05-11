@@ -18,6 +18,30 @@ import { useSelector } from "react-redux";
 import { Entypo } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+
+const user = auth()?.currentUser?.uid;
+
+const LOCATION_TASK_NAME = 'background-location-task';
+let foregroundSubscription = null
+
+// Define the background task for location tracking
+TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
+    if (error) {
+        console.error(error)
+        return
+    }
+    if (data) {
+        // Extract location coordinates from data
+        const { locations } = data
+        const location = locations[0]
+        if (location) {
+            console.log("Location in background", location.coords)
+        }
+    }
+})
 
 const Map = ({ navigation }) => {
 
@@ -28,47 +52,66 @@ const Map = ({ navigation }) => {
     const [angle, setAngle] = React.useState(0)
     const [isReady, setIsReady] = React.useState(false)
     const [duration, setDuration] = React.useState("")
-    const [location, setLocation] = React.useState(null);
+    const [locAddress, setLocAddress] = React.useState(null);
     const [errorMsg, setErrorMsg] = React.useState(null);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
         (async () => {
-
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
+            const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
+            if (foregroundStatus === 'granted') {
+                const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
+                if (backgroundStatus === 'granted') {
+                    await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+                        accuracy: Location.Accuracy.Balanced,
+                    });
+                }
             }
 
-            let location = await Location.getCurrentPositionAsync({});
-            const address = await Location.reverseGeocodeAsync(location.coords);
-            setLocation(address);
+            let location = await Location.getCurrentPositionAsync();
 
+            await Location.reverseGeocodeAsync(location.coords)
+                .then(address => {
+                    setIsLoading(false)
+                    setLocAddress(address)
+                })
+                .catch(error => console.error(error));
+
+            let initialRegion = {
+                latitude: 41.514396,
+                longitude: -81.6058287,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
+
+            let destination = {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
+            setToLoc(destination);
+            setRegion(initialRegion)
 
         })();
     }, []);
 
 
     React.useEffect(() => {
-        let initialRegion = {
-            latitude: 41.514396,
-            longitude: -81.6058287,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }
+        const subscriber = firestore()
+            .collection('Location')
+            .doc(user)
+            .onSnapshot(documentSnapshot => {
+                setFromLoc({
+                    latitude: documentSnapshot.data().latitude,
+                    longitude: documentSnapshot.data().longitude
+                })
+            });
 
-        let destination = {
-            latitude: 41.5094611,
-            longitude: -81.606195,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }
+        // Stop listening for updates when no longer required
+        return () => subscriber();
+    }, [user]);
 
-        setToLoc(destination);
-        setFromLoc(dummyData.fromLocs[1])
-
-        setRegion(initialRegion)
-    }, [])
 
     const { addressName } = useSelector(state => state?.location)
 
@@ -88,10 +131,12 @@ const Map = ({ navigation }) => {
                         key={'FromLoc'}
                         coordinate={fromLoc}
                         tracksViewChanges={false}
-                        icon={icons.navigator1}
+                        // icon={icons.navigator1}
                         rotation={angle}
                         anchor={{ x: 0.5, y: 0.5 }}
-                    />
+                    >
+                        <Image source={icons.navigator1} style={{height: 25, width: 25 }} />
+                    </Marker>
                 }
 
                 {
@@ -100,9 +145,10 @@ const Map = ({ navigation }) => {
                         key={'ToLoc'}
                         coordinate={toLoc}
                         tracksViewChanges={false}
-                        //icon={icons.location_pin}
                         anchor={{ x: 0.5, y: 0.5 }}
-                    />
+                    >
+                        <Image source={icons.location_pin} style={{height: 35, width:35 }} />
+                    </Marker>
 
                 }
                 <MapViewDirections
@@ -239,7 +285,7 @@ const Map = ({ navigation }) => {
                                 }}
                             >
                                 <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>Your address</Text>
-                                <Text style={{ ...FONTS.h3 }}>{location[0].name}, {location[0].streetNumber} {location[0].street}, {location[0].city}</Text>
+                                <Text style={{ ...FONTS.h3 }}>{locAddress == null ? "Waiting.." : `${locAddress[0].name}, ${locAddress[0].streetNumber}, ${locAddress[0].street}, ${locAddress[0].city} `}</Text>
                             </View>
                         </View>
 

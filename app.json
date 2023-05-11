@@ -13,7 +13,12 @@
         "googleMaps": {
           "apiKey": "AIzaSyBeOCqzWB1mDwkWukg9IUenxyRy7PL7KQc"
         }
-      }
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+	      "ACCESS_BACKGROUND_LOCATION"
+	    ]
     },
     "plugins": [
       [
@@ -32,10 +37,6 @@
         }
       ],
       [
-        "@react-native-firebase/app",
-        "@react-native-firebase/auth"
-      ],
-      [
         "react-native-fbsdk-next",
         {
           "appID": "3367317896820221",
@@ -44,20 +45,11 @@
           "scheme": "fb3367317896820221"
         }
       ],
-      [
-        "react-native-background-geolocation",
-        {
-          "license": "YOUR_LICENSE_KEY_HERE"
-        }
-      ],
-      [
-        "expo-gradle-ext-vars",
-        {
-          "googlePlayServicesLocationVersion": "20.0.0",
-          "appCompatVersion": "1.4.2"
-        }
-      ],
-      "react-native-background-fetch"
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
     ]
+  },
+  "android": {
+    "googleServicesFile": "./google-services.json"
   }
 }

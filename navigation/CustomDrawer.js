@@ -171,7 +171,10 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         icon={icons.setting} />
 
                     <CustomDrawerItem label="Invite a friend"
-                        icon={icons.profile} />
+                        icon={icons.profile}
+                        onPress={() => {
+                            navigation.navigate("Tracker")
+                        }} />
 
                     <CustomDrawerItem label="Help"
                         icon={icons.help} />
