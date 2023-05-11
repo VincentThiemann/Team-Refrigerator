@@ -102,15 +102,15 @@ const Home = () => {
 
 
     const getRestaurantsFromYelp = async () => {
-        const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=1576 E 115th St, Cleveland, OH 44106&radius=32000&limit=5&sort_by=distance`;
+        // const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=1576 E 115th St, Cleveland, OH 44106&radius=32000&limit=5&sort_by=distance`;
 
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${YELP_API_KEY}`
-            }
-        };
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         accept: 'application/json',
+        //         Authorization: `Bearer ${YELP_API_KEY}`
+        //     }
+        // };
 
         const restaurant = await firestore().collection('Restaurants').get()
             .then((res) => {

@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import cartActions from '../../stores/cart/cartActions';
 import { useDispatch } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from "@react-navigation/native";
 
 
 const renderCards = async (id) => {
@@ -31,9 +32,10 @@ const renderCards = async (id) => {
 
 }
 
-const CartTab = ({ navigation }) => {
+const CartTab = () => {
   const [foods, setFoods] = React.useState([])
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const cart = useSelector(state => state?.cartState?.cart);
 
   React.useEffect(() => {
@@ -59,7 +61,7 @@ const CartTab = ({ navigation }) => {
         backgroundColor={COLORS.DEFAULT_WHITE}
         translucent
       />
-      <Separator height={StatusBar.currentHeight + Display.setHeight(10)} />
+      <Separator height={StatusBar.currentHeight + Display.setHeight(14)} />
 
       {cart?.cartItems?.length > 0 ? (
         <>
@@ -107,7 +109,7 @@ const CartTab = ({ navigation }) => {
                 $ {cart?.metaData?.grandTotal?.toFixed(2)}
               </Text>
             </View>
-            <TouchableOpacity style={styles.checkoutButton}>
+            <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate("Map")}>
               <View style={styles.rowAndCenter}>
                 <Ionicons
                   name="cart-outline"
@@ -134,7 +136,7 @@ const CartTab = ({ navigation }) => {
           <Text style={styles.emptyCartSubText}>
             Go ahead and order some tasty food
           </Text>
-          <TouchableOpacity style={styles.addButtonEmpty} >
+          <TouchableOpacity style={styles.addButtonEmpty} onPress={() => navigation.replace("CustomDrawer")} >
             <AntDesign name="plus" color={COLORS.DEFAULT_WHITE} size={20} />
             <Text style={styles.addButtonEmptyText}>Add Food</Text>
           </TouchableOpacity>

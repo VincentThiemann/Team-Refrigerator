@@ -15,7 +15,7 @@ const getBookmarks = async () => {
       };
     }
   } catch (error) {
-    console.error("Error fetching data from Firestore:", error);
+    console.error("Error fetching data from Firestore a:", error);
     return {
       status: false,
       message: "Cart items fetched Failed",
@@ -35,7 +35,7 @@ const addBookmark = async (restaurantId) => {
       });
       console.log('Item added to array field successfully');
 
-      let bookmarkResponse = await getCartItems();
+      let bookmarkResponse = await getBookmarks();
       return {
         status: true,
         message: "Item Bookmarked Successfully",
@@ -55,15 +55,16 @@ const removeBookmark = async (restaurantId) => {
   console.log(`BookmarkService | removeBookmark`);
   if (username != null) {
     const bookmarkRef = firestore().collection('Bookmark').doc(username);
-
     try {
-      const ref = firestore().collection('Restaurant').doc(restaurantId)
+      const ref = await firestore().collection('Restaurants').doc(restaurantId).get();
       await bookmarkRef.update({
-        "restaurants": firestore.FieldValue.arrayRemove(ref),
-      });
-      console.log('Item removed from array field successfully');
+        "restaurants": firestore.FieldValue.arrayRemove(ref.data()),
+        "restaurantsId": firestore.FieldValue.arrayRemove(restaurantId),
+      })
+      console.log('Item removed from array field successfully')
 
-      let bookmarkResponse = await getCartItems();
+
+      let bookmarkResponse = await getBookmarks();
       return {
         status: true,
         message: "Item Bookmarked Successfully",
@@ -71,7 +72,7 @@ const removeBookmark = async (restaurantId) => {
       };
 
     } catch (error) {
-      console.error('Error updating array field:', error);
+      console.error('Error updating array field: removing ', error);
       return {
         status: false,
         message: "Item Bookmarked Removal Failed",

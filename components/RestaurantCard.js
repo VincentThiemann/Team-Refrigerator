@@ -37,7 +37,7 @@ const RestaurantCard = ({
       })
       
     }
-    dispatch(bookmarkActions.getBookmarks());
+    
     if (urlSD == undefined) { func() };
   }, []);
 
@@ -45,6 +45,10 @@ const RestaurantCard = ({
     state =>
       state?.bookmarkState?.bookmarks?.restaurantsId?.filter(item => item == id)?.length > 0,
   );
+
+  React.useEffect(() => {
+    dispatch(bookmarkActions.getBookmarks());
+  }, []);
 
   const addBookmark = () =>
     dispatch(bookmarkActions.addBookmark(id));
