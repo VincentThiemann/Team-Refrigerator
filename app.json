@@ -6,6 +6,7 @@
         "projectId": "b7be7756-a967-4836-9e5b-9231a361d974"
       }
     },
+    "scheme": "com.lmd0612.fooddelivery",
     "android": {
       "package": "com.lmd0612.fooddelivery",
       "googleServicesFile": "./google-services.json",

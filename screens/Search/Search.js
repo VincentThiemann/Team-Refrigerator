@@ -25,7 +25,6 @@ import { useDispatch } from 'react-redux';
 import { setLocation } from '../../stores/location/locationReducer.js';
 import * as Location from 'expo-location';
 
-
 const GOOGLE_PLACES_API_KEY = keys.GOOGLE_PLACES_API_KEY;
 const Search = () => {
     const navigation = useNavigation();
@@ -33,28 +32,30 @@ const Search = () => {
     const [initialRegion, setInitialRegion] = useState(null);
     const [markerCoords, setMarkerCoords] = useState(null);
     const [searchMarkerCoords, setSearchMarkerCoords] = useState(null);
+    const [currentLocation, setCurrentLocation] = useState(null);
 
-    React.useEffect(() => {
-        (async () => {
-
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
-
-            const { coordinates } = await Location.getCurrentPositionAsync();
-            const { lat, lng } = coordinates;
-            setInitialRegion({
-                lat,
-                lng,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-            });
+    // React.useEffect(() => {
+    //     (async () => {
+    //         const { permission } = Location.requestForegroundPermissionsAsync();
+    //         if (permission == "granted") {
+    //             const location = await Location.getCurrentPositionAsync();
+    //             setCurrentLocation(location);
+    //         };
+    //     })()
+    // }, []);
 
 
-        })();
-    }, []);
+    //     async () => {
+    //         const { coordinates } = await Location.getCurrentPositionAsync();
+    //         const { lat, lng } = coordinates;
+    //         setInitialRegion({
+    //             lat,
+    //             lng,
+    //             latitudeDelta: 0.01,
+    //             longitudeDelta: 0.01,
+    //         });
+    //     }
+    // }, []);
 
     return (
         // <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -141,21 +142,19 @@ const Search = () => {
 
             {/* Show map */}
             <View style={{ flex: 4, justifyContent: 'center', marginBottom: 100, alignItems: 'center' }}>
-                {initialRegion && (
-                    <MapView
-                        style={styles.map}
-                        initialRegion={initialRegion}
-                        showsUserLocation={true}
-                        followsUserLocation={true}
-                        onUserLocationChange={(event) => {
-                            const { latitude, longitude } = event.nativeEvent.coordinate;
-                            setMarkerCoords({ latitude, longitude });
-                        }}
-                    >
-                        {markerCoords && <Marker coordinate={markerCoords} />}
-                        {searchMarkerCoords && <Marker coordinate={searchMarkerCoords} />}
-                    </MapView>
-                )}
+                <MapView
+                    style={styles.map}
+                    initialRegion={currentLocation}
+                    showsUserLocation={true}
+                    followsUserLocation={true}
+                    onUserLocationChange={(event) => {
+                        const { latitude, longitude } = event.nativeEvent.coordinate;
+                        setMarkerCoords({ latitude, longitude });
+                    }}
+                >
+                    {markerCoords && <Marker coordinate={markerCoords} />}
+                    {searchMarkerCoords && <Marker coordinate={searchMarkerCoords} />}
+                </MapView>
             </View>
         </View>
         // </TouchableWithoutFeedback>

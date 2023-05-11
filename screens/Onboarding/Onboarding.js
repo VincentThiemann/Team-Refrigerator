@@ -14,12 +14,12 @@ const slides = [
     },
     {
         image: require('../../assets/images/splash_image.jpg'),
-        name: "ONBOARDING SCREEN 2",
+        name: "Find favorite foods",
         subtitle: "We will store your favorite foods based on your search and orders."
     },
     {
         image: require('../../assets/images/splash_image.jpg'),
-        name: "ONBOARDING SCREEN 3",
+        name: "Order food efficiently",
         subtitle: "We make food ordering fast, easy and free."
     }
 ]
@@ -45,7 +45,7 @@ export const Onboarding = () => {
             setName(nextSlide.name);
             setSubtitle(nextSlide.subtitle);
         } else {
-            navigate();
+            navigate("");
         }
 
 
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         width: '80%',
         paddingLeft: SIZES.radius,
         borderRadius: 50,
-        backgroundColor: 'cyan',
+        backgroundColor: COLORS.green,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,

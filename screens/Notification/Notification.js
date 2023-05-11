@@ -1,78 +1,70 @@
 import { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
-import * as Device from 'expo-device';
+import { Text, View, Button, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+// import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import { FONTS, SIZES, COLORS } from '../../constants/index.js';
+import Display from '../../utils/Display.js'
+import Separator from '../../components/Separator.js';
+
+//temporary disabled due to misconfiguration on firebase
+// const user = auth()?.currentUser?.uid;
+const user = "IQ0szOEWjNWSBnCHAL5uT3OcHBC3"
 
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 });
 
-
-// Can use this function below OR use Expo's Push Notification Tool from: https://expo.dev/notifications
-async function sendPushNotification(expoPushToken) {
-  const message = {
-    to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
-  };
-
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
+async function sendPushNotification() {
+  Notifications.scheduleNotificationAsync({
+    content: {
+      title: 'ORDER\'S ARRIVAL',
+      body: "Your order has arrived! Enjoy your meal!",
     },
-    body: JSON.stringify(message),
+    trigger: null,
   });
 }
 
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
-
 export default function Notification() {
-  const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [hasArrived, setHasArrived] = useState(true);
+  const [deliveryManLocation, setDeliveryManLocation] = useState(null);
+
+
+  // const { foregroundPermission } = awaitLocation.requestForegroundPermissionsAsync(); 
+  // if (foregroundPermission === "granted") {
+
+  // (function () {
+  //   let { status } = await Location.requestForegroundPermissionsAsync();
+  //   console.log(status);
+  //   if (status !== 'granted') {
+  //     console.log("denied")
+  //     setErrorMsg('Permission to access location was denied');
+  //     return;
+  //   }
+
+  Location.getCurrentPositionAsync({
+  })
+    .then(location => {
+      setCurrentLocation(location)
+    })
+    .catch(e => console.log(e))
+
+  // })();
+
+
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       setNotification(notification);
@@ -88,20 +80,80 @@ export default function Notification() {
     };
   }, []);
 
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Location')
+      .doc(user)
+      .onSnapshot(documentSnapshot => {
+        let data = documentSnapshot.data();
+        arrive({
+          latitude: data.latitude,
+          longitude: data.longitude
+        });
+        console.log(data.longitude)
+      });
+    return () => subscriber();
+  }, [user]);
+
+
+
+  const arrive = (deliveryManLocation) => {
+    console.log("Test");
+    if (currentLocation) {
+
+      const distance = Math.sqrt(
+        Math.pow(currentLocation.coords.latitude - deliveryManLocation.latitude, 2) + Math.pow(currentLocation.coords.longitude - deliveryManLocation.longitude, 2)
+      )
+      console.log("Distance " + distance);
+      console.log("Current long" + currentLocation.coords.longitude)
+      console.log("Current lat" + currentLocation.coords.latitude)
+      console.log("1st" + Math.pow(currentLocation.coords.latitude - deliveryManLocation.latitude, 2))
+      console.log("2nd" + Math.pow(currentLocation.coords.longitude - deliveryManLocation.longitude, 2))
+      const tolerance = 0.0005;
+      if (distance < tolerance) {
+        sendPushNotification();
+      }
+    }
+  }
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
-      <Text>Your expo push token: {expoPushToken}</Text>
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Title: {notification && notification.request.content.title} </Text>
-        <Text>Body: {notification && notification.request.content.body}</Text>
-        <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-      </View>
-      <Button
-        title="Press to Send Notification"
-        onPress={async () => {
-          await sendPushNotification(expoPushToken);
-        }}
-      />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
+      <Separator height={Display.setHeight(32)} />
+        <TouchableOpacity style={styles.category}>
+          <Text style={styles.text}>{notification && notification.request.content.title}</Text>
+          <Text style={styles.text}>{notification && notification.request.content.body}</Text>
+        </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.DEFAULT_GREY,
+    borderRadius: 10,
+    borderWidth: 2,
+    height: Display.setHeight(20),
+    width: Display.setWidth(90),
+  },
+  text: {
+    textAlign: 'center',
+    color: COLORS.black,
+    ...FONTS.body3,
+  },
+  category: {
+    height: Display.setHeight(15),
+    width: Display.setWidth(95),
+    paddingLeft: SIZES.radius,
+    borderRadius: 15,
+    backgroundColor: "transparent",
+    borderColor: COLORS.DEFAULT_GREEN,
+    justifyContent: 'center',
+    borderWidth: 2,
+    alignItems: 'center',
+    padding: 15,
+    marginTop: 20,
+    marginHorizontal: 10
+  }
+})

@@ -18,21 +18,23 @@ import {
 import Display from '../../utils/Display.js';
 import { Entypo } from '@expo/vector-icons';
 import firestore from '@react-native-firebase/firestore';
+import auth from "@react-native-firebase/auth";
 
 export default Ratings = () => {
     const [rating, setRating] = React.useState(0);
     const navigation = useNavigation();
+    const username = auth()?.currentUser?.uid;
 
-    function update () {
-        const users = firestore().collection("Users");
-        const userDoc = users.doc();
-        userDoc.set({ ratings: rating}, { merge: true })
-            .then(() => {
-                navigation.navigate("Onboarding");
-            })
-            .catch(err => {
-                console.error("Error in updating rating:", err)
-            });
+    function update() {
+        if (username != null) {
+            const users = firestore().collection("Users");
+            const userDoc = users.doc(username);
+            userDoc.set({ ratings: rating }, { merge: true })
+                .catch(err => {
+                    console.error("Error in updating rating:", err)
+                });
+        }
+        navigation.goBack();
     }
 
     return (
@@ -42,9 +44,9 @@ export default Ratings = () => {
                 <View style={{ marginVertical: 20 }} />
                 <Image style={styles.image} source={require('../../assets/images/splash_image.jpg')} />
                 <View style={{ marginVertical: 20 }} />
-                <Text style={styles.title}>How was your order?</Text>
+                <Text style={styles.title}>How was your experience?</Text>
                 <View style={{ marginVertical: 15 }} />
-                <Text style={styles.text}>Did you enjoy it? Please rate your experience</Text>
+                <Text style={styles.text}>Did you enjoy it? Please rate our app</Text>
                 <View style={{ marginVertical: 5 }} />
                 <View style={{ justifyContent: 'center', marginVertical: 20, display: 'flex', flexDirection: 'row' }}>
                     <Star starNumber={1} onPress={() => setRating(1)} currentRating={rating} />
@@ -79,11 +81,11 @@ export const RatingHeader = () => {
     const navigation = useNavigation();
     return (
         <Header containerStyle={{ marginTop: 40, marginHorizontal: 20 }} title={"RATING"}
-            leftComponent={
-                <TouchableOpacity onPress={() => { navigation.navigate("Welcome") }}>
-                    <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
-                </TouchableOpacity>
-            }
+            // leftComponent={
+            //     <TouchableOpacity onPress={() => { navigation.navigate("Welcome") }}>
+            //         <Image style={{ width: 30, height: 30 }} source={icons.arrow_back} />
+            //     </TouchableOpacity>
+            // }
         />
     )
 }

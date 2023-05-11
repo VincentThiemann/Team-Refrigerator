@@ -7,7 +7,9 @@ import 'expo-dev-client';
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
 
-import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Map, Tracker } from './screens';
+import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Notification } from './screens';
+import Ratings from './screens/Ratings/Ratings';
+// import Notification from './screens/Notifications/Notification';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -101,6 +103,8 @@ const App = () => {
         ) : (
           <>
             <Stack.Screen name="Profile" component={Profile} />
+            {/* <Stack.Screen name="Profile" component={Profile} /> */}
+            {/* <Stack.Screen name="Onboarding" component={Onboarding} /> */}
             <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
             <Stack.Screen name="Cart" component={CartTab} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
@@ -108,7 +112,7 @@ const App = () => {
             <Stack.Screen name="Restaurant" component={Restaurant} />
             <Stack.Screen name="Map" component={Map} />
             <Stack.Screen name="Tracker" component={Tracker} />
-
+            <Stack.Screen name="Ratings" component={Ratings} />
           </>
         )
         }

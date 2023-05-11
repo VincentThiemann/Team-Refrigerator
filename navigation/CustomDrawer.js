@@ -126,12 +126,12 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         label={constants.screens.my_wallet}
                         icon={icons.wallet}
                         isFocused={selectedTab == constants.screens.my_wallet}
-                        onPress={()=>{
+                        onPress={() => {
                             setSelectedTab(constants.screens.my_wallet)
                             navigation.navigate("MainLayout")
-    
+
                         }}
-                        
+
                     />
 
                     <CustomDrawerItem
@@ -158,6 +158,15 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                         backgroundColor: COLORS.lightGray1
                     }} />
 
+                    <CustomDrawerItem
+                        label="Ratings"
+                        icon={icons.star}
+                        isFocused={selectedTab == "Ratings"}
+                        onPress={() => {
+                            setSelectedTab("Ratings")
+                            navigation.navigate("Ratings")
+                        }} />
+
                     <CustomDrawerItem label="Track your order"
                         icon={icons.location}
                         onPress={() => {
@@ -176,8 +185,14 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                             navigation.navigate("Tracker")
                         }} />
 
-                    <CustomDrawerItem label="Help"
-                        icon={icons.help} />
+                    <CustomDrawerItem
+                        label="Help"
+                        icon={icons.help}
+                        isFocused={selectedTab == "Help"}
+                        onPress={() => {
+                            setSelectedTab("HelpCenter")
+                            navigation.navigate("HelpCenter")
+                        }} />
 
                 </View>
 
@@ -195,7 +210,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
 }
 
 const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
-    
+
 
     const [progress, setProgress] = useState(new Animated.Value(0));
 
@@ -210,7 +225,6 @@ const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
     })
 
     const animatedStyle = { borderRadius, transform: [{ scale }] }
-
 
     return (
         <View style={{
