@@ -55,7 +55,7 @@ const getCartItems = async () => {
 
 const addToCart = async (foodId) => {
   try {
-    if (username != null) {
+    if (username) {
       const cartRef = firestore().collection('Cart').doc(username);
       await cartRef.get()
         .then((documentSnapshot) => {
@@ -101,7 +101,7 @@ const addToCart = async (foodId) => {
 const removeFromCart = async (foodId) => {
   try {
 
-    if (username != null) {
+    if (username) {
       const cartRef = firestore().collection('Cart').doc(username);
       await cartRef.get()
         .then((documentSnapshot) => {

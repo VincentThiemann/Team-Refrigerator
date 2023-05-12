@@ -19,17 +19,22 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    const subscriber = firestore()
-      .collection('Cart')
-      .doc(user)
-      .onSnapshot(documentSnapshot => {
-        if(documentSnapshot.data()[id] !== undefined) {
-          setCount(documentSnapshot.data()[id])
-        }
-      });
+    if (user) {
+      const subscriber = firestore()
+        .collection('Cart')
+        .doc(user)
+        .onSnapshot(documentSnapshot => {
+          if (documentSnapshot.exists) {
+            if (documentSnapshot.data()[id] !== undefined) {
+              setCount(documentSnapshot.data()[id])
 
-    // Stop listening for updates when no longer required
-    return () => subscriber();
+            }
+          }
+        });
+
+      // Stop listening for updates when no longer required
+      return () => subscriber();
+    }
   }, [user]);
 
   React.useEffect(() => {
@@ -51,13 +56,14 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
   // mismatch value returned from redux state change
   const itemCount = useSelector(
     state =>
-    state?.cartState?.cart?.cartItems?.find(item => item.foodId == id)?.count,
+      state?.cartState?.cart?.cartItems?.find(item => item.foodId == id)?.count,
   );
 
 
 
-  const addToCart = foodId => { 
-     dispatch( cartActions.addToCart(foodId))};
+  const addToCart = foodId => {
+    dispatch(cartActions.addToCart(foodId))
+  };
 
   const removeFromCart = foodId =>
     dispatch(cartActions.removeFromCart(foodId));

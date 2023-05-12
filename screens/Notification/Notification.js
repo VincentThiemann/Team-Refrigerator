@@ -81,6 +81,7 @@ export default function Notification() {
   }, []);
 
   useEffect(() => {
+    if(user) {
     const subscriber = firestore()
       .collection('Location')
       .doc(user)
@@ -92,7 +93,9 @@ export default function Notification() {
         });
         console.log(data.longitude)
       });
+   
     return () => subscriber();
+    }
   }, [user]);
 
 

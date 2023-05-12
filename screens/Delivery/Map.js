@@ -22,8 +22,8 @@ import * as TaskManager from 'expo-task-manager';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-const user = 
-"IQ0szOEWjNWSBnCHAL5uT3OcHBC3";
+const user =
+    "IQ0szOEWjNWSBnCHAL5uT3OcHBC3";
 
 const LOCATION_TASK_NAME = 'background-location-task';
 let foregroundSubscription = null
@@ -99,18 +99,22 @@ const Map = ({ navigation }) => {
 
 
     React.useEffect(() => {
-        const subscriber = firestore()
-            .collection('Location')
-            .doc(user)
-            .onSnapshot(documentSnapshot => {
-                setFromLoc({
-                    latitude: documentSnapshot.data().latitude,
-                    longitude: documentSnapshot.data().longitude
-                })
-            });
+        if (user) {
+            const subscriber = firestore()
+                .collection('Location')
+                .doc(user)
+                .onSnapshot(documentSnapshot => {
+                    if (documentSnapshot.exists) {
+                        setFromLoc({
+                            latitude: documentSnapshot.data().latitude,
+                            longitude: documentSnapshot.data().longitude
+                        })
+                    }
+                });
 
-        // Stop listening for updates when no longer required
-        return () => subscriber();
+            // Stop listening for updates when no longer required
+            return () => subscriber();
+        }
     }, [user]);
 
 
@@ -136,7 +140,7 @@ const Map = ({ navigation }) => {
                         rotation={angle}
                         anchor={{ x: 0.5, y: 0.5 }}
                     >
-                        <Image source={icons.navigator1} style={{height: 25, width: 25 }} />
+                        <Image source={icons.navigator1} style={{ height: 25, width: 25 }} />
                     </Marker>
                 }
 
