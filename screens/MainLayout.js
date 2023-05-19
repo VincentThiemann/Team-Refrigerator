@@ -240,6 +240,10 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
     
     const { addressName } = useSelector(state => state?.location)
 
+    if( addressName ) {
+        Location.getCu
+    }
+
     return (
         <Animated.View
             style={{

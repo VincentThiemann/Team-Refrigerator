@@ -7,11 +7,15 @@ const username = auth()?.currentUser?.uid;
 const getBookmarks = async () => {
   try {
     if (username != null) {
-      const data = await firestore().collection('Bookmark').doc(username).get();
+      let data;
+      await firestore().collection('Bookmark').doc(username).get()
+      .then(res => data = res?.data())
+      .catch(error => console.log(error));
+      
       return {
         status: true,
         message: "Bookmark fetched Successfully",
-        data: data.data()
+        data: data
       };
     }
   } catch (error) {
@@ -28,7 +32,10 @@ const addBookmark = async (restaurantId) => {
   if (username != null) {
     const bookmarkRef = firestore().collection('Bookmark').doc(username);
     try {
-      const ref = (await firestore().collection('Restaurants').doc(restaurantId).get()).data();
+      // const ref = (await firestore().collection('Restaurants').doc(restaurantId).get()).data();
+      let ref;
+      await firestore().collection('Restaurants').doc(restaurantId).get()
+      .then(res => ref = res.data())
       await bookmarkRef.update({
         "restaurants": firestore.FieldValue.arrayUnion(ref),
         "restaurantsId": firestore.FieldValue.arrayUnion(restaurantId),

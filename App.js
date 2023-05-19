@@ -44,7 +44,7 @@ const App = () => {
   const { isFirstTimeUse } = useSelector(
     state => state?.generalState,
   );
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -98,13 +98,10 @@ const App = () => {
             <Stack.Screen name="Authentication" component={Authentication} />
             <Stack.Screen name="CreateNewAccount" component={CreateNewAccount} />
             <Stack.Screen name="LogInAccount" component={LogInAccount} />
-
+            <Stack.Screen name="Profile" component={Profile} />
           </>
         ) : (
           <>
-            <Stack.Screen name="Profile" component={Profile} />
-            {/* <Stack.Screen name="Profile" component={Profile} /> */}
-            {/* <Stack.Screen name="Onboarding" component={Onboarding} /> */}
             <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
             <Stack.Screen name="Cart" component={CartTab} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />

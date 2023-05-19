@@ -18,7 +18,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import bookmarkActions from '../../stores/bookmark/bookmarkActions';  
+import bookmarkActions from '../../stores/bookmark/bookmarkActions';
 
 const ListHeader = () => (
   <View
@@ -75,32 +75,37 @@ const Restaurant = ({
     async function func() {
       let name = "";
       await firestore()
-      .collection('Foods')
-      // Filter results
-      .where('restaurantId', '==', restaurantId)
-      .get()
-      .then(querySnapshot => {
-        setFoods(querySnapshot.docs.map(doc => doc.data()))
-        console.log(foods)
-      });
-      
+        .collection('Foods')
+        // Filter results
+        .where('restaurantId', '==', restaurantId)
+        .get()
+        .then(querySnapshot => {
+          setFoods(querySnapshot.docs.map(doc => doc.data()))
+          console.log(foods)
+        })
+        .catch((error) => { console.log(error) });
+
       await firestore().collection('Restaurants').doc(restaurantId).get()
         .then((response) => {
           setRestaurant(response?.data())
-          setSelectedCategory(response?.data().categories[0]);
-          name = response?.data().images.cover;
-          console.log(response?.data().categories[0])
-        });
+          setSelectedCategory(response?.data()?.categories[0]);
+          name = response?.data()?.images?.cover;
+          console.log(response?.data()?.categories[0])
+        })
+        .catch((error) => { console.log(error) });
 
       const referenceSD = storage().ref(`images/gallery/square/sd/${name}.png`);
       await referenceSD.getDownloadURL().then((x) => {
         setUrlSD(x);
       })
+        .catch((error) => { console.log(error) });
       const referenceHD = storage().ref(`images/gallery/square/hd/${name}.png`);
       await referenceHD.getDownloadURL().then((x) => {
         setUrlHD(x);
       })
+        .catch((error) => { console.log(error) });
     }
+
     if (urlSD == undefined) { func() };
   }, []);
 
@@ -120,7 +125,7 @@ const Restaurant = ({
     <View style={styles.container}>
       <StatusBar barStyle="default" translucent backgroundColor="transparent" />
       <>
-      <ProgressiveImage
+        <ProgressiveImage
           thumbnailSource={{ uri: urlSD }}
           source={{ uri: urlHD }}
           style={styles.backgroundImage}

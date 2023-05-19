@@ -22,13 +22,22 @@ import { useNavigation } from "@react-navigation/native";
 
 
 const renderCards = async (id) => {
-  const val = await firestore()
-    .collection('Foods')
-    // Filter results
-    .doc(id)
-    .get();
-  const valData = val.data()
-  return valData
+  try {
+    let returnValue;
+    await firestore()
+      .collection('Foods')
+      // Filter results
+      .doc(id)
+      .get()
+      .then(result =>
+      returnValue = result.data()
+      )
+      .catch(err => console.log(err));
+    return returnValue;
+  } catch (err) {
+  console.log("Couldn't get the data to render food card" + err)
+  //may need to return something here
+}
 
 }
 
@@ -43,15 +52,19 @@ const CartTab = () => {
     async function fetchData() {
       let foodArray = [];
       for (const id of cart?.cartItems) {
-        let querySnap = await firestore().collection('Foods').doc(id.foodId.toString()).get();
-        let queryData = querySnap.data()
-        foodArray.push(queryData)
+        await firestore().collection('Foods').doc(id.foodId.toString()).get()
+          .then(result => {
+            let queryData = result.data()
+            foodArray.push(queryData)
+          })
+          .catch(error => {console.log(error)})
+
       }
       setFoods(foodArray)
-      
+
     }
     fetchData();
-    
+
   }, [])
 
   return (

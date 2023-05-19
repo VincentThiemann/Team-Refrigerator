@@ -15,6 +15,10 @@ import auth from '@react-native-firebase/auth';
 
 
 const userid = auth()?.currentUser?.uid;
+let name;
+await firestore().collection('Users').doc(userid).get()
+.then(res => name = res.data()?.userName)
+.catch(error => console.log(error));
 
 const Drawer = createDrawerNavigator();
 const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
@@ -46,10 +50,6 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
 }
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
-    const user = auth()?.currentUser?.uid;
-    const [name, setName] = useState("")
-    firestore().collection('Users').doc(userid).get().then(res => setName(res.data().userName));
-
     const handleSignOut = () => {
 
         auth()
