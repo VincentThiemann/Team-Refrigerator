@@ -8,9 +8,8 @@ const getCartItems = async () => {
   try {
     if (username != null) {
       const cartRef = firestore().collection('Cart').doc(username);
-      let data;
-      const cartItemsSnapshot = await cartRef.get().then(res => data = res.data())
-      .catch(err => console.log(err));
+      const cartItemsSnapshot = await cartRef.get();
+      const data = cartItemsSnapshot.data();
 
       if (data) {
         const cartItems = Object.keys(data).map(key => {
@@ -23,12 +22,10 @@ const getCartItems = async () => {
 
         for (const cartItem of cartItems) {
           const foodDoc = firestore().collection("Foods");
-          let data;
-          await foodDoc.doc(cartItem.foodId.toString()).get()
-          .then(res => data = res.data())
-          .catch(err => console.log(err));
+          const querySnap = await foodDoc.doc(cartItem.foodId.toString()).get();
+          const data = querySnap.data();
 
-          itemsTotal += data?.price * cartItem?.count;
+          itemsTotal += data.price * cartItem.count;
         }
 
 

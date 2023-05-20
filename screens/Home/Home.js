@@ -112,12 +112,10 @@ const Home = () => {
         //     }
         // };
 
-        await firestore().collection('Restaurants').get()
+        const restaurant = await firestore().collection('Restaurants').get()
             .then((res) => {
                 setRestaurantData(res.docs.map(doc => doc.data()))
-            })
-            .catch((error) => {
-                console.error(error)
+                // console.log(restaurantData);
             });
             
         // const res = await fetch(yelpUrl, options)

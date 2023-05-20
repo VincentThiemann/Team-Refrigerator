@@ -136,7 +136,7 @@ export default function Tracker() {
       <View style={styles.separator} />
       <Button
         onPress={startForegroundUpdate}
-        title="Start tracker"
+        title="Start in foreground"
         color="green"
       />
       <View style={styles.separator} />

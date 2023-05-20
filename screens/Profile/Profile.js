@@ -7,35 +7,27 @@ import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
 import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const user = auth()?.currentUser?.uid;
-var currentUserInfo, currentUserName, currentphoneNumber, currentProfileName;
-
+var currentUserName,currentphoneNumber,currentProfileName;
+ 
 
 
 
 const Profile = ({ navigation }) => {
-    useEffect(() => {
-        const fetchData = async () => {
-            await firestore().collection('Users').doc(user).get()
-                .then(res => {
-                    if (res != null) {
-                        currentUserInfo = res.data();
-                        currentProfileName = currentUserInfo?.profileName;
-                        currentUserName = currentUserInfo?.userName;
-                        currentphoneNumber = currentUserInfo?.phoneNumber;
-                    }
-                })
-        }
+ useEffect(()=>{
+    const fetchData = async ()=>{
+        currentUserName  =  await firestore().collection('Users').doc(user).get()?.userName;
+        currentphoneNumber  =  await firestore().collection('Users').doc(user).get()?.profileName;
+        currentProfileName  =  await firestore().collection('Users').doc(user).get()?.phoneNumber;
+    }
 
-        fetchData();
-
-    }, []);
-
-
-    const [profileName, setProfileName] = useState((currentProfileName === undefined) ? "" : currentProfileName);
-    const [userName, setUserName] = useState((currentUserName === undefined) ? "" : currentUserName);
-    const [phoneNumber, setPhoneNumber] = useState((currentphoneNumber === undefined) ? "" : currentphoneNumber);
-
-    //initialize the user document in collections
+    fetchData();
+    
+ }, []);
+    
+      
+     const [profileName, setProfileName] = useState((currentProfileName === undefined)? "": currentProfileName);
+     const [userName, setUserName] = useState((currentUserName === undefined)? "": currentUserName);
+     const [phoneNumber, setPhoneNumber] = useState((currentphoneNumber === undefined)? "": currentphoneNumber);
     const createProfile = () => {
         firestore()
             .collection('Cart')
@@ -66,6 +58,11 @@ const Profile = ({ navigation }) => {
                 console.log(e.message);
             });
     }
+
+    if (user == null)
+        return null;
+
+
 
     const [remember, setRemember] = React.useState(false);
     const [editting1, setEditting1] = React.useState(false);
@@ -192,7 +189,7 @@ const Profile = ({ navigation }) => {
                 </View>
 
                 <Button
-                    onPress={() => { createProfile() }}
+                    onPress={() => {createProfile()}}
                     title="Set Profile"
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{

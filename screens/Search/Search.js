@@ -34,19 +34,28 @@ const Search = () => {
     const [searchMarkerCoords, setSearchMarkerCoords] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
 
-    React.useEffect(() => {
-        (async () => {
-            const { permission } = Location.requestForegroundPermissionsAsync();
-            if (permission == "granted") {
-                const location = await Location.getCurrentPositionAsync();
-                await Location.reverseGeocodeAsync(location.coords)
-                    .then(address => {
-                        dispatch(setLocation(address))
-                    })
-                    .catch(error => console.error(error));
-            };
-        })()
-    }, []);
+    // React.useEffect(() => {
+    //     (async () => {
+    //         const { permission } = Location.requestForegroundPermissionsAsync();
+    //         if (permission == "granted") {
+    //             const location = await Location.getCurrentPositionAsync();
+    //             setCurrentLocation(location);
+    //         };
+    //     })()
+    // }, []);
+
+
+    //     async () => {
+    //         const { coordinates } = await Location.getCurrentPositionAsync();
+    //         const { lat, lng } = coordinates;
+    //         setInitialRegion({
+    //             lat,
+    //             lng,
+    //             latitudeDelta: 0.01,
+    //             longitudeDelta: 0.01,
+    //         });
+    //     }
+    // }, []);
 
     return (
         // <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

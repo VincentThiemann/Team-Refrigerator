@@ -22,12 +22,10 @@ const BookmarkCard = ({id, name, images: { poster }, location, tags, navigate}) 
       await referenceSD.getDownloadURL().then((x) => {
         setUrlSD(x);
       })
-      .catch(error => console.log(error))
       const referenceHD = storage().ref(`images/poster/hd/${poster}.png`);
       await referenceHD.getDownloadURL().then((x) => {
         setUrlHD(x);
       })
-      .catch(error => console.log(error))
       
     }
     if (urlSD == undefined) { func() };
