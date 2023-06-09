@@ -1,7 +1,7 @@
 
 export default {
     profile: require("../assets/images/profile.png"),
-    coupon: require("../assets/images/coupon.jpg"),
+    coupon: require("../assets/images/coupon.png"),
     PLATE: require('../assets/images/plate.png'),
     DISCOVER: require('../assets/images/discover.png'),
     DELIVER: require('../assets/images/deliver.png'),

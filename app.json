@@ -2,6 +2,7 @@
   "expo": {
     "name": "CWRU Delights",
     "slug": "fooddelivery",
+    "icon": "icon.png",
     "extra": {
       "eas": {
         "projectId": "b7be7756-a967-4836-9e5b-9231a361d974"
