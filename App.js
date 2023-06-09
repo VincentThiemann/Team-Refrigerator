@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
+import { LogBox } from 'react-native';
 import 'expo-dev-client';
-
+LogBox.ignoreAllLogs();
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
