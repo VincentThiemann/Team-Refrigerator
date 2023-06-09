@@ -9,7 +9,7 @@ export default SplashScreen = () => (
 )
 
 const WelcomeText = (props) => (
-    <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
+    <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.png')}>
         <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginLeft: 20, marginRight: 20, marginBottom: 80 }}>
             <Text style={{ textAlign: 'center', color: COLORS.green, fontSize: SIZES.largeTitle, textShadowColor: 'cyan', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>
                 {props.name}

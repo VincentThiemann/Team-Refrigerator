@@ -8,17 +8,17 @@ import firstLauchActions from '../../stores/firstLaunch/firstLauchActions';
 
 const slides = [
     {
-        image: require('../../assets/images/splash_image.jpg'),
+        image: require('../../assets/images/splash_image.png'),
         name: "Discover places near you",
         subtitle: "We make it simple to find foods  . Enter the address and let us do the rest."
     },
     {
-        image: require('../../assets/images/splash_image.jpg'),
+        image: require('../../assets/images/splash_image.png'),
         name: "Find favorite foods",
         subtitle: "We will store your favorite foods based on your search and orders."
     },
     {
-        image: require('../../assets/images/splash_image.jpg'),
+        image: require('../../assets/images/splash_image.png'),
         name: "Order food efficiently",
         subtitle: "We make food ordering fast, easy and free."
     }
@@ -75,41 +75,6 @@ export const Onboarding = () => {
 }
 
 export default Onboarding;
-
-// export const OnboardingScreen1 = ({ navigation }) => (
-//     <View style={styles.container}>
-//         <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
-//             <OnboardingText name="ONBOARDING SCREEN 1" subtitle="Welcome to first onboarding screen" />
-//         </ImageBackground>
-//         <TouchableOpacity style={styles.button}>
-//             <Text style={styles.text}>Continue</Text>
-//         </TouchableOpacity>
-//     </View>
-// )
-
-// export const OnboardingScreen2 = ({ navigation }) => (
-//     <View style={styles.container}>
-//         <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
-//             <OnboardingText name="ONBOARDING SCREEN 2" subtitle="Welcome to second onboarding screen" />
-//         </ImageBackground>
-//         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Onboarding3")}>
-//             <Text style={styles.text}>Continue</Text>
-//         </TouchableOpacity>
-//     </View>
-// )
-
-// export const OnboardingScreen3 = ({ navigation }) => (
-//     <View style={styles.container}>
-//         <ImageBackground style={styles.image} source={require('../../assets/images/splash_image.jpg')}>
-//             <OnboardingText name="ONBOARDING SCREEN 3" subtitle="Welcome to final onboarding screen" />
-//         </ImageBackground>
-//         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Onboarding1")}>
-//             <Text style={styles.text}>Finish</Text>
-//         </TouchableOpacity>
-//     </View>
-// )
-
-// export default OnboardingScreen = { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 }
 
 const styles = StyleSheet.create({
     container: {

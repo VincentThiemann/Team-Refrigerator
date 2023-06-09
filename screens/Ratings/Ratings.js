@@ -42,7 +42,7 @@ export default Ratings = () => {
             <RatingHeader />
             <View style={{ flex: 4 }}>
                 <View style={{ marginVertical: 20 }} />
-                <Image style={styles.image} source={require('../../assets/images/splash_image.jpg')} />
+                <Image style={styles.image} source={require('../../assets/images/splash_image.png')} />
                 <View style={{ marginVertical: 20 }} />
                 <Text style={styles.title}>How was your experience?</Text>
                 <View style={{ marginVertical: 15 }} />
