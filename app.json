@@ -2,7 +2,7 @@
   "expo": {
     "name": "CWRU Delights",
     "slug": "fooddelivery",
-    "icon": "icon.png",
+    "icon": "./assets/icon.png",
     "extra": {
       "eas": {
         "projectId": "b7be7756-a967-4836-9e5b-9231a361d974"
@@ -10,6 +10,10 @@
     },
     "scheme": "com.lmd0612.fooddelivery",
     "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png", //here put your icon
+        "backgroundColor": "#FFFFFF"
+      },
       "package": "com.lmd0612.fooddelivery",
       "googleServicesFile": "./google-services.json",
       "config": {
@@ -20,8 +24,8 @@
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
-	      "ACCESS_BACKGROUND_LOCATION"
-	    ]
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
     },
     "plugins": [
       [
