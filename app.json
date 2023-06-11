@@ -55,8 +55,5 @@
       "@react-native-firebase/app",
       "@react-native-firebase/auth"
     ]
-  },
-  "android": {
-    "googleServicesFile": "./google-services.json"
   }
 }
