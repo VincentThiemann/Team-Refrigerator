@@ -1,11 +1,11 @@
-import auth from "@react-native-firebase/auth";
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { Button } from '@rneui/themed';
-import React, { useState } from "react";
-import { Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import React, { useEffect, useState } from "react";
+import { Platform, ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView } from "react-native"
+import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
+import { Button, Icon, Input } from '@rneui/themed';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { COLORS, FONTS, SIZES, icons } from "../../constants";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import auth from "@react-native-firebase/auth";
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 
 
@@ -147,7 +147,7 @@ export const CreateNewAccount = ({ navigation }) => {
                 >
                     <Image
                         style={editting1 ? styles.inputProfileIconSelected : styles.inputProfileIcon}
-                        source={icons.checkMarkIcon}
+                        source={{ uri: 'https://wilcity.com/wp-content/uploads/2020/06/115-1150152_default-profile-picture-avatar-png-green.jpg' }}
                     />
 
                     <TextInput
