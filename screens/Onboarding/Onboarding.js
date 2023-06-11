@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Button, TouchableOpacity, ImageBackground } from 'react-native';
-import { COLORS, SIZES, FONTS, MARGIN } from '../../constants';
-import OnboardingText from '../../components/OnboardingText.js';
-import { StorageService } from '../../services';
+import { ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import OnboardingText from '../../components/OnboardingText.js';
+import { COLORS, SIZES } from '../../constants';
+import { StorageService } from '../../services';
 import firstLauchActions from '../../stores/firstLaunch/firstLauchActions';
 
 const slides = [
     {
         image: require('../../assets/images/splash_image.png'),
         name: "Discover places near you",
-        subtitle: "We make it simple to find foods  . Enter the address and let us do the rest."
+        subtitle: "We make it simple to find foods. Enter the address and let us do the rest."
     },
     {
         image: require('../../assets/images/splash_image.png'),

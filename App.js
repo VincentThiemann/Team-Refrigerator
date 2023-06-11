@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
-import { LogBox } from 'react-native';
+import { createStackNavigator } from "@react-navigation/stack";
 import 'expo-dev-client';
+import React, { useEffect, useState } from "react";
+import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs();
 
 //import SplashScreen from './screens/Welcome/Welcome.js';
 import CustomDrawer from './navigation/CustomDrawer';
 
-import { Onboarding, HelpCenter, FoodDetail, CartTab, Profile, CreateNewAccount, LogInAccount, Authentication, Restaurant, Notification, Tracker } from './screens';
+import { Authentication, CartTab, CreateNewAccount, FoodDetail, HelpCenter, LogInAccount, Map, Onboarding, Profile, Restaurant, Tracker } from './screens';
 import Ratings from './screens/Ratings/Ratings';
 // import Notification from './screens/Notifications/Notification';
 
-import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
 
 import auth from "@react-native-firebase/auth";
 import 'expo-dev-client';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import firstLauchActions from "./stores/firstLaunch/firstLauchActions";
 
 const Stack = createStackNavigator();
@@ -103,11 +103,9 @@ const App = () => {
           </>
         ) : (
           <>
-            <Stack.Screen name="Profile" component={Profile} />
-            {/* <Stack.Screen name="Profile" component={Profile} /> */}
-            {/* <Stack.Screen name="Onboarding" component={Onboarding} /> */}
             <Stack.Screen name="CustomDrawer" component={CustomDrawer} />
             <Stack.Screen name="Cart" component={CartTab} />
+            <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="HelpCenter" component={HelpCenter} />
             <Stack.Screen name="Food" component={FoodDetail} />
             <Stack.Screen name="Restaurant" component={Restaurant} />

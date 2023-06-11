@@ -1,13 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import * as Location from 'expo-location';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import { FONTS, SIZES, COLORS } from '../../constants/index.js';
-import Display from '../../utils/Display.js'
+import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
 import Separator from '../../components/Separator.js';
+import { COLORS, FONTS, SIZES } from '../../constants/index.js';
+import Display from '../../utils/Display.js';
 
 //temporary disabled due to misconfiguration on firebase
 // const user = auth()?.currentUser?.uid;
@@ -112,7 +111,7 @@ export default function Notification() {
       console.log("Current lat" + currentLocation.coords.latitude)
       console.log("1st" + Math.pow(currentLocation.coords.latitude - deliveryManLocation.latitude, 2))
       console.log("2nd" + Math.pow(currentLocation.coords.longitude - deliveryManLocation.longitude, 2))
-      const tolerance = 0.0005;
+      const tolerance = 0.001;
       if (distance < tolerance) {
         sendPushNotification();
       }

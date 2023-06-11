@@ -1,11 +1,11 @@
 
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { Button } from '@rneui/themed';
 import React, { useEffect, useState } from "react";
-import { Platform, ScrollView, View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView } from "react-native"
-import { COLORS, SIZES, FONTS, icons, dummyData, images } from "../../constants"
-import { Button, Icon, Input } from '@rneui/themed';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { COLORS, SIZES, icons } from "../../constants";
 const user = auth()?.currentUser?.uid;
 var currentUserName,currentphoneNumber,currentProfileName;
  
@@ -111,7 +111,7 @@ const Profile = ({ navigation }) => {
                 <TouchableOpacity
                 >
                     <Image
-                        source={{ uri: 'https://wilcity.com/wp-content/uploads/2020/06/115-1150152_default-profile-picture-avatar-png-green.jpg' }}
+                        source={ icons.profile }
                         style={{
                             width: 200,
                             height: 200,
