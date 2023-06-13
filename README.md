@@ -41,7 +41,5 @@ The Food Delivery App is created using [**React Native**](https://reactnative.de
 
 ~Background location: The next thing to be done is to fetch the location even when the app is not in use. This is because always user will not be app be turned on to share their location~ DONE
 
-Action Cable interface: Now the important thing is to share this live location through action cable. we use action cable since we use ruby as our backend and this could be any sockets according to the convenience
-
-~Location Reception: The final thing to do is receive the location data by other end of the user~ DONE
+~Location Reception: The final thing to do is receive the location data by other end of the user~ HALFWAY DONE
 
