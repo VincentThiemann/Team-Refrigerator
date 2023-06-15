@@ -12,7 +12,7 @@ The Food Delivery App is created using [**React Native**](https://reactnative.de
 - [React Navigation](https://reactnavigation.org 'For Screen Navigations')
   - [Stack Navigator](https://reactnavigation.org/docs/stack-navigator 'Stack Navigator')
   - [Drawer Navigator](https://reactnavigation.org/docs/drawer-based-navigation/ 'Drawer Tab Navigator')
-- [(Expo)React Native Vector Icons](https://github.com/oblador/react-native-vector-icons 'Popular React Native Icon Library')
+- [(Expo) React Native Vector Icons](https://github.com/oblador/react-native-vector-icons 'Popular React Native Icon Library')
 - [Lottie React Native](https://github.com/lottie-react-native/lottie-react-native 'For Animated Icons')
 - [Firebase](https://github.com/firebase/firebase-js-sdk)
 - [React Native Firebase SDK](https://rnfirebase.io/ 'For firebase native platform support')
